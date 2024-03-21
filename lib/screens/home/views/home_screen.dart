@@ -47,7 +47,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "SE347!",
+                            "SE346!",
                             style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
