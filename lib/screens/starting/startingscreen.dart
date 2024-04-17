@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: WelcomeScreen(),
     );
   }
 }
 
 class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
               Color(0xFFFBFF2B), // Yellow color
@@ -35,7 +39,7 @@ class WelcomeScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 80,
                 backgroundColor: Color(0xFFC15BFF), // Purple color for avatar background
                 child: Text(
@@ -46,33 +50,36 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'Money Management', // Change the text here
                 style: TextStyle(
                   fontSize: 30, // Increase the font size here
                   color: Colors.white, // You can change the color if needed
                 ),
               ),
-              SizedBox(height: 40), // Add spacing between text and buttons
+              const SizedBox(height: 40),
+              // Add spacing between text and buttons
               ElevatedButton(
                 onPressed: () {
                   // Handle "Tạo tài khoản mới" button press
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Color(0xFFC15BFF)), // Purple color for button
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      const Color(0xFFC15BFF)), // Purple color for button
                 ),
-                child: Text('Tạo tài khoản mới'),
+                child: const Text('Tạo tài khoản mới'),
               ),
-              SizedBox(height: 10), // Add spacing between buttons
+              const SizedBox(height: 10), // Add spacing between buttons
               ElevatedButton(
                 onPressed: () {
                   // Handle "Đã có tài khoản" button press
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF0A98FF)), // Blue color for button
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      const Color(0xFF0A98FF)), // Blue color for button
                 ),
-                child: Text('Đã có tài khoản'),
+                child: const Text('Đã có tài khoản'),
               ),
             ],
           ),

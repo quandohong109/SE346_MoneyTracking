@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: WelcomeScreen(),
     );
   }
 }
 
 class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
               Color(0xFFFBFF2B), // Yellow color
@@ -31,13 +35,13 @@ class WelcomeScreen extends StatelessWidget {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: Center(
+        child: const Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircleAvatar(
                 radius: 80,
-                backgroundColor: Color(0xFFC15BFF), // Purple color for avatar background
+                backgroundColor: Color(0xFFC15BFF),
                 child: Text(
                   'App Avatar',
                   style: TextStyle(

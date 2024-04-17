@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:money_tracking/screens/main/add_expense/view/add_screen.dart';
 
 import '../home/views/home_screen.dart';
 import '../stat/views/stat_screen.dart';
@@ -53,7 +54,14 @@ class _MainScreenState extends State<MainScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => AddScreen.newInstance(),
+                )
+            );
+          },
           shape: const CircleBorder(),
           child: Container(
             width: 60,
@@ -64,7 +72,6 @@ class _MainScreenState extends State<MainScreen> {
                   colors: [
                     Theme.of(context).colorScheme.primary,
                     Theme.of(context).colorScheme.secondary,
-                    Theme.of(context).colorScheme.tertiary,
                   ],
                   transform: const GradientRotation(pi / 4),
                 )

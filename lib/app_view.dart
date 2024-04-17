@@ -14,9 +14,9 @@ class MyAppView extends StatelessWidget {
           colorScheme: ColorScheme.light(
               background: Colors.grey.shade100,
               onBackground: Colors.black,
-              primary: const Color(0xFF03D2F0),
-              secondary: const Color(0xFF3CEDF7),
-              tertiary: const Color(0xFFB2EBF2)
+              primary: const Color(0xFF0A98FF),
+              secondary: const Color(0xFFC15BFF),
+              tertiary: const Color(0xFFFBFF2B),
           )
       ),
       home: const MainScreen(),
