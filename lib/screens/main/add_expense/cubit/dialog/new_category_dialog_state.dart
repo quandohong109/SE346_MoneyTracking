@@ -20,7 +20,8 @@ class NewCategoryDialogState with EquatableMixin {
     bool? isExpanded,
     IconData? iconSelected,
     Color? categoryColor,
-    int? typeSelected,}) {
+    int? typeSelected,
+  }) {
     return NewCategoryDialogState(
       isExpanded: isExpanded ?? this.isExpanded,
       iconSelected: iconSelected ?? this.iconSelected,

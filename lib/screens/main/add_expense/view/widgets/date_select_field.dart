@@ -2,43 +2,51 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DateSelectField extends StatelessWidget {
-  final String hintText;
-  final Color fillColor;
+  final String text;
   final VoidCallback? onTap;
-  final OutlineInputBorder? border;
-  final String initialValue;
+  final Color fillColor;
+  final double width;
+  final double height;
 
   const DateSelectField({
     super.key,
-    this.hintText = '',
-    this.fillColor = Colors.white,
+    required this.text,
     this.onTap,
-    this.border,
-    this.initialValue = '',
+    this.fillColor = Colors.white,
+    this.width = double.infinity,
+    this.height = 60,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      readOnly: true,
-      textAlignVertical: TextAlignVertical.center,
-      initialValue: initialValue,
+    return GestureDetector(
       onTap: onTap,
-      decoration: InputDecoration(
-        filled: true,
-        isDense: true,
-        fillColor: fillColor,
-        hintText: hintText,
-        prefixIcon: const Icon(
-          FontAwesomeIcons.calendar,
-          size: 16,
-          color: Colors.grey,
+      child: Container(
+        width: width,
+        height: height,
+        padding: const EdgeInsets.all(15.0),
+        decoration: BoxDecoration(
+          color: fillColor,
+          borderRadius: BorderRadius.circular(15.0),
         ),
-        border: border ?? OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: BorderSide.none,
+        child: Row(
+          children: [
+            const Icon(
+              FontAwesomeIcons.calendar,
+              size: 20,
+              color: Colors.black,
+            ),
+            const SizedBox(width: 15),
+            Text(
+              text,
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 20),
+            ),
+          ],
         ),
       ),
     );
   }
 }
+

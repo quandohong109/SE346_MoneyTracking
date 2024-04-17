@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class DropdownContainer extends StatelessWidget {
+class DropdownIconContainer extends StatelessWidget {
   final bool isExpanded;
   final double containerHeight;
   final int crossAxisCount;
@@ -13,7 +13,7 @@ class DropdownContainer extends StatelessWidget {
   final IconData? selectedIcon;
   final Color containerColor;
 
-  const DropdownContainer({
+  const DropdownIconContainer({
     super.key,
     required this.isExpanded,
     required this.iconTypes,
@@ -30,8 +30,7 @@ class DropdownContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return isExpanded
-        ? Container(
+    return isExpanded ? Container(
       width: MediaQuery.of(context).size.width,
       height: containerHeight,
       decoration: BoxDecoration(
@@ -62,9 +61,15 @@ class DropdownContainer extends StatelessWidget {
                         ? selectedColor
                         : unselectedColor,
                   ),
+                  color: selectedIcon == iconTypes[i]
+                      ? selectedColor
+                      : containerColor,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(iconTypes[i], size: 30,),
+                child: Icon(
+                  iconTypes[i],
+                  size: 30,
+                ),
               ),
             );
           },

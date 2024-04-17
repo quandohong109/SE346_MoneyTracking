@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:money_tracking/screens/main/add_expense/view/entities/icon_types.dart';
-import 'package:money_tracking/screens/main/add_expense/view/widgets/dropdown_container.dart';
+import 'package:money_tracking/screens/main/add_expense/entities/icon_types.dart';
+import 'package:money_tracking/screens/main/add_expense/view/widgets/dropdown_icon_container.dart';
 import 'package:money_tracking/screens/main/add_expense/view/widgets/field_with_icon.dart';
 import 'package:money_tracking/screens/main/add_expense/view/widgets/standard_button.dart';
 
@@ -24,6 +24,8 @@ class NewCategoryDialog extends StatefulWidget {
 class _NewCategoryDialog extends State<NewCategoryDialog> {
   NewCategoryDialogCubit get cubit => context.read<NewCategoryDialogCubit>();
 
+  TextEditingController nameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -42,6 +44,7 @@ class _NewCategoryDialog extends State<NewCategoryDialog> {
                       FieldWithIcon(
                         prefixIcon: Icon(state.iconSelected, size: 30,),
                         hintText: 'Tên loại giao dịch',
+                        controller: nameController,
                         onPrefixIconPressed: () {
                           cubit.updateIsExpanded(!state.isExpanded);
                         },
@@ -56,7 +59,7 @@ class _NewCategoryDialog extends State<NewCategoryDialog> {
                         fillColor: state.categoryColor,
                       ),
 
-                      DropdownContainer(
+                      DropdownIconContainer(
                         isExpanded: state.isExpanded,
                         selectedIcon: state.iconSelected,
                         iconTypes: iconTypes,
@@ -130,7 +133,9 @@ class _NewCategoryDialog extends State<NewCategoryDialog> {
 
                       StandardButton(
                         height: kToolbarHeight,
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
                         text: 'Lưu',
                       )
                     ],

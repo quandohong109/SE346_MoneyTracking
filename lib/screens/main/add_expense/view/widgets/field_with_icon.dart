@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:money_tracking/screens/main/add_expense/view/entities/icon_types.dart';
+import 'package:flutter/services.dart';
 
 class FieldWithIcon extends StatelessWidget {
   final bool readOnly;
@@ -11,6 +11,12 @@ class FieldWithIcon extends StatelessWidget {
   final Icon? suffixIcon;
   final VoidCallback? onSuffixIconPressed;
   final OutlineInputBorder? border;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
+  final double fontSize;
+  final FontWeight fontWeight;
+  final Function(String)? onSubmitted;
+  final TextEditingController controller;
 
   const FieldWithIcon({
     super.key,
@@ -23,7 +29,17 @@ class FieldWithIcon extends StatelessWidget {
     this.suffixIcon,
     this.onSuffixIconPressed,
     this.border,
+    this.keyboardType,
+    this.inputFormatters,
+    this.fontSize = 20,
+    this.fontWeight = FontWeight.normal,
+    this.onSubmitted,
+    required this.controller,
   });
+
+  String? getText() {
+    return controller?.text;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +47,17 @@ class FieldWithIcon extends StatelessWidget {
       readOnly: readOnly,
       textAlignVertical: TextAlignVertical.center,
       onTap: onTap,
+      onFieldSubmitted: onSubmitted,
+      controller: controller,
+      textInputAction: TextInputAction.done,
       decoration: InputDecoration(
         filled: true,
         isDense: true,
         fillColor: fillColor,
         hintText: hintText,
+        hintStyle: const TextStyle(
+          color: Colors.grey,
+        ),
         prefixIcon: prefixIcon != null ? InkWell(
           onTap: onPrefixIconPressed,
           child: prefixIcon,
@@ -50,6 +72,12 @@ class FieldWithIcon extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
         ),
+      ),
+      keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
+      style: TextStyle(
+        fontSize: fontSize,
+        fontWeight: fontWeight,
       ),
     );
   }
