@@ -2,7 +2,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../models/category_model.dart';
+import '../../../../objects/models/category_model.dart';
 
 part 'add_screen_state.dart';
 

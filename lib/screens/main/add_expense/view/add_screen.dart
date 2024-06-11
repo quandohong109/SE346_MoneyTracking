@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:money_tracking/screens/main/add_expense/entities/temp_category_list.dart';
+import 'package:money_tracking/data/database/temp_category_list.dart';
 import 'package:money_tracking/screens/main/add_expense/view/widgets/category_field.dart';
 import 'package:money_tracking/screens/main/add_expense/view/widgets/category_list_container.dart';
 import 'package:money_tracking/screens/main/add_expense/view/widgets/date_select_field.dart';
@@ -10,7 +10,7 @@ import 'package:money_tracking/screens/main/add_expense/view/widgets/field_with_
 import 'package:money_tracking/screens/main/add_expense/view/dialog/new_category_dialog.dart';
 import 'package:money_tracking/screens/main/add_expense/view/widgets/multi_field_with_icon.dart';
 import 'package:money_tracking/screens/main/add_expense/view/widgets/standard_button.dart';
-import '../../../../models/category_model.dart';
+import '../../../../objects/models/category_model.dart';
 import '../cubit/add_screen_cubit.dart';
 import 'package:intl/intl.dart';
 
@@ -71,7 +71,6 @@ class _AddScreen extends State<AddScreen> {
                         ],
                         onSubmitted: (String amount) {
                           cubit.updateAmount(amount);
-                          print(amount);
                         },
                         prefixIcon: const Icon(
                           FontAwesomeIcons.dollarSign,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:money_tracking/screens/main/add_expense/entities/icon_types.dart';
+import 'package:money_tracking/data/database/icon_types.dart';
 import 'package:money_tracking/screens/main/add_expense/view/widgets/dropdown_icon_container.dart';
 import 'package:money_tracking/screens/main/add_expense/view/widgets/field_with_icon.dart';
 import 'package:money_tracking/screens/main/add_expense/view/widgets/standard_button.dart';
