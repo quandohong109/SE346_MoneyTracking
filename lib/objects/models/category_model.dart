@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:money_tracking/objects/models/icon_type.dart';
 
 class CategoryModel {
   final int id;
   final String name;
-  final IconData icon;
+  final IconType iconType;
   final int type;
   final Color color;
 
   CategoryModel({
     required this.id,
     required this.name,
-    required this.icon,
+    required this.iconType,
     required this.type,
     required this.color,
   });
@@ -24,6 +25,6 @@ class CategoryModel {
   }
 
   IconData getIcon() {
-    return icon;
+    return iconType.icon;
   }
 }

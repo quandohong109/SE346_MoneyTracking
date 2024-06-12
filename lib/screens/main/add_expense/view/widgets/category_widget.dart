@@ -24,7 +24,7 @@ class CategoryWidget extends StatelessWidget {
         child: Row(
           children: [
             Icon(
-              category.icon,
+              category.iconType.icon,
               size: 24,
             ),
             const SizedBox(width: 16),

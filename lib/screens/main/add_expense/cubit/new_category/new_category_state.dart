@@ -1,8 +1,8 @@
-part of 'new_category_dialog_cubit.dart';
+part of 'new_category_cubit.dart';
 
 class NewCategoryDialogState with EquatableMixin {
   final bool isExpanded;
-  final IconData iconSelected;
+  final IconType iconSelected;
   final Color categoryColor;
   final int typeSelected;
 
@@ -18,7 +18,7 @@ class NewCategoryDialogState with EquatableMixin {
 
   NewCategoryDialogState copyWith({
     bool? isExpanded,
-    IconData? iconSelected,
+    IconType? iconSelected,
     Color? categoryColor,
     int? typeSelected,
   }) {

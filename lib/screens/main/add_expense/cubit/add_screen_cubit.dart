@@ -1,6 +1,6 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:money_tracking/data/database/database.dart';
 
 import '../../../../objects/models/category_model.dart';
 
@@ -28,5 +28,11 @@ class AddScreenCubit extends Cubit<AddScreenState> {
 
   void updateSelectedDate(DateTime selectedDate) {
     emit(state.copyWith(selectedDate: selectedDate));
+  }
+
+  void updateCategoryList() {
+    Database().updateCategoryList();
+    List<CategoryModel> categoryList = Database().categoryList;
+    emit(state.copyWith(categoryList: categoryList));
   }
 }

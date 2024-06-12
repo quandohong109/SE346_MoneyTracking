@@ -38,7 +38,7 @@ class FieldWithIcon extends StatelessWidget {
   });
 
   String? getText() {
-    return controller?.text;
+    return controller.text;
   }
 
   @override

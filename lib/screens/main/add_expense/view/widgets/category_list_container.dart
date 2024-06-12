@@ -21,7 +21,10 @@ class CategoryListContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return isExpanded ? Container(
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
       height: containerHeight,
       decoration: BoxDecoration(
         color: containerColor,

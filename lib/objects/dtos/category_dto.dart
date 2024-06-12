@@ -1,18 +1,18 @@
 class CategoryDTO {
   final int id;
   final String name;
-  final int icon;
+  final int iconID;
   final int type;
   final int red;
   final int green;
   final int blue;
-  final int opacity;
+  final double opacity;
   final String userID;
 
   CategoryDTO({
     required this.id,
     required this.name,
-    required this.icon,
+    required this.iconID,
     required this.type,
     required this.red,
     required this.green,
