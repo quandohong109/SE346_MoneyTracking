@@ -63,14 +63,25 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20,),
             Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width / 2,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .width / 2,
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Theme.of(context).colorScheme.primary,
-                      Theme.of(context).colorScheme.secondary,
-                      Theme.of(context).colorScheme.tertiary,
+                      Theme
+                          .of(context)
+                          .colorScheme
+                          .primary,
+                      Theme
+                          .of(context)
+                          .colorScheme
+                          .secondary,
                     ],
                     transform: const GradientRotation(pi / 4),
                   ),
