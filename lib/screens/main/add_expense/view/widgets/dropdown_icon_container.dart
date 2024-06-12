@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../objects/models/icon_type.dart';
+
 class DropdownIconContainer extends StatelessWidget {
   final bool isExpanded;
   final double containerHeight;
@@ -8,9 +10,9 @@ class DropdownIconContainer extends StatelessWidget {
   final double crossAxisSpacing;
   final Color selectedColor;
   final Color unselectedColor;
-  final List<IconData> iconTypes;
-  final Function(IconData) onIconSelected;
-  final IconData? selectedIcon;
+  final List<IconType> iconTypes;
+  final Function(IconType) onIconSelected;
+  final IconType? selectedIcon;
   final Color containerColor;
 
   const DropdownIconContainer({
@@ -31,7 +33,10 @@ class DropdownIconContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return isExpanded ? Container(
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
       height: containerHeight,
       decoration: BoxDecoration(
         color: containerColor,
@@ -67,7 +72,7 @@ class DropdownIconContainer extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
-                  iconTypes[i],
+                  iconTypes[i].icon,
                   size: 30,
                 ),
               ),

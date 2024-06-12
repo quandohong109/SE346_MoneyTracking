@@ -1,4 +1,4 @@
-import '../../../../../models/category_model.dart';
+import '../../../../../objects/models/category_model.dart';
 import 'package:flutter/material.dart';
 
 class CategoryWidget extends StatelessWidget {
@@ -24,7 +24,7 @@ class CategoryWidget extends StatelessWidget {
         child: Row(
           children: [
             Icon(
-              category.icon,
+              category.iconType.icon,
               size: 24,
             ),
             const SizedBox(width: 16),

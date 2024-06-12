@@ -70,8 +70,14 @@ class _MainScreenState extends State<MainScreen> {
                 shape: BoxShape.circle,
                 gradient: LinearGradient(
                   colors: [
-                    Theme.of(context).colorScheme.primary,
-                    Theme.of(context).colorScheme.secondary,
+                    Theme
+                        .of(context)
+                        .colorScheme
+                        .primary,
+                    Theme
+                        .of(context)
+                        .colorScheme
+                        .secondary,
                   ],
                   transform: const GradientRotation(pi / 4),
                 )

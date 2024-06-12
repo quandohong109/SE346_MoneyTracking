@@ -6,6 +6,7 @@ class AddScreenState with EquatableMixin {
   final CategoryModel? category;
   final String note;
   final DateTime selectedDate;
+  final List<CategoryModel> categoryList;
 
   const AddScreenState({
     this.isExpanded = false,
@@ -13,6 +14,7 @@ class AddScreenState with EquatableMixin {
     this.category,
     this.note = '',
     required this.selectedDate,
+    this.categoryList = const [],
   });
 
   @override
@@ -24,6 +26,7 @@ class AddScreenState with EquatableMixin {
     CategoryModel? category,
     String? note,
     DateTime? selectedDate,
+    List<CategoryModel>? categoryList,
   }) {
     return AddScreenState(
       isExpanded: isExpanded ?? this.isExpanded,
@@ -31,6 +34,7 @@ class AddScreenState with EquatableMixin {
       category: category ?? this.category,
       note: note ?? this.note,
       selectedDate: selectedDate ?? this.selectedDate,
+      categoryList: categoryList ?? this.categoryList,
     );
   }
 }
