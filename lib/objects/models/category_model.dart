@@ -16,6 +16,8 @@ class CategoryModel {
     required this.color,
   });
 
+  IconData? get icon => null;
+
   String getName() {
     return name;
   }

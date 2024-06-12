@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:money_tracking/screens/stat/views/widgets/category_widget.dart';
-import '../../../../../models/category_model.dart';
+import '../../../../objects/models/category_model.dart';
 import 'package:flutter/material.dart';
 
 

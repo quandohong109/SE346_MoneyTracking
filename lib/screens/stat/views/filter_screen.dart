@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:money_tracking/screens/main/add_expense/entities/temp_category_list.dart';
 import 'package:money_tracking/screens/stat/views/widgets/category_list_show.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../../../../models/category_model.dart';
+import '../../../data/database/database.dart';
+import '../../../objects/models/category_model.dart';
 import '../../main/add_expense/view/widgets/standard_button.dart';
 import '../cubit/filter_screen_cubit.dart';
 class FilterScreen extends StatefulWidget {
@@ -104,7 +104,7 @@ class _FilterScreenState extends State<FilterScreen>
                           children: [
 
                                 CategoryListShow(
-                                    categories: categoryList,
+                                    categories: Database().categoryList,
                                   onCategoryTap: (CategoryModel category) {
                                     cubit.updateCategory(category);
                                   },
