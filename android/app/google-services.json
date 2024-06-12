@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "363617900262",
+    "project_id": "money-tracking-se346",
+    "storage_bucket": "money-tracking-se346.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:363617900262:android:526d6402b059bd51020d27",
+        "android_client_info": {
+          "package_name": "com.example.money_tracking"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3HJ5XC_a-suwjKMscWRGUptPDY7fnxJI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
