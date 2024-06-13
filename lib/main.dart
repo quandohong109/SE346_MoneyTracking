@@ -11,7 +11,7 @@ void main() async {
   try {
     if (Firebase.apps.isEmpty) {
       await Firebase.initializeApp(
-        name:'money-keeper',
+        name:'money-tracking',
         options: const FirebaseOptions(
           apiKey: 'AIzaSyCs_ezB9Gnzxfnpckvy6-drXyN0t6IDfpY',
           projectId: 'making-login',
