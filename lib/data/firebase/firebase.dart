@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:money_tracking/functions/converter.dart';
 import 'package:money_tracking/objects/dtos/category_dto.dart';
 
@@ -209,4 +210,23 @@ class Firebase {
         note: "",
         userID: "abc"),
   ];
+}
+
+Future<void> pushCategoryListToFirebase() async {
+  final firestoreInstance = FirebaseFirestore.instance;
+  final firebaseInstance = Firebase(); // Get the instance of Firebase class
+
+  for (var category in firebaseInstance.categoryList) { // Use the instance to access categoryList
+    await firestoreInstance.collection('categories').add({
+      'id': category.id,
+      'name': category.name,
+      'iconID': category.iconID,
+      'type': category.type,
+      'red': category.red,
+      'green': category.green,
+      'blue': category.blue,
+      'opacity': category.opacity,
+      'userID': category.userID,
+    });
+  }
 }
