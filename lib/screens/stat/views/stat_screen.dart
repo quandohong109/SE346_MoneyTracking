@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:money_tracking/screens/stat/views/filter_screen.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:money_tracking/screens/stat/views/widgets/bar_chart_widgets.dart';
 import 'package:money_tracking/screens/stat/views/widgets/pie_chart_widgets.dart';
 

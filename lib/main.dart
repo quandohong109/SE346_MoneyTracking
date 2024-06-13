@@ -1,8 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-import 'app.dart';
 
 import 'screens/login/login_screen.dart';
 import 'screens/login/signup_screen.dart'; // Assuming you have a SignUpScreen
@@ -14,7 +12,7 @@ void main() async {
     if (Firebase.apps.isEmpty) {
       await Firebase.initializeApp(
         name:'money-keeper',
-        options: FirebaseOptions(
+        options: const FirebaseOptions(
           apiKey: 'AIzaSyCs_ezB9Gnzxfnpckvy6-drXyN0t6IDfpY',
           projectId: 'making-login',
           appId: '1:736101389040:android:cdfdf3e286376bce292835', messagingSenderId: '736101389040',
@@ -22,13 +20,16 @@ void main() async {
         ),
       );
     }
-    runApp(MyApp());
+    runApp(const MyApp());
   } catch (e) {
-    print('Error initializing Firebase: $e');
+    if (kDebugMode) {
+      print('Error initializing Firebase: $e');
+    }
   }
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -44,17 +45,19 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => ProfilePage(),
         // Add more routes for other screens
       },
-      home: HomeScreen(), // Display HomeScreen by default
+      home: const HomeScreen(), // Display HomeScreen by default
     );
   }
 }
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: const Text('Home'),
       ),
       body: Center(
         child: Column(
@@ -64,21 +67,21 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(context, '/login');
               },
-              child: Text('Login'),
+              child: const Text('Login'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/sign-up');
               },
-              child: Text('Sign Up'),
+              child: const Text('Sign Up'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/profile');
               },
-              child: Text('Profile'),
+              child: const Text('Profile'),
             ),
           ],
         ),
