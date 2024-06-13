@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
       // Define named routes for navigation
       routes: {
         '/login': (context) => LoginScreen(),
-        '/sign-up': (context) => SignUpScreen(),
+        '/sign-up': (context) => const SignUpScreen(),
         '/profile': (context) => ProfilePage(),
         // Add more routes for other screens
       },
