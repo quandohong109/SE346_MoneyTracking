@@ -19,9 +19,9 @@ class LoginScreen extends StatelessWidget {
         password: password,
       );
 
-      // Navigate to the profile page after successful login
+      // Navigate to the main screen after successful login
       if (userCredential.user != null) {
-        Navigator.pushReplacementNamed(context, '/profile');
+        Navigator.pushReplacementNamed(context, '/main');
       }
     } catch (error) {
       if (kDebugMode) {

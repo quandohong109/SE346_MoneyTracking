@@ -1,25 +1,24 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 import 'screens/login/login_screen.dart';
 import 'screens/login/signup_screen.dart'; // Assuming you have a SignUpScreen
 import 'screens/login/profile_screen.dart';
+import 'screens/main/main_screen.dart'; // Import your MainScreen
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
-    if (Firebase.apps.isEmpty) {
-      await Firebase.initializeApp(
-        name:'money-tracking',
-        options: const FirebaseOptions(
-          apiKey: 'AIzaSyCs_ezB9Gnzxfnpckvy6-drXyN0t6IDfpY',
-          projectId: 'making-login',
-          appId: '1:736101389040:android:cdfdf3e286376bce292835', messagingSenderId: '736101389040',
-          // Add other Firebase options as needed
-        ),
-      );
-    }
+    await Firebase.initializeApp(
+      name:'money-tracking',
+      options: const FirebaseOptions(
+        apiKey: 'AIzaSyDVcTj2WN5ZcDrSXb-hQztCM1EzdEnmLZM',
+        projectId: 'money-tracking-se346',
+        appId: '1:363617900262:android:526d6402b059bd51020d27',
+        messagingSenderId: '363617900262',
+        // Add other Firebase options as needed
+      ),
+    );
     runApp(const MyApp());
   } catch (e) {
     if (kDebugMode) {
@@ -30,6 +29,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginScreen(),
         '/sign-up': (context) => const SignUpScreen(),
         '/profile': (context) => ProfilePage(),
+        '/main': (context) => const MainScreen(), // Add the MainScreen route
         // Add more routes for other screens
       },
       home: const HomeScreen(), // Display HomeScreen by default
