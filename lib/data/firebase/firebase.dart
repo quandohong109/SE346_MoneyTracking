@@ -230,3 +230,36 @@ Future<void> pushCategoryListToFirebase() async {
     });
   }
 }
+
+Future<void> pushWalletListToFirebase() async {
+  final firestoreInstance = FirebaseFirestore.instance;
+  final firebaseInstance = Firebase(); // Get the instance of Firebase class
+
+  for (var wallet in firebaseInstance.walletList) { // Use the instance to access walletList
+    await firestoreInstance.collection('wallets').add({
+      'id': wallet.id,
+      'name': wallet.name,
+      'iconID': wallet.iconID,
+      'balance': wallet.balance.toString(), // Firestore does not support BigInt, convert it to String
+      'userID': wallet.userID,
+    });
+  }
+}
+
+Future<void> pushTransactionListToFirebase() async {
+  final firestoreInstance = FirebaseFirestore.instance;
+  final firebaseInstance = Firebase(); // Get the instance of Firebase class
+
+  for (var transaction in firebaseInstance.transactionList) { // Use the instance to access transactionList
+    await firestoreInstance.collection('transactions').add({
+      'id': transaction.id,
+      'name': transaction.name,
+      'categoryID': transaction.categoryID,
+      'walletID': transaction.walletID,
+      'amount': transaction.amount.toString(), // Firestore does not support BigInt, convert it to String
+      'date': transaction.date,
+      'note': transaction.note,
+      'userID': transaction.userID,
+    });
+  }
+}

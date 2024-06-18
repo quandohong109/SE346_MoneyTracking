@@ -8,4 +8,8 @@ class Converter {
   static DateTime toDateTime(Timestamp timestamp) {
     return timestamp.toDate();
   }
+
+  static BigInt toBigInt(String value) {
+    return BigInt.parse(value);
+  }
 }
