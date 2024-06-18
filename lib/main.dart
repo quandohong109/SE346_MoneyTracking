@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'screens/login/login_screen.dart';
 import 'screens/login/signup_screen.dart'; // Assuming you have a SignUpScreen
-import 'screens/login/profile_screen.dart';
+import 'screens/home/views/profile_screen.dart';
 import 'screens/main/main_screen.dart'; // Import your MainScreen
+import 'screens/home/views/home_screen.dart'; // Import your HomeScreen
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +24,13 @@ void main() async {
     runApp(const MyApp());
   } catch (e) {
     if (kDebugMode) {
-      print('Error initializing Firebase: $e');
+      runApp(MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: Text('Error initializing Firebase: $e'),
+          ),
+        ),
+      ));
     }
   }
 }
@@ -37,7 +45,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-
       // Define named routes for navigation
       routes: {
         '/login': (context) => LoginScreen(),
@@ -46,7 +53,27 @@ class MyApp extends StatelessWidget {
         '/main': (context) => const MainScreen(), // Add the MainScreen route
         // Add more routes for other screens
       },
-      home: const HomeScreen(), // Display HomeScreen by default
+      home: const AuthWrapper(), // Use AuthWrapper as the home screen
+    );
+  }
+}
+
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasData) {
+          return const MainScreen(); // User is logged in, go to MainScreen
+        }
+        return const HomeScreen(); // User is not logged in, go to HomeScreen
+      },
     );
   }
 }
@@ -66,21 +93,21 @@ class HomeScreen extends StatelessWidget {
           children: <Widget>[
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/login');
+                Navigator.pushReplacementNamed(context, '/login');
               },
               child: const Text('Login'),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/sign-up');
+                Navigator.pushReplacementNamed(context, '/sign-up');
               },
               child: const Text('Sign Up'),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/profile');
+                Navigator.pushReplacementNamed(context, '/profile');
               },
               child: const Text('Profile'),
             ),

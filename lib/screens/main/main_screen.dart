@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:money_tracking/screens/main/add_expense/view/add_screen.dart';
 import 'package:money_tracking/screens/transaction/views/transaction_screen.dart';
@@ -15,6 +14,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  int index = 0;
 
   final List<Widget Function()> widgetList = [
         () => const HomeScreen(),
@@ -22,7 +22,7 @@ class _MainScreenState extends State<MainScreen> {
         () => const StatScreen(),
   ];
 
-  int index = 0;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +40,7 @@ class _MainScreenState extends State<MainScreen> {
                   });
                 }
               },
+              currentIndex: index,
               backgroundColor: Colors.white,
               showSelectedLabels: false,
               showUnselectedLabels: false,
