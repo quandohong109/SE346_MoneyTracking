@@ -221,7 +221,7 @@ Future<void> pushCategoryListToFirebase() async {
       'id': category.id,
       'name': category.name,
       'iconID': category.iconID,
-      'type': category.isIncome,
+      'isIncome': category.isIncome,
       'red': category.red,
       'green': category.green,
       'blue': category.blue,
