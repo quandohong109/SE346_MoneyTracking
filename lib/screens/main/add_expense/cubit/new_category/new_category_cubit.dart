@@ -25,8 +25,8 @@ class NewCategoryDialogCubit extends Cubit<NewCategoryDialogState> {
     emit(state.copyWith(categoryColor: categoryColor));
   }
 
-  void updateTypeSelected(int typeSelected) {
-    emit(state.copyWith(typeSelected: typeSelected));
+  void updateIsIncome(bool isIncome) {
+    emit(state.copyWith(isIncome: isIncome));
   }
 
   void addCategory(TextEditingController nameController, BuildContext context) {
@@ -62,7 +62,7 @@ class NewCategoryDialogCubit extends Cubit<NewCategoryDialogState> {
         name: nameController.text,
         iconType: state.iconSelected,
         color: state.categoryColor,
-        type: state.typeSelected,
+        isIncome: state.isIncome,
       ),
     );
   }

@@ -4,29 +4,29 @@ class NewCategoryDialogState with EquatableMixin {
   final bool isExpanded;
   final IconType iconSelected;
   final Color categoryColor;
-  final int typeSelected;
+  final bool isIncome;
 
   const NewCategoryDialogState({
     this.isExpanded = false,
     required this.iconSelected,
     this.categoryColor = Colors.white,
-    this.typeSelected = 0,
+    this.isIncome = false,
   });
 
   @override
-  List<Object?> get props => [isExpanded, iconSelected, categoryColor, typeSelected];
+  List<Object?> get props => [isExpanded, iconSelected, categoryColor, isIncome];
 
   NewCategoryDialogState copyWith({
     bool? isExpanded,
     IconType? iconSelected,
     Color? categoryColor,
-    int? typeSelected,
+    bool? isIncome,
   }) {
     return NewCategoryDialogState(
       isExpanded: isExpanded ?? this.isExpanded,
       iconSelected: iconSelected ?? this.iconSelected,
       categoryColor: categoryColor ?? this.categoryColor,
-      typeSelected: typeSelected ?? this.typeSelected,
+      isIncome: isIncome ?? this.isIncome,
     );
   }
 }

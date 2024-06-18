@@ -10,7 +10,7 @@ class CategoryBUS {
         id: category.id,
         name: category.name,
         iconID: category.iconType.id,
-        type: category.type,
+        isIncome: category.isIncome,
         red: category.color.red,
         green: category.color.green,
         blue: category.color.blue,

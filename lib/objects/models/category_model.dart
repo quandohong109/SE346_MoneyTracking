@@ -5,14 +5,14 @@ class CategoryModel {
   final int id;
   final String name;
   final IconType iconType;
-  final int type;
+  final bool isIncome;
   final Color color;
 
   CategoryModel({
     required this.id,
     required this.name,
     required this.iconType,
-    required this.type,
+    required this.isIncome,
     required this.color,
   });
 
