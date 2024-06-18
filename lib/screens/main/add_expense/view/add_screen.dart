@@ -43,7 +43,10 @@ class _AddScreen extends State<AddScreen> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () => {
+        FocusScope.of(context).unfocus(),
+
+      },
       child: Scaffold(
         backgroundColor: Theme
             .of(context)

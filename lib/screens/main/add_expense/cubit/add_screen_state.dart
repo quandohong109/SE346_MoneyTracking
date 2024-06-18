@@ -18,7 +18,7 @@ class AddScreenState with EquatableMixin {
   });
 
   @override
-  List<Object?> get props => [isExpanded, selectedDate, amount, category, note];
+  List<Object?> get props => [isExpanded, selectedDate, amount, category, note, categoryList];
 
   AddScreenState copyWith({
     bool? isExpanded,

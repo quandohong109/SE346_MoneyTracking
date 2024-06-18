@@ -9,6 +9,7 @@ class TransactionModel {
   final DateTime date;
   final String note;
   final BigInt amount;
+  final bool isExpanded;
 
   TransactionModel({
     required this.id,
@@ -18,5 +19,6 @@ class TransactionModel {
     required this.date,
     required this.note,
     required this.amount,
+    required this.isExpanded,
   });
 }

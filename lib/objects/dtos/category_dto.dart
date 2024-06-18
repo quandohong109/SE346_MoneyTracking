@@ -2,7 +2,7 @@ class CategoryDTO {
   final int id;
   final String name;
   final int iconID;
-  final int type;
+  final bool isIncome;
   final int red;
   final int green;
   final int blue;
@@ -13,7 +13,7 @@ class CategoryDTO {
     required this.id,
     required this.name,
     required this.iconID,
-    required this.type,
+    required this.isIncome,
     required this.red,
     required this.green,
     required this.blue,
