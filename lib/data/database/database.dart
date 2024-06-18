@@ -40,7 +40,7 @@ class Database {
         id: e.id,
         name: e.name,
         iconType: iconTypeList.firstWhere((element) => element.id == e.iconID),
-        type: e.type,
+        isIncome: e.isIncome,
         color: Color.fromRGBO(e.red, e.green, e.blue, e.opacity),
       );
     }).toList();
@@ -58,6 +58,8 @@ class Database {
   }
 
   void updateTransactionList() {
+    updateCategoryList();
+    updateWalletList();
     transactionList = Firebase().transactionList.map((e) {
       return TransactionModel(
         id: e.id,
@@ -67,6 +69,7 @@ class Database {
         date: Converter.toDateTime(e.date),
         note: e.note,
         amount: e.amount,
+        isExpanded: false,
       );
     }).toList();
   }

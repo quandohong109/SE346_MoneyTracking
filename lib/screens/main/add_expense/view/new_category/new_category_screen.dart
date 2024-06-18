@@ -94,11 +94,11 @@ class _NewCategoryDialog extends State<NewCategoryScreen> {
                                     child: StandardButton(
                                       height: kToolbarHeight * 0.8,
                                       onTap: () {
-                                        cubit.updateTypeSelected(0);
+                                        cubit.updateIsIncome(false);
                                       },
-                                      backgroundColor: state.typeSelected == 0
-                                          ? Colors.red
-                                          : Colors.grey,
+                                      backgroundColor: state.isIncome
+                                          ? Colors.grey
+                                          : Colors.red,
                                       text: 'Chi',
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.w800,
@@ -110,9 +110,9 @@ class _NewCategoryDialog extends State<NewCategoryScreen> {
                                     child: StandardButton(
                                       height: kToolbarHeight * 0.8,
                                       onTap: () {
-                                        cubit.updateTypeSelected(1);
+                                        cubit.updateIsIncome(true);
                                       },
-                                      backgroundColor: state.typeSelected == 1
+                                      backgroundColor: state.isIncome
                                           ? Colors.green
                                           : Colors.grey,
                                       text: 'Thu',

@@ -1,7 +1,7 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:money_tracking/screens/main/add_expense/view/add_screen.dart';
+import 'package:money_tracking/screens/transaction/views/transaction_screen.dart';
 
 import '../../data/firebase/firebase.dart';
 import '../home/views/home_screen.dart';
@@ -15,13 +15,15 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-
-  var wigetList = {
-    const HomeScreen(),
-    const StatScreen(),
-  };
-
   int index = 0;
+
+  final List<Widget Function()> widgetList = [
+        () => const HomeScreen(),
+        () => TransactionScreen.newInstance(),
+        () => const StatScreen(),
+  ];
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -38,70 +40,76 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: ClipRRect(
-        borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(30)
+        bottomNavigationBar: ClipRRect(
+          borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(30)
+          ),
+          child: BottomNavigationBar(
+              onTap: (value) {
+                if (value != index) {
+                  setState(() {
+                    index = value;
+                  });
+                }
+              },
+              currentIndex: index,
+              backgroundColor: Colors.white,
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
+              elevation: 3,
+              items: const [
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: "Home"
+                ),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.currency_exchange),
+                    label: "Transaction"
+                ),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.bar_chart),
+                    label: "Stats"
+                )
+              ]
+          ),
         ),
-        child: BottomNavigationBar(
-            onTap: (value) {
-              setState(() {
-                index = value;
-              });
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => AddScreen.newInstance(),
+                  )
+              );
             },
-            backgroundColor: Colors.white,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            elevation: 3,
-            items: const [
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: "Home"
+            shape: const CircleBorder(),
+            child: Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    colors: [
+                      Theme
+                          .of(context)
+                          .colorScheme
+                          .primary,
+                      Theme
+                          .of(context)
+                          .colorScheme
+                          .secondary,
+                    ],
+                    transform: const GradientRotation(pi / 4),
+                  )
               ),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.bar_chart),
-                  label: "Stats"
-              )
-            ]
+              child: const Icon(
+                  Icons.add
+              ),
+            )
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => AddScreen.newInstance(),
-                )
-            );
-          },
-          shape: const CircleBorder(),
-          child: Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                  colors: [
-                    Theme
-                        .of(context)
-                        .colorScheme
-                        .primary,
-                    Theme
-                        .of(context)
-                        .colorScheme
-                        .secondary,
-                  ],
-                  transform: const GradientRotation(pi / 4),
-                )
-            ),
-            child: const Icon(
-                Icons.add
-            ),
-          )
-      ),
-      body: index == 0
-          ? const HomeScreen()
-          : const StatScreen(),
+        body: widgetList[index]()
+
     );
   }
 }
