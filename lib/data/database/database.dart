@@ -73,4 +73,8 @@ class Database {
       );
     }).toList();
   }
+
+  //Task: get data from Firestore, including categories, wallets, and transactions.
+  //Note: check user UID before getting data.
+
 }

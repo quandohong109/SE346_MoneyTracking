@@ -4,6 +4,7 @@ import '../../objects/dtos/transaction_dto.dart';
 import '../../objects/models/transaction_model.dart';
 import '../database/database.dart';
 import '../firebase/firebase.dart';
+import '../../functions/getdata.dart';
 
 class TransactionBUS {
   static void addTransaction(TransactionModel transaction) {
@@ -16,9 +17,11 @@ class TransactionBUS {
         amount: transaction.amount,
         date: Converter.toTimestamp(transaction.date),
         note: transaction.note,
-        userID: "abc",
+        userID: GetData.getUID(),
       ),
     );
     Database().updateTransactionList();
   }
+
+  //Task: Push new transactions to Firestore.
 }

@@ -2,6 +2,7 @@ import '../../objects/dtos/category_dto.dart';
 import '../../objects/models/category_model.dart';
 import '../database/database.dart';
 import '../firebase/firebase.dart';
+import '../../functions/getdata.dart';
 
 class CategoryBUS {
   static void addCategory(CategoryModel category) {
@@ -15,9 +16,13 @@ class CategoryBUS {
         green: category.color.green,
         blue: category.color.blue,
         opacity: category.color.opacity,
-        userID: "abc",
+        userID: GetData.getUID(),
       ),
     );
     Database().updateCategoryList();
   }
 }
+
+//Task: Push new categories to Firestore
+
+//Task: Delete a category from Firestore

@@ -256,7 +256,7 @@ Future<void> pushTransactionListToFirebase() async {
       'name': transaction.name,
       'categoryID': transaction.categoryID,
       'walletID': transaction.walletID,
-      'amount': transaction.amount.toString(), // Firestore does not support BigInt, convert it to String
+      'amount': transaction.amount.toString(),
       'date': transaction.date,
       'note': transaction.note,
       'userID': transaction.userID,
