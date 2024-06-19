@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -10,15 +11,27 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> _signUp(BuildContext context) async {
     try {
+      final String name = _nameController.text.trim();
       final String email = _emailController.text.trim();
       final String password = _passwordController.text.trim();
+      final String confirmPassword = _confirmPasswordController.text.trim();
+
+      if (password != confirmPassword) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Passwords do not match')),
+        );
+        return;
+      }
 
       // Create user with email and password
       final UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
@@ -26,9 +39,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
         password: password,
       );
 
-      // Navigate back to the main screen after successful sign-up
+      // Save the user's name, email, and UID to Firestore
       if (userCredential.user != null) {
-        Navigator.pop(context); // Navigate back to the previous screen (main)
+        await _firestore.collection('users').doc(userCredential.user!.uid).set({
+          'uid': userCredential.user!.uid,
+          'name': name,
+          'email': email,
+        });
+
+        // Navigate to the main screen after successful sign-up
+        Navigator.pushReplacementNamed(context, '/home');
       }
     } catch (error) {
       if (kDebugMode) {
@@ -54,6 +74,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             TextField(
+              controller: _nameController,
+              decoration: const InputDecoration(labelText: 'Name'),
+            ),
+            const SizedBox(height: 16.0),
+            TextField(
               controller: _emailController,
               decoration: const InputDecoration(labelText: 'Email'),
             ),
@@ -61,6 +86,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
             TextField(
               controller: _passwordController,
               decoration: const InputDecoration(labelText: 'Password'),
+              obscureText: true,
+            ),
+            const SizedBox(height: 16.0),
+            TextField(
+              controller: _confirmPasswordController,
+              decoration: const InputDecoration(labelText: 'Confirm Password'),
               obscureText: true,
             ),
             const SizedBox(height: 16.0),
