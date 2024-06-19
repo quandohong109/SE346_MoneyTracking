@@ -2,7 +2,7 @@ part of 'add_screen_cubit.dart';
 
 class AddScreenState with EquatableMixin {
   final bool isExpanded;
-  final double? amount;
+  final BigInt? amount;
   final CategoryModel? category;
   final String note;
   final DateTime selectedDate;
@@ -22,7 +22,7 @@ class AddScreenState with EquatableMixin {
 
   AddScreenState copyWith({
     bool? isExpanded,
-    double? amount,
+    BigInt? amount,
     CategoryModel? category,
     String? note,
     DateTime? selectedDate,

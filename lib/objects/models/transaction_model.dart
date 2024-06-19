@@ -3,7 +3,6 @@ import 'package:money_tracking/objects/models/wallet_model.dart';
 
 class TransactionModel {
   final int id;
-  final String name;
   final CategoryModel category;
   final WalletModel wallet;
   final DateTime date;
@@ -13,7 +12,6 @@ class TransactionModel {
 
   TransactionModel({
     required this.id,
-    required this.name,
     required this.category,
     required this.wallet,
     required this.date,

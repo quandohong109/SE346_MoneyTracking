@@ -1,15 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:money_tracking/data/database/database.dart';
-import 'package:money_tracking/screens/main/add_expense/view/widgets/category_field.dart';
-import 'package:money_tracking/screens/main/add_expense/view/widgets/category_list_container.dart';
-import 'package:money_tracking/screens/main/add_expense/view/widgets/date_select_field.dart';
-import 'package:money_tracking/screens/main/add_expense/view/widgets/field_with_icon.dart';
-import 'package:money_tracking/screens/main/add_expense/view/new_category/new_category_screen.dart';
-import 'package:money_tracking/screens/main/add_expense/view/widgets/multi_field_with_icon.dart';
-import 'package:money_tracking/screens/main/add_expense/view/widgets/standard_button.dart';
+import 'package:money_tracking/screens/main/add_transaction/view/widgets/category_field.dart';
+import 'package:money_tracking/screens/main/add_transaction/view/widgets/category_list_container.dart';
+import 'package:money_tracking/screens/main/add_transaction/view/widgets/date_select_field.dart';
+import 'package:money_tracking/screens/main/add_transaction/view/widgets/field_with_icon.dart';
+import 'package:money_tracking/screens/main/add_transaction/view/new_category/new_category_screen.dart';
+import 'package:money_tracking/screens/main/add_transaction/view/widgets/multi_field_with_icon.dart';
+import 'package:money_tracking/screens/main/add_transaction/view/widgets/standard_button.dart';
 import '../../../../objects/models/category_model.dart';
 import '../cubit/add_screen_cubit.dart';
 import 'package:intl/intl.dart';
@@ -43,9 +44,9 @@ class _AddScreen extends State<AddScreen> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {
+      onTap: () =>
+      {
         FocusScope.of(context).unfocus(),
-
       },
       child: Scaffold(
         backgroundColor: Theme
@@ -64,7 +65,7 @@ class _AddScreen extends State<AddScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                'Thêm giao dịch mới',
+                'New transaction',
                 style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w500
@@ -78,7 +79,7 @@ class _AddScreen extends State<AddScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       FieldWithIcon(
-                        hintText: 'Nhập số tiền',
+                        hintText: 'Amount',
                         controller: amountController,
                         keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         inputFormatters: <TextInputFormatter>[
@@ -110,7 +111,7 @@ class _AddScreen extends State<AddScreen> {
                               children: [
                                 CategoryField(
                                   text: state.category?.getName() ?? '',
-                                  hintText: 'Chọn loại giao dịch',
+                                  hintText: 'Category',
                                   onTap: () {
                                     cubit.updateIsExpanded(!state.isExpanded);
                                   },
@@ -161,9 +162,9 @@ class _AddScreen extends State<AddScreen> {
                                   initialDate: state.selectedDate,
                                   firstDate: DateTime.now().subtract(const Duration(days: 365)),
                                   lastDate: DateTime.now().add(const Duration(days: 365)),
-                                  confirmText: 'Lưu',
-                                  cancelText: 'Hủy',
-                                  helpText: 'Chọn ngày giao dịch',
+                                  confirmText: 'Select',
+                                  cancelText: 'Cancel',
+                                  helpText: 'Date',
                                 );
                                 if (newDate != null){
                                   cubit.updateSelectedDate(newDate);
@@ -174,7 +175,7 @@ class _AddScreen extends State<AddScreen> {
                       const SizedBox(height: 20,),
 
                       MultiFieldWithIcon(
-                        hintText: 'Ghi chú',
+                        hintText: 'Note',
                         controller: noteController,
                         prefixIcon: const Icon(
                           FontAwesomeIcons.pencil,
@@ -196,7 +197,7 @@ class _AddScreen extends State<AddScreen> {
                 onTap: () {
                   Navigator.pop(context);
                 },
-                text: 'Lưu',
+                text: 'Add transaction',
               ),
             ],
           ),

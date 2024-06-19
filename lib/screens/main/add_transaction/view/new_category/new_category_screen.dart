@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:money_tracking/screens/main/add_expense/view/widgets/dropdown_icon_container.dart';
-import 'package:money_tracking/screens/main/add_expense/view/widgets/field_with_icon.dart';
-import 'package:money_tracking/screens/main/add_expense/view/widgets/standard_button.dart';
+import 'package:money_tracking/screens/main/add_transaction/view/widgets/dropdown_icon_container.dart';
+import 'package:money_tracking/screens/main/add_transaction/view/widgets/field_with_icon.dart';
+import 'package:money_tracking/screens/main/add_transaction/view/widgets/standard_button.dart';
 
 import '../../../../../data/database/database.dart';
 import '../../cubit/new_category/new_category_cubit.dart';

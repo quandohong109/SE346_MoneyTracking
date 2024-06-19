@@ -4,8 +4,9 @@ import 'package:money_tracking/screens/stat/views/widgets/category_list_show.dar
 import 'package:table_calendar/table_calendar.dart';
 import '../../../data/database/database.dart';
 import '../../../objects/models/category_model.dart';
-import '../../main/add_expense/view/widgets/standard_button.dart';
+import '../../main/add_transaction/view/widgets/standard_button.dart';
 import '../cubit/filter_screen_cubit.dart';
+
 class FilterScreen extends StatefulWidget {
   const FilterScreen({super.key});
   static Widget newInstance() =>

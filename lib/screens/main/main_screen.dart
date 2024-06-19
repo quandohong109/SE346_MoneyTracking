@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:money_tracking/screens/main/add_expense/view/add_screen.dart';
+import 'package:money_tracking/screens/main/add_transaction/view/add_screen.dart';
 import 'package:money_tracking/screens/transaction/views/transaction_screen.dart';
 
 import '../../data/firebase/firebase.dart';
