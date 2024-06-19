@@ -28,18 +28,18 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.upload_file),
-            onPressed: () async {
-              await pushCategoryListToFirebase();
-              await pushWalletListToFirebase();
-              await pushTransactionListToFirebase();
-            },
-          ),
-        ],
-      ),
+        appBar: AppBar(
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.upload_file),
+              onPressed: () async {
+                await pushCategoryListToFirebase();
+                await pushWalletListToFirebase();
+                await pushTransactionListToFirebase();
+              },
+            ),
+          ],
+        ),
         bottomNavigationBar: ClipRRect(
           borderRadius: const BorderRadius.vertical(
               top: Radius.circular(30)
@@ -109,7 +109,6 @@ class _MainScreenState extends State<MainScreen> {
             )
         ),
         body: widgetList[index]()
-
     );
   }
 }

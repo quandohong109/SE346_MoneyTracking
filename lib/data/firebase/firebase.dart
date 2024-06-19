@@ -243,7 +243,6 @@ Future<void> pushTransactionListToFirebase() async {
   for (var transaction in firebaseInstance.transactionList) { // Use the instance to access transactionList
     await firestoreInstance.collection('transactions').add({
       'id': transaction.id,
-      'name': transaction.name,
       'categoryID': transaction.categoryID,
       'walletID': transaction.walletID,
       'amount': transaction.amount.toString(), // Firestore does not support BigInt, convert it to String
