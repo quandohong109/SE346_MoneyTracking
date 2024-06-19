@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TransactionDTO {
   final int id;
-  final String name;
   final int categoryID;
   final int walletID;
   final Timestamp date;
@@ -12,7 +11,6 @@ class TransactionDTO {
 
   TransactionDTO({
     required this.id,
-    required this.name,
     required this.categoryID,
     required this.walletID,
     required this.date,

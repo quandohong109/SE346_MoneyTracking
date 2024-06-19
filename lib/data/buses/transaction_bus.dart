@@ -10,7 +10,6 @@ class TransactionBUS {
     Firebase().transactionList.add(
       TransactionDTO(
         id: transaction.id,
-        name: transaction.name,
         categoryID: transaction.category.id,
         walletID: transaction.wallet.id,
         amount: transaction.amount,

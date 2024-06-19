@@ -63,7 +63,6 @@ class Database {
     transactionList = Firebase().transactionList.map((e) {
       return TransactionModel(
         id: e.id,
-        name: e.name,
         category: categoryList.firstWhere((element) => element.id == e.categoryID),
         wallet: walletList.firstWhere((element) => element.id == e.walletID),
         date: Converter.toDateTime(e.date),

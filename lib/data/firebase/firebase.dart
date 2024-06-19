@@ -121,7 +121,6 @@ class Firebase {
   List<TransactionDTO> transactionList = [
     TransactionDTO(
         id: 1,
-        name: "Transaction 1",
         categoryID: 1,
         walletID: 1,
         amount: BigInt.from(100000),
@@ -130,7 +129,6 @@ class Firebase {
         userID: "abc"),
     TransactionDTO(
         id: 2,
-        name: "Transaction 2",
         categoryID: 2,
         walletID: 2,
         amount: BigInt.from(200000),
@@ -139,7 +137,6 @@ class Firebase {
         userID: "abc"),
     TransactionDTO(
         id: 3,
-        name: "Transaction 3",
         categoryID: 3,
         walletID: 1,
         amount: BigInt.from(300000),
@@ -148,7 +145,6 @@ class Firebase {
         userID: "abc"),
     TransactionDTO(
         id: 4,
-        name: "Transaction 4",
         categoryID: 1,
         walletID: 2,
         amount: BigInt.from(40000),
@@ -157,7 +153,6 @@ class Firebase {
         userID: "abc"),
     TransactionDTO(
         id: 5,
-        name: "Transaction 5",
         categoryID: 2,
         walletID: 3,
         amount: BigInt.from(500000),
@@ -166,7 +161,6 @@ class Firebase {
         userID: "abc"),
     TransactionDTO(
         id: 6,
-        name: "Transaction 6",
         categoryID: 3,
         walletID: 1,
         amount: BigInt.from(60000),
@@ -175,7 +169,6 @@ class Firebase {
         userID: "abc"),
     TransactionDTO(
         id: 7,
-        name: "Transaction 7",
         categoryID: 1,
         walletID: 2,
         amount: BigInt.from(10000),
@@ -184,7 +177,6 @@ class Firebase {
         userID: "abc"),
     TransactionDTO(
         id: 8,
-        name: "Transaction 8",
         categoryID: 2,
         walletID: 3,
         amount: BigInt.from(20000),
@@ -193,7 +185,6 @@ class Firebase {
         userID: "abc"),
     TransactionDTO(
         id: 9,
-        name: "Transaction 9",
         categoryID: 3,
         walletID: 1,
         amount: BigInt.from(30000),
@@ -202,7 +193,6 @@ class Firebase {
         userID: "abc"),
     TransactionDTO(
         id: 10,
-        name: "Transaction 10",
         categoryID: 1,
         walletID: 2,
         amount: BigInt.from(40000),

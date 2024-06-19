@@ -31,7 +31,7 @@ class TransactionWidget extends StatelessWidget {
               ),
             ),
             title: Text(
-              transaction.name,
+              transaction.category.name,
               style: Theme
                   .of(context)
                   .textTheme
