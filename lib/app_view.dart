@@ -9,7 +9,7 @@ class MyAppView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Quan Ly Chi Tieu",
+      title: "Money Tracking",
       theme: ThemeData(
           colorScheme: ColorScheme.light(
             background: Colors.grey.shade100,

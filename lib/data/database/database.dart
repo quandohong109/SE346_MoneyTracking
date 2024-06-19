@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:money_tracking/data/firebase/firebase.dart';
 import 'package:money_tracking/functions/converter.dart';
 import 'package:money_tracking/objects/models/category_model.dart';
+import '../../functions/getdata.dart';
 import '../../objects/models/icon_type.dart';
 import '../../objects/models/transaction_model.dart';
 import '../../objects/models/wallet_model.dart';
@@ -71,5 +73,66 @@ class Database {
         isExpanded: false,
       );
     }).toList();
+  }
+
+  void updateCategoryListFromFirestore() async {
+    final firestoreInstance = FirebaseFirestore.instance;
+    final QuerySnapshot querySnapshot = await firestoreInstance.collection('categories')
+        .where('userID', isEqualTo: GetData.getUID())
+        .get();
+    categoryList = querySnapshot.docs.map((doc) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      return CategoryModel(
+        id: data['id'],
+        name: data['name'],
+        iconType: iconTypeList.firstWhere((element) => element.id == data['iconID']),
+        isIncome: data['isIncome'],
+        color: Color.fromRGBO(data['red'], data['green'], data['blue'], data['opacity']),
+      );
+    }).toList();
+    print(categoryList);
+  }
+
+  void updateWalletListFromFirestore() async {
+    final firestoreInstance = FirebaseFirestore.instance;
+    final QuerySnapshot querySnapshot = await firestoreInstance.collection('wallets')
+        .where('userID', isEqualTo: GetData.getUID())
+        .get();
+
+    walletList = querySnapshot.docs.map((doc) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      return WalletModel(
+        id: data['id'],
+        name: data['name'],
+        icon: iconTypeList.firstWhere((element) => element.id == data['iconID']),
+        balance: BigInt.parse(data['balance']),
+      );
+    }).toList();
+    print(walletList);
+  }
+
+  void updateTransactionListFromFirestore() async {
+    final firestoreInstance = FirebaseFirestore.instance;
+    final QuerySnapshot querySnapshot = await firestoreInstance.collection('transactions')
+        .where('userID', isEqualTo: GetData.getUID())
+        .get();
+
+    updateCategoryListFromFirestore();
+    updateWalletListFromFirestore();
+
+    transactionList = querySnapshot.docs.map((doc) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      return TransactionModel(
+        id: data['id'],
+        name: data['name'],
+        category: categoryList.firstWhere((element) => element.id == data['categoryID']),
+        wallet: walletList.firstWhere((element) => element.id == data['walletID']),
+        date: (data['date'] as Timestamp).toDate(),
+        note: data['note'],
+        amount: BigInt.parse(data['amount']),
+        isExpanded: false,
+      );
+    }).toList();
+    print(transactionList);
   }
 }

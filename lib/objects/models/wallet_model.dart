@@ -21,4 +21,9 @@ class WalletModel {
   bool subtractBalance(BigInt amount) {
     return WalletBUS.changeBalance(-amount, id);
   }
+
+  @override
+  String toString() {
+    return 'WalletModel{id: $id, name: $name, icon: $icon, balance: $balance}';
+  }
 }

@@ -19,4 +19,9 @@ class TransactionModel {
     required this.amount,
     required this.isExpanded,
   });
+
+  @override
+  String toString() {
+    return 'TransactionModel{id: $id, name: $name, category: $category, wallet: $wallet, date: $date, note: $note, amount: $amount, isExpanded: $isExpanded}';
+  }
 }

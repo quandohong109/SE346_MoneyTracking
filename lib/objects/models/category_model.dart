@@ -29,4 +29,9 @@ class CategoryModel {
   IconData getIcon() {
     return iconType.icon;
   }
+
+  @override
+  String toString() {
+    return 'CategoryModel{id: $id, name: $name, iconType: $iconType, isIncome: $isIncome, color: $color}';
+  }
 }
