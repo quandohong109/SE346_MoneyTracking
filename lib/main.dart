@@ -12,7 +12,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
     await Firebase.initializeApp(
-      name: 'money-tracking',
       options: const FirebaseOptions(
         apiKey: 'AIzaSyDVcTj2WN5ZcDrSXb-hQztCM1EzdEnmLZM',
         projectId: 'money-tracking-se346',
@@ -51,6 +50,7 @@ class MyApp extends StatelessWidget {
         '/sign-up': (context) => const SignUpScreen(),
         '/profile': (context) => ProfilePage(),
         '/main': (context) => const MainScreen(), // Add the MainScreen route
+        '/home': (context) => const HomeScreen(),
         // Add more routes for other screens
       },
       home: const AuthWrapper(), // Use AuthWrapper as the home screen
@@ -77,6 +77,7 @@ class AuthWrapper extends StatelessWidget {
     );
   }
 }
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
