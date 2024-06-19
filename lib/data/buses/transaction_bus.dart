@@ -18,7 +18,6 @@ class TransactionBUS {
       // Now use newId for the new transaction
       FirebaseFirestore.instance.collection('transactions').add({
         'id': newId,
-        'name': transaction.name,
         'categoryID': transaction.category.id,
         'walletID': transaction.wallet.id,
         'amount': transaction.amount.toString(),
@@ -45,7 +44,6 @@ class TransactionBUS {
     Firebase().transactionList.add(
       TransactionDTO(
         id: transaction.id,
-        name: transaction.name,
         categoryID: transaction.category.id,
         walletID: transaction.wallet.id,
         amount: transaction.amount,
