@@ -33,12 +33,11 @@ class AddScreenCubit extends Cubit<AddScreenState> {
   }
 
   void updateCategoryList() {
-    Database().updateCategoryList();
     List<CategoryModel> categoryList = Database().categoryList;
     emit(state.copyWith(categoryList: categoryList));
   }
 
-  void addTransaction(String name) {
+  void addTransaction() {
     if (state.amount == null) {
       return;
     }
@@ -57,6 +56,6 @@ class AddScreenCubit extends Cubit<AddScreenState> {
       isExpanded: false,
     );
 
-    TransactionBUS.addTransaction(transaction);
+    TransactionBUS.addTransactionToFirestore(transaction);
   }
 }

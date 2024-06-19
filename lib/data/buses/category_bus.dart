@@ -55,8 +55,9 @@ class CategoryBUS {
         userID: GetData.getUID(),
       ),
     );
-    Database().updateCategoryList();
     addCategoryToFirestore(category);
+    // Database().updateCategoryList();
+    // Database().updateCategoryListFromFirestore();
   }
 
   static void deleteCategoryFromFirestore(int categoryId) {

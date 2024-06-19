@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'data/database/database.dart';
 import 'screens/login/login_screen.dart';
 import 'screens/login/signup_screen.dart'; // Assuming you have a SignUpScreen
 import 'screens/home/views/profile_screen.dart';
@@ -21,6 +22,10 @@ void main() async {
         // Add other Firebase options as needed
       ),
     );
+    Database().updateCategoryListFromFirestore();
+    // Database().updateWalletListFromFirestore();
+    Database().updateWalletList();
+    Database().updateTransactionListFromFirestore();
     runApp(const MyApp());
   } catch (e) {
     if (kDebugMode) {
@@ -41,7 +46,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Your App Title',
+      title: 'Money Tracking',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

@@ -22,6 +22,6 @@ class TransactionModel {
 
   @override
   String toString() {
-    return 'TransactionModel{id: $id, name: $name, category: $category, wallet: $wallet, date: $date, note: $note, amount: $amount, isExpanded: $isExpanded}';
+    return 'TransactionModel{id: $id, category: $category, wallet: $wallet, date: $date, note: $note, amount: $amount, isExpanded: $isExpanded}';
   }
 }

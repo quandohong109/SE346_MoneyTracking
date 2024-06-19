@@ -52,8 +52,8 @@ class TransactionBUS {
         userID: GetData.getUID(),
       ),
     );
-    Database().updateTransactionList();
     addTransactionToFirestore(transaction);
+
   }
 
   static void deleteTransactionFromFirestore(int transactionId) {

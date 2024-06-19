@@ -124,7 +124,6 @@ class Database {
       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
       return TransactionModel(
         id: data['id'],
-        name: data['name'],
         category: categoryList.firstWhere((element) => element.id == data['categoryID']),
         wallet: walletList.firstWhere((element) => element.id == data['walletID']),
         date: (data['date'] as Timestamp).toDate(),

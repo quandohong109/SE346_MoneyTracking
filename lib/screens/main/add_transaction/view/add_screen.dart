@@ -195,6 +195,7 @@ class _AddScreen extends State<AddScreen> {
               StandardButton(
                 height: kToolbarHeight,
                 onTap: () {
+                  cubit.addTransaction();
                   Navigator.pop(context);
                 },
                 text: 'Add transaction',
