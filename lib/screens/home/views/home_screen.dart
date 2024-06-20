@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
                 return const CircularProgressIndicator();
               }
               if (snapshot.hasError) {
-                return const Text('Error loading user name');
+                Navigator.pushReplacementNamed(context, '/main');
               }
               final String? name = snapshot.data;
               return Column(
