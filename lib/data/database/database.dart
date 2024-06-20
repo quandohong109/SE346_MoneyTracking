@@ -36,17 +36,17 @@ class Database {
   List<WalletModel> walletList = [];
   List<TransactionModel> transactionList = [];
 
-  void updateCategoryList() {
-    categoryList = Firebase().categoryList.map((e) {
-      return CategoryModel(
-        id: e.id,
-        name: e.name,
-        iconType: iconTypeList.firstWhere((element) => element.id == e.iconID),
-        isIncome: e.isIncome,
-        color: Color.fromRGBO(e.red, e.green, e.blue, e.opacity),
-      );
-    }).toList();
-  }
+  // void updateCategoryList() {
+  //   categoryList = Firebase().categoryList.map((e) {
+  //     return CategoryModel(
+  //       id: e.id,
+  //       name: e.name,
+  //       iconType: iconTypeList.firstWhere((element) => element.id == e.iconID),
+  //       isIncome: e.isIncome,
+  //       color: Color.fromRGBO(e.red, e.green, e.blue, e.opacity),
+  //     );
+  //   }).toList();
+  // }
 
   void updateWalletList() {
     walletList = Firebase().walletList.map((e) {
@@ -59,21 +59,21 @@ class Database {
     }).toList();
   }
 
-  void updateTransactionList() {
-    updateCategoryList();
-    updateWalletList();
-    transactionList = Firebase().transactionList.map((e) {
-      return TransactionModel(
-        id: e.id,
-        category: categoryList.firstWhere((element) => element.id == e.categoryID),
-        wallet: walletList.firstWhere((element) => element.id == e.walletID),
-        date: Converter.toDateTime(e.date),
-        note: e.note,
-        amount: e.amount,
-        isExpanded: false,
-      );
-    }).toList();
-  }
+  // void updateTransactionList() {
+  //   updateCategoryList();
+  //   updateWalletList();
+  //   transactionList = Firebase().transactionList.map((e) {
+  //     return TransactionModel(
+  //       id: e.id,
+  //       category: categoryList.firstWhere((element) => element.id == e.categoryID),
+  //       wallet: walletList.firstWhere((element) => element.id == e.walletID),
+  //       date: Converter.toDateTime(e.date),
+  //       note: e.note,
+  //       amount: e.amount,
+  //       isExpanded: false,
+  //     );
+  //   }).toList();
+  // }
 
   void updateCategoryListFromFirestore() async {
     final firestoreInstance = FirebaseFirestore.instance;
