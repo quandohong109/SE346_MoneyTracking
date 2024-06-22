@@ -82,4 +82,24 @@ class CategoryBUS {
     });
     Database().updateCategoryListFromFirestore();
   }
+
+  static void editCategoryInFirestore(CategoryModel category) {
+    FirebaseFirestore.instance.collection('categories')
+        .where('id', isEqualTo: category.id)
+        .get()
+        .then((querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        doc.reference.update({
+          'name': category.name,
+          'iconID': category.iconType.id,
+          'isIncome': category.isIncome,
+          'red': category.color.red,
+          'green': category.color.green,
+          'blue': category.color.blue,
+          'opacity': category.color.opacity,
+          'userID': GetData.getUID(),
+        });
+      }
+    });
+  }
 }

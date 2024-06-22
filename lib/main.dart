@@ -48,7 +48,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Money Tracking',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+          primarySwatch: Colors.blue,
+          colorScheme: const ColorScheme.light(
+            background: Color(0xFFF6F6F6),
+            onBackground: Colors.black,
+            primary: Color(0xFF0A98FF),
+            secondary: Color(0xFFC15BFF),
+            tertiary: Color(0xFFFBFF2B),
+          )
       ),
       // Define named routes for navigation
       routes: {

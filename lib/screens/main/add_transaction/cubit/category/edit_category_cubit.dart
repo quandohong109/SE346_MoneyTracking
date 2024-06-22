@@ -6,11 +6,15 @@ import 'package:money_tracking/objects/models/icon_type.dart';
 import '../../../../../data/buses/category_bus.dart';
 import '../../../../../objects/models/category_model.dart';
 
-part 'new_category_state.dart';
+part 'edit_category_state.dart';
 
-class NewCategoryDialogCubit extends Cubit<NewCategoryDialogState> {
-  NewCategoryDialogCubit() : super(NewCategoryDialogState(
-      iconSelected: IconType(id: 0, icon: Icons.question_mark)
+class EditCategoryDialogCubit extends Cubit<EditCategoryDialogState> {
+  final CategoryModel category;
+
+  EditCategoryDialogCubit(this.category) : super(EditCategoryDialogState(
+      iconSelected: category.iconType,
+      categoryColor: category.color,
+      isIncome: category.isIncome
   ));
 
   void updateIsExpanded(bool isExpanded) {
@@ -29,7 +33,7 @@ class NewCategoryDialogCubit extends Cubit<NewCategoryDialogState> {
     emit(state.copyWith(isIncome: isIncome));
   }
 
-  void addCategory(TextEditingController nameController, BuildContext context) {
+  void editCategory(TextEditingController nameController, BuildContext context) {
     if (nameController.text.isEmpty) {
       showDialog(
           context: context,
@@ -54,16 +58,18 @@ class NewCategoryDialogCubit extends Cubit<NewCategoryDialogState> {
       return;
     }
 
-    CategoryBUS.addCategory(
+    CategoryBUS.editCategoryInFirestore(
       CategoryModel(
-        id: DateTime
-            .now()
-            .millisecondsSinceEpoch,
+        id: category.id,
         name: nameController.text,
         iconType: state.iconSelected,
         color: state.categoryColor,
         isIncome: state.isIncome,
       ),
     );
+  }
+
+  void deleteCategory() {
+    CategoryBUS.deleteCategoryFromFirestore(category.id);
   }
 }

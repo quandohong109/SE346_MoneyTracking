@@ -5,7 +5,7 @@ import 'package:money_tracking/screens/main/add_transaction/view/widgets/field_w
 import 'package:money_tracking/screens/main/add_transaction/view/widgets/standard_button.dart';
 
 import '../../../../../data/database/database.dart';
-import '../../cubit/new_category/new_category_cubit.dart';
+import '../../cubit/category/new_category_cubit.dart';
 import 'color_picker_dialog.dart';
 
 class NewCategoryScreen extends StatefulWidget {
@@ -45,7 +45,7 @@ class _NewCategoryDialog extends State<NewCategoryScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                'Tạo loại giao dịch mới',
+                'New category',
                 style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w500
@@ -62,7 +62,7 @@ class _NewCategoryDialog extends State<NewCategoryScreen> {
                           children: [
                             FieldWithIcon(
                               prefixIcon: Icon(state.iconSelected.icon, size: 30,),
-                              hintText: 'Tên loại giao dịch',
+                              hintText: 'Name',
                               controller: nameController,
                               onPrefixIconPressed: () {
                                 cubit.updateIsExpanded(!state.isExpanded);
@@ -99,7 +99,7 @@ class _NewCategoryDialog extends State<NewCategoryScreen> {
                                       backgroundColor: state.isIncome
                                           ? Colors.grey
                                           : Colors.red,
-                                      text: 'Chi',
+                                      text: 'Expense',
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.w800,
                                     )
@@ -115,7 +115,7 @@ class _NewCategoryDialog extends State<NewCategoryScreen> {
                                       backgroundColor: state.isIncome
                                           ? Colors.green
                                           : Colors.grey,
-                                      text: 'Thu',
+                                      text: 'Income',
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.w800,
                                     )
@@ -161,7 +161,7 @@ class _NewCategoryDialog extends State<NewCategoryScreen> {
                   cubit.addCategory(nameController, context);
                   Navigator.pop(context);
                 },
-                text: 'Lưu',
+                text: 'Save',
               )
             ],
           ),

@@ -8,7 +8,7 @@ import 'package:money_tracking/screens/main/add_transaction/view/widgets/categor
 import 'package:money_tracking/screens/main/add_transaction/view/widgets/category_list_container.dart';
 import 'package:money_tracking/screens/main/add_transaction/view/widgets/date_select_field.dart';
 import 'package:money_tracking/screens/main/add_transaction/view/widgets/field_with_icon.dart';
-import 'package:money_tracking/screens/main/add_transaction/view/new_category/new_category_screen.dart';
+import 'package:money_tracking/screens/main/add_transaction/view/category/new_category_screen.dart';
 import 'package:money_tracking/screens/main/add_transaction/view/widgets/multi_field_with_icon.dart';
 import 'package:money_tracking/screens/main/add_transaction/view/widgets/standard_button.dart';
 import '../../../../objects/models/category_model.dart';
@@ -141,6 +141,7 @@ class _AddScreen extends State<AddScreen> {
                                   categories: Database().categoryList,
                                   onCategoryTap: (CategoryModel category) {
                                     cubit.updateCategory(category);
+                                    cubit.updateIsExpanded(false);
                                   },
                                 )
                               ],
