@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:money_tracking/functions/converter.dart';
+import 'package:money_tracking/functions/getdata.dart';
 import 'package:money_tracking/objects/dtos/category_dto.dart';
 
 import '../../objects/dtos/transaction_dto.dart';
@@ -101,21 +102,33 @@ class Firebase {
     WalletDTO(
         id: 1,
         name: "Wallet 1",
-        iconID: 3,
         balance: BigInt.from(1200000),
-        userID: "abc"),
+        userID: GetData.getUID()),
     WalletDTO(
         id: 2,
         name: "Wallet 2",
-        iconID: 5,
         balance: BigInt.from(2000000),
-        userID: "abc"),
+        userID: GetData.getUID()),
     WalletDTO(
         id: 3,
         name: "Wallet 3",
-        iconID: 7,
         balance: BigInt.from(500000),
-        userID: "abc"),
+        userID: GetData.getUID()),
+    WalletDTO(
+        id: 4,
+        name: "Wallet 4",
+        balance: BigInt.from(3000000),
+        userID: GetData.getUID()),
+    WalletDTO(
+        id: 5,
+        name: "Wallet 5",
+        balance: BigInt.from(4000000),
+        userID: GetData.getUID()),
+    WalletDTO(
+        id: 6,
+        name: "Wallet 6",
+        balance: BigInt.from(5000000),
+        userID: GetData.getUID()),
   ];
 
   List<TransactionDTO> transactionList = [
@@ -126,7 +139,7 @@ class Firebase {
         amount: BigInt.from(100000),
         date: Converter.toTimestamp(DateTime(2024, 6, 10)),
         note: "",
-        userID: "abc"),
+        userID: GetData.getUID()),
     TransactionDTO(
         id: 2,
         categoryID: 2,
@@ -134,7 +147,7 @@ class Firebase {
         amount: BigInt.from(200000),
         date: Converter.toTimestamp(DateTime(2024, 6, 12)),
         note: "",
-        userID: "abc"),
+        userID: GetData.getUID()),
     TransactionDTO(
         id: 3,
         categoryID: 3,
@@ -142,7 +155,7 @@ class Firebase {
         amount: BigInt.from(300000),
         date: Converter.toTimestamp(DateTime(2024, 6, 12)),
         note: "",
-        userID: "abc"),
+        userID: GetData.getUID()),
     TransactionDTO(
         id: 4,
         categoryID: 1,
@@ -150,7 +163,7 @@ class Firebase {
         amount: BigInt.from(40000),
         date: Converter.toTimestamp(DateTime(2024, 6, 8)),
         note: "",
-        userID: "abc"),
+        userID: GetData.getUID()),
     TransactionDTO(
         id: 5,
         categoryID: 2,
@@ -158,7 +171,7 @@ class Firebase {
         amount: BigInt.from(500000),
         date: Converter.toTimestamp(DateTime(2024, 5, 30)),
         note: "",
-        userID: "abc"),
+        userID: GetData.getUID()),
     TransactionDTO(
         id: 6,
         categoryID: 3,
@@ -166,7 +179,7 @@ class Firebase {
         amount: BigInt.from(60000),
         date: Converter.toTimestamp(DateTime(2024, 5, 30)),
         note: "",
-        userID: "abc"),
+        userID: GetData.getUID()),
     TransactionDTO(
         id: 7,
         categoryID: 1,
@@ -174,7 +187,7 @@ class Firebase {
         amount: BigInt.from(10000),
         date: Converter.toTimestamp(DateTime(2024, 5, 29)),
         note: "",
-        userID: "abc"),
+        userID: GetData.getUID()),
     TransactionDTO(
         id: 8,
         categoryID: 2,
@@ -182,7 +195,7 @@ class Firebase {
         amount: BigInt.from(20000),
         date: Converter.toTimestamp(DateTime(2024, 5, 29)),
         note: "",
-        userID: "abc"),
+        userID: GetData.getUID()),
     TransactionDTO(
         id: 9,
         categoryID: 3,
@@ -190,7 +203,7 @@ class Firebase {
         amount: BigInt.from(30000),
         date: Converter.toTimestamp(DateTime(2024, 6, 10)),
         note: "",
-        userID: "abc"),
+        userID: GetData.getUID()),
     TransactionDTO(
         id: 10,
         categoryID: 1,
@@ -198,7 +211,7 @@ class Firebase {
         amount: BigInt.from(40000),
         date: Converter.toTimestamp(DateTime(2024, 5, 28)),
         note: "",
-        userID: "abc"),
+        userID: GetData.getUID()),
   ];
 }
 
@@ -229,7 +242,6 @@ Future<void> pushWalletListToFirebase() async {
     await firestoreInstance.collection('wallets').add({
       'id': wallet.id,
       'name': wallet.name,
-      'iconID': wallet.iconID,
       'balance': wallet.balance.toString(), // Firestore does not support BigInt, convert it to String
       'userID': wallet.userID,
     });

@@ -53,7 +53,6 @@ class Database {
       return WalletModel(
         id: e.id,
         name: e.name,
-        icon: iconTypeList.firstWhere((element) => element.id == e.iconID),
         balance: e.balance,
       );
     }).toList();
@@ -104,7 +103,6 @@ class Database {
       return WalletModel(
         id: data['id'],
         name: data['name'],
-        icon: iconTypeList.firstWhere((element) => element.id == data['iconID']),
         balance: BigInt.parse(data['balance']),
       );
     }).toList();

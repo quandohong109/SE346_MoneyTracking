@@ -66,7 +66,6 @@ class WalletBUS {
       FirebaseFirestore.instance.collection('wallets').add({
         'id': newId,
         'name': wallet.name,
-        'iconID': wallet.icon.id,
         'balance': wallet.balance.toString(),
         'userID': GetData.getUID(),
       }).then((_) {
