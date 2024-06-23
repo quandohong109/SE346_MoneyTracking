@@ -21,7 +21,7 @@ class DropdownIconContainer extends StatelessWidget {
     required this.iconTypes,
     required this.onIconSelected,
     required this.selectedIcon,
-    this.containerHeight = 150.0,
+    this.containerHeight = 360.0,
     this.crossAxisCount = 4,
     this.mainAxisSpacing = 5.0,
     this.crossAxisSpacing = 5.0,

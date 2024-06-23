@@ -71,12 +71,40 @@ class CategoryBUS {
 
   static Future<void> deleteCategoryFromFirestore(int categoryId) async {
     try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('categories')
+      await FirebaseFirestore.instance.collection('categories')
           .where('id', isEqualTo: categoryId)
-          .get();
-      for (var doc in querySnapshot.docs) {
-        await doc.reference.delete();
-      }
+          .get()
+          .then((querySnapshot) {
+        querySnapshot.docs.forEach((doc) {
+          doc.reference.delete();
+        });
+      });
+
+      await Database().updateCategoryListFromFirestore();
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  static Future<void> editCategoryInFirestore(CategoryModel category) async {
+    try {
+      await FirebaseFirestore.instance.collection('categories')
+          .where('id', isEqualTo: category.id)
+          .get()
+          .then((querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          doc.reference.update({
+            'name': category.name,
+            'iconID': category.iconType.id,
+            'isIncome': category.isIncome,
+            'red': category.color.red,
+            'green': category.color.green,
+            'blue': category.color.blue,
+            'opacity': category.color.opacity,
+            'userID': GetData.getUID(),
+          });
+        }
+      });
       // Fluttertoast.showToast(
       //     msg: "Category deleted successfully!",
       //     toastLength: Toast.LENGTH_SHORT,
@@ -89,7 +117,6 @@ class CategoryBUS {
       await Database().updateCategoryListFromFirestore();
     } catch (e) {
       // If an error occurs, catch it and show an error toast
-      throw Exception("An error occurred - Category: ${e.toString()}");
-    }
+      throw Exception("An error occurred - Category: ${e.toString()}");    
   }
 }

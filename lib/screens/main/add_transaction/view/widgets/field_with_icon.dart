@@ -16,6 +16,7 @@ class FieldWithIcon extends StatelessWidget {
   final double fontSize;
   final FontWeight fontWeight;
   final Function(String)? onSubmitted;
+  final Function(String)? onChange;
   final TextEditingController controller;
 
   const FieldWithIcon({
@@ -34,6 +35,7 @@ class FieldWithIcon extends StatelessWidget {
     this.fontSize = 20,
     this.fontWeight = FontWeight.normal,
     this.onSubmitted,
+    this.onChange,
     required this.controller,
   });
 
@@ -48,6 +50,7 @@ class FieldWithIcon extends StatelessWidget {
       textAlignVertical: TextAlignVertical.center,
       onTap: onTap,
       onFieldSubmitted: onSubmitted,
+      onChanged: onChange,
       controller: controller,
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(

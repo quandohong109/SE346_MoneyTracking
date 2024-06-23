@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:money_tracking/data/firebase/firebase.dart';
 import 'package:money_tracking/functions/converter.dart';
 import 'package:money_tracking/objects/models/category_model.dart';
@@ -31,6 +30,14 @@ class Database {
     IconType(id: 10, icon: Icons.shopping_cart),
     IconType(id: 11, icon: Icons.train),
     IconType(id: 12, icon: Icons.local_gas_station),
+    IconType(id: 13, icon: Icons.card_travel),
+    IconType(id: 14, icon: Icons.garage),
+    IconType(id: 15, icon: Icons.home_work),
+    IconType(id: 16, icon: Icons.add_box),
+    IconType(id: 17, icon: Icons.money),
+    IconType(id: 18, icon: Icons.electric_bolt),
+    IconType(id: 19, icon: Icons.water_drop),
+    IconType(id: 20, icon: Icons.local_library),
   ];
 
   List<CategoryModel> categoryList = [];
@@ -54,6 +61,7 @@ class Database {
   //     return WalletModel(
   //       id: e.id,
   //       name: e.name,
+  //       icon: iconTypeList.firstWhere((element) => element.id == e.iconID),
   //       balance: e.balance,
   //     );
   //   }).toList();
@@ -78,7 +86,8 @@ class Database {
   Future<void> updateCategoryListFromFirestore() async {
     try {
       final firestoreInstance = FirebaseFirestore.instance;
-      final QuerySnapshot querySnapshot = await firestoreInstance.collection('categories')
+      final QuerySnapshot querySnapshot = await firestoreInstance
+          .collection('categories')
           .where('userID', isEqualTo: GetData.getUID())
           .get();
       categoryList = querySnapshot.docs.map((doc) {
@@ -101,7 +110,8 @@ class Database {
   Future<void> updateWalletListFromFirestore() async {
     try {
       final firestoreInstance = FirebaseFirestore.instance;
-      final QuerySnapshot querySnapshot = await firestoreInstance.collection('wallets')
+      final QuerySnapshot querySnapshot = await firestoreInstance
+          .collection('wallets')
           .where('userID', isEqualTo: GetData.getUID())
           .get();
 
@@ -123,7 +133,8 @@ class Database {
   Future<void> updateTransactionListFromFirestore() async {
     try {
       final firestoreInstance = FirebaseFirestore.instance;
-      final QuerySnapshot querySnapshot = await firestoreInstance.collection('transactions')
+      final QuerySnapshot querySnapshot = await firestoreInstance
+          .collection('transactions')
           .where('userID', isEqualTo: GetData.getUID())
           .get();
 

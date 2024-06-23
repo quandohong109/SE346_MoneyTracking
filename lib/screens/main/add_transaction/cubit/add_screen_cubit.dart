@@ -5,6 +5,7 @@ import 'package:money_tracking/data/database/database.dart';
 import 'package:money_tracking/objects/models/transaction_model.dart';
 
 import '../../../../objects/models/category_model.dart';
+import '../../../../objects/models/execute_status.dart';
 
 part 'add_screen_state.dart';
 
@@ -33,8 +34,7 @@ class AddScreenCubit extends Cubit<AddScreenState> {
   }
 
   void updateCategoryList() {
-    List<CategoryModel> categoryList = Database().categoryList;
-    emit(state.copyWith(categoryList: categoryList));
+    emit(state.copyWith(categoryList: Database().categoryList));
   }
 
   void addTransaction() {
