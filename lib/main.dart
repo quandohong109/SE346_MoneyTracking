@@ -13,7 +13,7 @@ void main() async {
   try {
     await Firebase.initializeApp(
 
-      name: 'money-tracking',
+      // name: 'money-tracking',
 
       options: const FirebaseOptions(
         apiKey: 'AIzaSyDVcTj2WN5ZcDrSXb-hQztCM1EzdEnmLZM',
