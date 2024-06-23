@@ -25,7 +25,7 @@ class Firebase {
         green: 111,
         blue: 111,
         opacity: 70,
-        userID: "abc"),
+        userID: GetData.getUID()),
     CategoryDTO(
         id: 2,
         name: "Category 2",
@@ -35,7 +35,7 @@ class Firebase {
         green: 202,
         blue: 111,
         opacity: 90,
-        userID: "abc"),
+        userID: GetData.getUID()),
     CategoryDTO(
         id: 3,
         name: "Category 3",
@@ -45,7 +45,7 @@ class Firebase {
         green: 111,
         blue: 202,
         opacity: 70,
-        userID: "abc"),
+        userID: GetData.getUID()),
     CategoryDTO(
         id: 4,
         name: "Category 4",
@@ -55,7 +55,7 @@ class Firebase {
         green: 111,
         blue: 111,
         opacity: 30,
-        userID: "abc"),
+        userID: GetData.getUID()),
     CategoryDTO(
         id: 5,
         name: "Category 5",
@@ -65,7 +65,7 @@ class Firebase {
         green: 131,
         blue: 111,
         opacity: 53,
-        userID: "abc"),
+        userID: GetData.getUID()),
     CategoryDTO(
         id: 6,
         name: "Category 6",
@@ -75,7 +75,7 @@ class Firebase {
         green: 111,
         blue: 150,
         opacity: 70,
-        userID: "abc"),
+        userID: GetData.getUID()),
     CategoryDTO(
         id: 7,
         name: "Category 7",
@@ -85,7 +85,7 @@ class Firebase {
         green: 111,
         blue: 111,
         opacity: 60,
-        userID: "abc"),
+        userID: GetData.getUID()),
     CategoryDTO(
         id: 8,
         name: "Category 8",
@@ -95,7 +95,7 @@ class Firebase {
         green: 111,
         blue: 111,
         opacity: 1000,
-        userID: "abc")
+        userID: GetData.getUID())
   ];
 
   List<WalletDTO> walletList = [

@@ -9,13 +9,18 @@ import '../firebase/firebase.dart';
 import '../../functions/getdata.dart';
 
 class CategoryBUS {
-  static void addCategoryToFirestore(CategoryModel category) {
-    FirebaseFirestore.instance.collection('categories').orderBy('id', descending: true).limit(1).get().then((snapshot) {
-      int maxId = snapshot.docs.first.data()['id'];
-      int newId = maxId + 1;
+  static Future<void> addCategoryToFirestore(CategoryModel category) async {
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('categories').orderBy('id', descending: true).limit(1).get();
+      int newId = 1; // Default value
+      if (snapshot.docs.isNotEmpty) {
+        var data = snapshot.docs.first.data() as Map<String, dynamic>;
+        int maxId = data['id'];
+        newId = maxId + 1;
+      }
 
       // Now use newId for the new category
-      FirebaseFirestore.instance.collection('categories').add({
+      await FirebaseFirestore.instance.collection('categories').add({
         'id': newId,
         'name': category.name,
         'iconID': category.iconType.id,
@@ -25,23 +30,27 @@ class CategoryBUS {
         'blue': category.color.blue,
         'opacity': category.color.opacity,
         'userID': GetData.getUID(),
-      }).then((_) {
-        // Show success toast
-        Fluttertoast.showToast(
-            msg: "Category added successfully",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
       });
-      Database().updateCategoryListFromFirestore();
-    });
+
+      // Show success toast
+      // Fluttertoast.showToast(
+      //     msg: "Category added successfully",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     timeInSecForIosWeb: 1,
+      //     backgroundColor: Colors.green,
+      //     textColor: Colors.white,
+      //     fontSize: 16.0
+      // );
+
+      await Database().updateCategoryListFromFirestore();
+    } catch (e) {
+      // If an error occurs, catch it and show an error toast
+      throw Exception("An error occurred - Category: ${e.toString()}");
+    }
   }
 
-  static void addCategory(CategoryModel category) {
+  static Future<void> addCategory(CategoryModel category) async {
     Firebase().categoryList.add(
       CategoryDTO(
         id: category.id,
@@ -55,31 +64,32 @@ class CategoryBUS {
         userID: GetData.getUID(),
       ),
     );
-    addCategoryToFirestore(category);
-    // Database().updateCategoryList();
-    // Database().updateCategoryListFromFirestore();
+    await addCategoryToFirestore(category);
+    // await Database().updateCategoryList();
+    // await Database().updateCategoryListFromFirestore();
   }
 
-  static void deleteCategoryFromFirestore(int categoryId) {
-    FirebaseFirestore.instance.collection('categories')
-        .where('id', isEqualTo: categoryId)
-        .get()
-        .then((querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        doc.reference.delete();
-      });
-    }).then((_) {
-    // FirebaseFirestore.instance.collection('categories').doc(categoryId.toString()).delete().then((_) {
-      Fluttertoast.showToast(
-          msg: "Category deleted successfully!",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-    });
-    Database().updateCategoryListFromFirestore();
+  static Future<void> deleteCategoryFromFirestore(int categoryId) async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('categories')
+          .where('id', isEqualTo: categoryId)
+          .get();
+      for (var doc in querySnapshot.docs) {
+        await doc.reference.delete();
+      }
+      // Fluttertoast.showToast(
+      //     msg: "Category deleted successfully!",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     timeInSecForIosWeb: 1,
+      //     backgroundColor: Colors.red,
+      //     textColor: Colors.white,
+      //     fontSize: 16.0
+      // );
+      await Database().updateCategoryListFromFirestore();
+    } catch (e) {
+      // If an error occurs, catch it and show an error toast
+      throw Exception("An error occurred - Category: ${e.toString()}");
+    }
   }
 }
