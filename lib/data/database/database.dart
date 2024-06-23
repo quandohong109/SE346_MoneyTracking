@@ -30,6 +30,14 @@ class Database {
     IconType(id: 10, icon: Icons.shopping_cart),
     IconType(id: 11, icon: Icons.train),
     IconType(id: 12, icon: Icons.local_gas_station),
+    IconType(id: 13, icon: Icons.card_travel),
+    IconType(id: 14, icon: Icons.garage),
+    IconType(id: 15, icon: Icons.home_work),
+    IconType(id: 16, icon: Icons.add_box),
+    IconType(id: 17, icon: Icons.money),
+    IconType(id: 18, icon: Icons.electric_bolt),
+    IconType(id: 19, icon: Icons.water_drop),
+    IconType(id: 20, icon: Icons.local_library),
   ];
 
   List<CategoryModel> categoryList = [];

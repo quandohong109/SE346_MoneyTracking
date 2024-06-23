@@ -27,28 +27,29 @@ class CategoryListContainer extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         color: containerColor,
         child: const Center(child: Text("There is no category yet.")))
-        : ConstrainedBox(
-      constraints: const BoxConstraints(maxHeight: 300.0),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(15.0)
-          ),
+        : Container(
+      constraints: const BoxConstraints(maxHeight: 360.0, minHeight: 0.0),
+      width: MediaQuery.of(context).size.width,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(15.0)
         ),
-        child: Padding(
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.separated(
+          shrinkWrap: true,
           padding: const EdgeInsets.all(8.0),
-          child: ListView(
-            padding: const EdgeInsets.all(8.0),
-            children: categories.map((category) {
-              return CategoryWidget(
-                category: category,
-                onTap: () => onCategoryTap(category),
-                onEdit: () => onEditTap(),
-              );
-            }).toList(),
-          ),
+          itemCount: categories.length,
+          separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10), // This is the separator
+          itemBuilder: (BuildContext context, int index) {
+            return CategoryWidget(
+              category: categories[index],
+              onTap: () => onCategoryTap(categories[index]),
+              onEdit: () => onEditTap(),
+            );
+          },
         ),
       ),
     )

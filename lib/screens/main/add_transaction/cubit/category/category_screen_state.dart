@@ -15,7 +15,7 @@ class CategoryScreenState with EquatableMixin {
     required this.iconSelected,
     this.categoryColor = Colors.white,
     this.isIncome = false,
-    this.status = ExecuteStatus.fail,
+    this.status = ExecuteStatus.waiting,
     this.hasChange = false,
     this.name = '',
     this.errorName = '',
