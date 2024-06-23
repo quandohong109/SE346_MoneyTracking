@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'data/database/database.dart';
 import 'screens/login/login_screen.dart';
 import 'screens/login/signup_screen.dart'; // Assuming you have a SignUpScreen
 import 'screens/home/views/profile_screen.dart';
