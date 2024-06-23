@@ -2,6 +2,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:money_tracking/screens/home/views/widgets/wallets_widget.dart';
+import '../cubit/wallets/wallets_cubit.dart';
 import 'profile_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -100,18 +103,10 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width / 2,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Theme.of(context).colorScheme.primary,
-                          Theme.of(context).colorScheme.secondary,
-                        ],
-                        transform: const GradientRotation(pi / 4),
-                      ),
-                      borderRadius: BorderRadius.circular(25),
+                  Expanded(
+                    child: BlocProvider(
+                      create: (context) => WalletBloc(),
+                      child: WalletsWidget(),
                     ),
                   ),
                 ],

@@ -57,44 +57,47 @@ class WalletBUS {
   //   });
   // }
 
-  static void addWalletToFirestore(WalletModel wallet) {
-    FirebaseFirestore.instance.collection('wallets').orderBy('id', descending: true).limit(1).get().then((snapshot) {
-      int maxId = snapshot.docs.first.data()['id'];
+  static Future<void> addWalletToFirestore(WalletModel wallet) async {
+    try {
+      var snapshot = await FirebaseFirestore.instance.collection('wallets').orderBy('id', descending: true).limit(1).get();
+      var data = snapshot.docs.first.data();
+      int maxId = data['id'];
       int newId = maxId + 1;
 
       // Now use newId for the new wallet
-      FirebaseFirestore.instance.collection('wallets').add({
+      await FirebaseFirestore.instance.collection('wallets').add({
         'id': newId,
         'name': wallet.name,
-        'iconID': wallet.icon.id,
         'balance': wallet.balance.toString(),
         'userID': GetData.getUID(),
-      }).then((_) {
-        // Show success toast
-        Fluttertoast.showToast(
-            msg: "Wallet added successfully",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
       });
-      Database().updateWalletListFromFirestore();
-    });
+
+      // Show success toast
+      // Fluttertoast.showToast(
+      //     msg: "Wallet added successfully",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     timeInSecForIosWeb: 1,
+      //     backgroundColor: Colors.green,
+      //     textColor: Colors.white,
+      //     fontSize: 16.0
+      // );
+
+      await Database().updateWalletListFromFirestore();
+    } catch (e) {
+      // If an error occurs, catch it and show an error toast
+      throw Exception("An error occurred - Wallet: ${e.toString()}");
+    }
   }
 
-  static void deleteWalletFromFirestore(int walletId) {
-    FirebaseFirestore.instance.collection('wallets')
-        .where('id', isEqualTo: walletId)
-        .get()
-        .then((querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        doc.reference.delete();
-      });
-    }).then((_) {
-      // FirebaseFirestore.instance.collection('wallets').doc(walletId).delete().then((_) { // ID is wallet's document ID
+  static Future<void> deleteWalletFromFirestore(int walletId) async {
+    try {
+      var querySnapshot = await FirebaseFirestore.instance.collection('wallets')
+          .where('id', isEqualTo: walletId)
+          .get();
+      for (var doc in querySnapshot.docs) {
+        await doc.reference.delete();
+      }
       Fluttertoast.showToast(
           msg: "Wallet deleted successfully!",
           toastLength: Toast.LENGTH_SHORT,
@@ -104,7 +107,10 @@ class WalletBUS {
           textColor: Colors.white,
           fontSize: 16.0
       );
-    });
-    Database().updateWalletListFromFirestore();
+      await Database().updateWalletListFromFirestore();
+    } catch (e) {
+      // If an error occurs, catch it and show an error toast
+      throw Exception("An error occurred - Wallet: ${e.toString()}");
+    }
   }
 }
