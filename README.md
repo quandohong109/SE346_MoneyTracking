@@ -1,4 +1,4 @@
-<h1 align="center" id="title">Money Tracking - Mobile Expense Management App"</h1>
+<h1 align="center" id="title">Money Tracking - Mobile Expense Management App</h1>
 
 <p align="center"><img src="https://socialify.git.ci/quandohong109/SE346_MoneyTracking/image?font=Source%20Code%20Pro&amp;logo=https%3A%2F%2Fi.postimg.cc%2FWb396tQC%2Fplay-store-512.png&amp;name=1&amp;pattern=Overlapping%20Hexagons&amp;theme=Auto" alt="project-image"></p>
 
