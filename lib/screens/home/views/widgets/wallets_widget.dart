@@ -33,7 +33,7 @@ class _WalletsWidgetState extends State<WalletsWidget> {
       children: [
         _buildTotalBalanceHeader(totalBalance), // Widget header hiển thị tổng số dư
         SizedBox(
-          height: 210, // Chiều cao cố định của ListView
+          height: 150, // Chiều cao cố định của ListView
           child: ListView(
             children: wallets.map((wallet) => ListTile(
               title: Text(
