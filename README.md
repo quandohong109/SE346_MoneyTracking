@@ -8,6 +8,14 @@
 
 <p align="center"><img src="https://img.shields.io/badge/Flutter-02569B?logo=flutter&amp;logoColor=fff&amp;style=flat" alt="shields"><img src="https://img.shields.io/badge/Dart-0175C2?logo=dart&amp;logoColor=fff&amp;style=flat" alt="shields"><img src="https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&amp;logoColor=000&amp;style=flat" alt="shields"><img src="https://img.shields.io/badge/Figma-F24E1E?logo=figma&amp;logoColor=fff&amp;style=flat" alt="shields"><img src="https://img.shields.io/badge/Android%20Studio-3DDC84?logo=androidstudio&amp;logoColor=fff&amp;style=flat" alt="shields"></p>
   
+<h2>👨‍💻👩‍💻 Creators </h2>
+
+The application is created by:
+*  Quan, Do Hong       - 22521175.
+*  Tien, To Vinh       - 22521474.
+*  Tri, Vu Hoang Trong - 22521529.
+*  Yen, Tran Thi Kim   - 22521717.
+
 <h2>🧐 Features</h2>
 
 Here are some of the project's best features:
