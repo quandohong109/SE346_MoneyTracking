@@ -10,7 +10,7 @@
   
 <h2>👨‍💻👩‍💻 Creators </h2>
 
-The application is created by:
+The project is constructed by:
 *  Quan, Do Hong       - 22521175.
 *  Tien, To Vinh       - 22521474.
 *  Tri, Vu Hoang Trong - 22521529.
