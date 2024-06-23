@@ -21,10 +21,10 @@ Here are some of the project's best features:
 
 Technologies used in the project:
 
-*   Flutter & Dart (for a smooth and native mobile experience)
-*   Firebase (for secure user authentication and data storage)
-*   Figma (for designing a beautiful and user-friendly interface)
-*   Android Studio (for development)
+*   Flutter & Dart (for a smooth and native mobile experience).
+*   Firebase (for secure user authentication and data storage).
+*   Figma (for designing a beautiful and user-friendly interface).
+*   Android Studio (for development).
   
 <h2>🛡️ License:</h2>
 
