@@ -133,9 +133,8 @@ class _AddScreen extends State<AddScreen> {
                                         MaterialPageRoute<void>(
                                           builder: (BuildContext context) => CategoryScreen.newInstance(),
                                         )
-                                    ).then((_) {
-                                      cubit.updateCategoryList();
-                                    });
+                                    );
+                                    cubit.updateCategoryList();
                                   },
                                 ),
 
@@ -143,8 +142,10 @@ class _AddScreen extends State<AddScreen> {
                                   isExpanded: state.isExpanded,
                                   categories: state.categoryList,
                                   onCategoryTap: (CategoryModel category) {
+                                    cubit.updateCategory(category);
                                     cubit.updateIsExpanded(false);
                                   },
+                                  onEditTap: () => cubit.updateCategoryList(),
                                 )
                               ],
                             );

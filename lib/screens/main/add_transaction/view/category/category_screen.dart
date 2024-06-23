@@ -15,13 +15,13 @@ class CategoryScreen extends StatefulWidget {
 
   static Widget newInstance() =>
       BlocProvider(
-        create: (context) => CategoryScreenDialogCubit(),
+        create: (context) => CategoryScreenCubit(),
         child: const CategoryScreen(),
       );
 
   static Widget newInstanceWithCategory({required CategoryModel category}) =>
       BlocProvider(
-        create: (context) => CategoryScreenDialogCubit(category: category),
+        create: (context) => CategoryScreenCubit(category: category),
         child: const CategoryScreen(),
       );
 
@@ -30,13 +30,13 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreen extends State<CategoryScreen> {
-  CategoryScreenDialogCubit get cubit => context.read<CategoryScreenDialogCubit>();
+  CategoryScreenCubit get cubit => context.read<CategoryScreenCubit>();
 
   TextEditingController nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CategoryScreenDialogCubit, CategoryScreenDialogState>(
+    return BlocListener<CategoryScreenCubit, CategoryScreenState>(
       listenWhen: (previous, current) =>
       previous.status != current.status && current.status == ExecuteStatus.fail,
       listener: (context, state) {
@@ -58,7 +58,7 @@ class _CategoryScreen extends State<CategoryScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                BlocBuilder<CategoryScreenDialogCubit, CategoryScreenDialogState>(
+                BlocBuilder<CategoryScreenCubit, CategoryScreenState>(
                   builder: (context, state) {
                     return Text(
                       state.isEdit ? 'Edit' : 'New category',
@@ -72,8 +72,8 @@ class _CategoryScreen extends State<CategoryScreen> {
                 ),
                 Expanded(
                   child: SingleChildScrollView(
-                    child: BlocBuilder<CategoryScreenDialogCubit,
-                        CategoryScreenDialogState>(builder: (context, state) {
+                    child: BlocBuilder<CategoryScreenCubit,
+                        CategoryScreenState>(builder: (context, state) {
                       if (state.name.isNotEmpty) {
                         nameController.text = state.name;
                       }
@@ -181,7 +181,7 @@ class _CategoryScreen extends State<CategoryScreen> {
                   height: 12,
                 ),
 
-                BlocBuilder<CategoryScreenDialogCubit, CategoryScreenDialogState>(
+                BlocBuilder<CategoryScreenCubit, CategoryScreenState>(
                   builder: (context, state) {
                     return Row(
                       children: [
@@ -191,21 +191,17 @@ class _CategoryScreen extends State<CategoryScreen> {
                             onTap: () async {
                               if (state.hasChange) {
                                 if (state.isEdit) {
-                                  await cubit.updateCategory().then((_) =>
-                                  {
-                                    if (state.status == ExecuteStatus.success) {
-                                      Navigator.of(context).pop()
-                                    },
-                                    cubit.updateStatus()
-                                  });
+                                  await cubit.updateCategory();
+                                  if (cubit.state.status == ExecuteStatus.success) {
+                                    Navigator.of(context).pop();
+                                  }
+                                  cubit.updateStatus();
                                 } else {
-                                  await cubit.addCategory().then((_) =>
-                                  {
-                                    if (state.status == ExecuteStatus.success) {
-                                      Navigator.of(context).pop()
-                                    },
-                                    cubit.updateStatus()
-                                  });
+                                  await cubit.addCategory();
+                                  if (cubit.state.status == ExecuteStatus.success) {
+                                    Navigator.of(context).pop();
+                                  }
+                                  cubit.updateStatus();
                                 }
                               }
                             },
@@ -226,13 +222,11 @@ class _CategoryScreen extends State<CategoryScreen> {
                             child: StandardButton(
                               height: kToolbarHeight,
                               onTap: () async {
-                                await cubit.deleteCategory().then((_) =>
-                                {
-                                  if (state.status == ExecuteStatus.success) {
-                                    Navigator.of(context).pop()
-                                  },
-                                  cubit.updateStatus()
-                                });
+                                await cubit.deleteCategory();
+                                if (cubit.state.status == ExecuteStatus.success) {
+                                  Navigator.of(context).pop();
+                                }
+                                cubit.updateStatus();
                               },
                               text: 'Delete',
                               backgroundColor: Colors.red,

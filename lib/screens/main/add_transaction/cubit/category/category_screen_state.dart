@@ -1,6 +1,6 @@
 part of 'category_screen_cubit.dart';
 
-class CategoryScreenDialogState with EquatableMixin {
+class CategoryScreenState with EquatableMixin {
   final bool isExpanded;
   final IconType iconSelected;
   final Color categoryColor;
@@ -11,7 +11,7 @@ class CategoryScreenDialogState with EquatableMixin {
   final bool isEdit;
   final bool hasChange;
 
-  const CategoryScreenDialogState({this.isExpanded = false,
+  const CategoryScreenState({this.isExpanded = false,
     required this.iconSelected,
     this.categoryColor = Colors.white,
     this.isIncome = false,
@@ -35,7 +35,7 @@ class CategoryScreenDialogState with EquatableMixin {
         hasChange
       ];
 
-  CategoryScreenDialogState copyWith({
+  CategoryScreenState copyWith({
     bool? isExpanded,
     IconType? iconSelected,
     Color? categoryColor,
@@ -46,7 +46,7 @@ class CategoryScreenDialogState with EquatableMixin {
     String? errorName,
     String? name
   }) {
-    return CategoryScreenDialogState(
+    return CategoryScreenState(
         isExpanded: isExpanded ?? this.isExpanded,
         iconSelected: iconSelected ?? this.iconSelected,
         categoryColor: categoryColor ?? this.categoryColor,

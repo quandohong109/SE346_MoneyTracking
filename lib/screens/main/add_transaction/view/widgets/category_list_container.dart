@@ -7,6 +7,7 @@ class CategoryListContainer extends StatelessWidget {
   final Color containerColor;
   final List<CategoryModel> categories;
   final Function(CategoryModel) onCategoryTap;
+  final VoidCallback onEditTap;
 
   const CategoryListContainer({
     super.key,
@@ -14,6 +15,7 @@ class CategoryListContainer extends StatelessWidget {
     this.containerColor = Colors.white,
     required this.categories,
     required this.onCategoryTap,
+    required this.onEditTap
   });
 
   @override
@@ -43,6 +45,7 @@ class CategoryListContainer extends StatelessWidget {
               return CategoryWidget(
                 category: category,
                 onTap: () => onCategoryTap(category),
+                onEdit: () => onEditTap(),
               );
             }).toList(),
           ),

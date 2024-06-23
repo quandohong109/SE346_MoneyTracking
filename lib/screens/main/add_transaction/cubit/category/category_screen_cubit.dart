@@ -9,12 +9,12 @@ import '../../../../../objects/models/category_model.dart';
 
 part 'category_screen_state.dart';
 
-class CategoryScreenDialogCubit extends Cubit<CategoryScreenDialogState> {
+class CategoryScreenCubit extends Cubit<CategoryScreenState> {
   final int? categoryId;
 
-  CategoryScreenDialogCubit({CategoryModel? category})
+  CategoryScreenCubit({CategoryModel? category})
       : categoryId = category?.id,
-        super(CategoryScreenDialogState(
+        super(CategoryScreenState(
           isEdit: category != null ? true : false,
           name: category?.name ?? '',
           iconSelected: category?.iconType ??
@@ -71,9 +71,8 @@ class CategoryScreenDialogCubit extends Cubit<CategoryScreenDialogState> {
             color: state.categoryColor,
             isIncome: state.isIncome,
           ),
-        ).then((_) {
-          emit(state.copyWith(status: ExecuteStatus.success, errorName: ''));
-        });
+        );
+        emit(state.copyWith(status: ExecuteStatus.success, errorName: ''));
       } catch (e) {
         emit(state.copyWith(status: ExecuteStatus.fail, errorName: e.toString()));
       }
@@ -91,9 +90,8 @@ class CategoryScreenDialogCubit extends Cubit<CategoryScreenDialogState> {
               color: state.categoryColor,
               isIncome: state.isIncome,
             )
-        ).then((_) {
-          emit(state.copyWith(status: ExecuteStatus.success, errorName: ''));
-        });
+        );
+        emit(state.copyWith(status: ExecuteStatus.success, errorName: ''));
       } catch (e) {
         emit(state.copyWith(status: ExecuteStatus.fail, errorName: e.toString()));
       }
@@ -102,9 +100,8 @@ class CategoryScreenDialogCubit extends Cubit<CategoryScreenDialogState> {
 
   Future<void> deleteCategory() async {
     try {
-      await CategoryBUS.deleteCategoryFromFirestore(categoryId!).then((_) {
-        emit(state.copyWith(status: ExecuteStatus.success, errorName: ''));
-      });
+      await CategoryBUS.deleteCategoryFromFirestore(categoryId!);
+      emit(state.copyWith(status: ExecuteStatus.success, errorName: ''));
     } catch (e) {
       emit(state.copyWith(status: ExecuteStatus.fail, errorName: e.toString()));
     }
