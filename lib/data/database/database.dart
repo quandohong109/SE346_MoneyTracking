@@ -75,22 +75,28 @@ class Database {
   //   }).toList();
   // }
 
-  void updateCategoryListFromFirestore() async {
-    final firestoreInstance = FirebaseFirestore.instance;
-    final QuerySnapshot querySnapshot = await firestoreInstance.collection('categories')
-        .where('userID', isEqualTo: GetData.getUID())
-        .get();
-    categoryList = querySnapshot.docs.map((doc) {
-      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-      return CategoryModel(
-        id: data['id'],
-        name: data['name'],
-        iconType: iconTypeList.firstWhere((element) => element.id == data['iconID']),
-        isIncome: data['isIncome'],
-        color: Color.fromRGBO(data['red'], data['green'], data['blue'], data['opacity']),
-      );
-    }).toList();
-    print(categoryList);
+  Future<void> updateCategoryListFromFirestore() async {
+    try {
+      final firestoreInstance = FirebaseFirestore.instance;
+      final QuerySnapshot querySnapshot = await firestoreInstance
+          .collection('categories')
+          .where('userID', isEqualTo: GetData.getUID())
+          .get();
+      categoryList = querySnapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        return CategoryModel(
+          id: data['id'],
+          name: data['name'],
+          iconType: iconTypeList
+              .firstWhere((element) => element.id == data['iconID']),
+          isIncome: data['isIncome'],
+          color: Color.fromRGBO(
+              data['red'], data['green'], data['blue'], data['opacity']),
+        );
+      }).toList();
+    } on Exception {
+      rethrow;
+    }
   }
 
   void updateWalletListFromFirestore() async {

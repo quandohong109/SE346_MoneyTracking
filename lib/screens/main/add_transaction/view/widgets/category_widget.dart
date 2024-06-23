@@ -1,7 +1,7 @@
+import 'package:money_tracking/screens/main/add_transaction/view/category/category_screen.dart';
+
 import '../../../../../objects/models/category_model.dart';
 import 'package:flutter/material.dart';
-
-import '../category/edit_category_screen.dart';
 
 class CategoryWidget extends StatelessWidget {
   final CategoryModel category;
@@ -22,9 +22,10 @@ class CategoryWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: category.color,
           borderRadius: BorderRadius.circular(12),
+
           border: Border.all(
-            color: Theme.of(context).colorScheme.primary,
-            width: 2,
+            color: Colors.black,
+            width: 1,
           ),
         ),
         child: Row(
@@ -48,7 +49,8 @@ class CategoryWidget extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) => EditCategoryScreen.newInstance(category),
+                      builder: (BuildContext context) =>
+                          CategoryScreen.newInstanceWithCategory(category: category)
                   ),
                 );
               },

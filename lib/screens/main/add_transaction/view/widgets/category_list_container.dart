@@ -18,30 +18,31 @@ class CategoryListContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return isExpanded ? ConstrainedBox(
+    return isExpanded ?
+    categories.isEmpty
+        ? Container(
+        height: 100,
+        width: MediaQuery.of(context).size.width,
+        color: containerColor,
+        child: const Center(child: Text("There is no category yet.")))
+        : ConstrainedBox(
       constraints: const BoxConstraints(maxHeight: 300.0),
       child: Container(
         width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          color: containerColor,
-          borderRadius: const BorderRadius.vertical(
-            bottom: Radius.circular(12),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(15.0)
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: categories.isEmpty
-              ? const Center(child: Text("There is no category yet."))
-              : Wrap(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView(
+            padding: const EdgeInsets.all(8.0),
             children: categories.map((category) {
-              return Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 10,
-                ),
-                child: CategoryWidget(
-                  category: category,
-                  onTap: () => onCategoryTap(category),
-                ),
+              return CategoryWidget(
+                category: category,
+                onTap: () => onCategoryTap(category),
               );
             }).toList(),
           ),

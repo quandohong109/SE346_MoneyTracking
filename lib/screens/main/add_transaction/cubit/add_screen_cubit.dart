@@ -33,8 +33,7 @@ class AddScreenCubit extends Cubit<AddScreenState> {
   }
 
   void updateCategoryList() {
-    List<CategoryModel> categoryList = Database().categoryList;
-    emit(state.copyWith(categoryList: categoryList));
+    emit(state.copyWith(categoryList: Database().categoryList));
   }
 
   void addTransaction() {
