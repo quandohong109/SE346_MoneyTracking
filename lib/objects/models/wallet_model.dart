@@ -4,13 +4,11 @@ import 'package:money_tracking/objects/models/icon_type.dart';
 class WalletModel {
   final int id;
   final String name;
-  final IconType icon;
   final BigInt balance;
 
   WalletModel({
     required this.id,
     required this.name,
-    required this.icon,
     required this.balance,
   });
 
@@ -24,6 +22,6 @@ class WalletModel {
 
   @override
   String toString() {
-    return 'WalletModel{id: $id, name: $name, icon: $icon, balance: $balance}';
+    return 'WalletModel{id: $id, name: $name, balance: $balance}';
   }
 }

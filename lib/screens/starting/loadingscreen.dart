@@ -52,7 +52,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
               SizedBox(height: 20),
               Text(
-                'Money Management', // Change the text here
+                'Money Tracking', // Change the text here
                 style: TextStyle(
                   fontSize: 30, // Increase the font size here
                   color: Colors.white, // You can change the color if needed

@@ -24,7 +24,7 @@ void main() async {
     );
     Database().updateCategoryListFromFirestore();
     // Database().updateWalletListFromFirestore();
-    Database().updateWalletList();
+    Database().updateWalletListFromFirestore();
     Database().updateTransactionListFromFirestore();
     runApp(const MyApp());
   } catch (e) {
@@ -91,7 +91,6 @@ class AuthWrapper extends StatelessWidget {
   }
 }
 
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -101,31 +100,47 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Home'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/login');
-              },
-              child: const Text('Login'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/sign-up');
-              },
-              child: const Text('Sign Up'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/profile');
-              },
-              child: const Text('Profile'),
-            ),
-          ],
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue, Colors.lightBlueAccent],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              // Add your app icon here
+              Image.asset(
+                'assets/app_icon.png', // Make sure the icon is in the assets folder
+                height: 100,
+                width: 100,
+              ),
+              const SizedBox(height: 50),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/login');
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(200, 60), // Set the width and height
+                ),
+                child: const Text('Login', style: TextStyle(fontSize: 20)), // Increase font size
+              ),
+              const SizedBox(height: 50),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/sign-up');
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(200, 60), // Set the width and height
+                ),
+                child: const Text('Sign Up', style: TextStyle(fontSize: 20)), // Increase font size
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );

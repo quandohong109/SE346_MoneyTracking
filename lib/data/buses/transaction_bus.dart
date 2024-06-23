@@ -10,13 +10,15 @@ import '../firebase/firebase.dart';
 import '../../functions/getdata.dart';
 
 class TransactionBUS {
-  static void addTransactionToFirestore(TransactionModel transaction) {
-    FirebaseFirestore.instance.collection('transactions').orderBy('id', descending: true).limit(1).get().then((snapshot) {
-      int maxId = snapshot.docs.first.data()['id'];
+  static Future<void> addTransactionToFirestore(TransactionModel transaction) async {
+    try {
+      var snapshot = await FirebaseFirestore.instance.collection('transactions').orderBy('id', descending: true).limit(1).get();
+      var data = snapshot.docs.first.data() as Map<String, dynamic>;
+      int maxId = data['id'];
       int newId = maxId + 1;
 
       // Now use newId for the new transaction
-      FirebaseFirestore.instance.collection('transactions').add({
+      await FirebaseFirestore.instance.collection('transactions').add({
         'id': newId,
         'categoryID': transaction.category.id,
         'walletID': transaction.wallet.id,
@@ -24,20 +26,24 @@ class TransactionBUS {
         'date': Converter.toTimestamp(transaction.date),
         'note': transaction.note,
         'userID': GetData.getUID(),
-      }).then((_) {
-        // Show success toast
-        Fluttertoast.showToast(
-            msg: "Transaction added successfully",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
       });
-      Database().updateTransactionListFromFirestore();
-    });
+
+      // Show success toast
+      // Fluttertoast.showToast(
+      //     msg: "Transaction added successfully",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     timeInSecForIosWeb: 1,
+      //     backgroundColor: Colors.green,
+      //     textColor: Colors.white,
+      //     fontSize: 16.0
+      // );
+
+      await Database().updateTransactionListFromFirestore();
+    } catch (e) {
+      // If an error occurs, catch it and show an error toast
+      throw Exception("An error occurred - Transaction: ${e.toString()}");
+    }
   }
 
   static void addTransaction(TransactionModel transaction) {
@@ -53,29 +59,29 @@ class TransactionBUS {
       ),
     );
     addTransactionToFirestore(transaction);
-
   }
 
-  static void deleteTransactionFromFirestore(int transactionId) {
-    FirebaseFirestore.instance.collection('transactions')
-        .where('id', isEqualTo: transactionId)
-        .get()
-        .then((querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        doc.reference.delete();
-      });
-    }).then((_) {
-      // FirebaseFirestore.instance.collection('wallets').doc(walletId.toString()).delete().then((_) { // ID is transaction's document ID
-      Fluttertoast.showToast(
-          msg: "Transaction deleted successfully!",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-    });
-    Database().updateTransactionListFromFirestore();
+  static Future<void> deleteTransactionFromFirestore(int transactionId) async {
+    try {
+      var querySnapshot = await FirebaseFirestore.instance.collection('transactions')
+          .where('id', isEqualTo: transactionId)
+          .get();
+      for (var doc in querySnapshot.docs) {
+        await doc.reference.delete();
+      }
+      // Fluttertoast.showToast(
+      //     msg: "Transaction deleted successfully!",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     timeInSecForIosWeb: 1,
+      //     backgroundColor: Colors.red,
+      //     textColor: Colors.white,
+      //     fontSize: 16.0
+      // );
+      await Database().updateTransactionListFromFirestore();
+    } catch (e) {
+      // If an error occurs, catch it and show an error toast
+      throw Exception("An error occurred - Transaction: ${e.toString()}");
+    }
   }
 }

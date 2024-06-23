@@ -11,15 +11,15 @@ import '../../functions/getdata.dart';
 class CategoryBUS {
   static Future<void> addCategoryToFirestore(CategoryModel category) async {
     try {
-      final categories = await FirebaseFirestore.instance
-          .collection('categories')
-          .orderBy('id', descending: true)
-          .limit(1)
-          .get();
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('categories').orderBy('id', descending: true).limit(1).get();
+      int newId = 1; // Default value
+      if (snapshot.docs.isNotEmpty) {
+        var data = snapshot.docs.first.data() as Map<String, dynamic>;
+        int maxId = data['id'];
+        newId = maxId + 1;
+      }
 
-      int maxId = categories.docs.first.data()['id'];
-      int newId = maxId + 1;
-
+      // Now use newId for the new category
       await FirebaseFirestore.instance.collection('categories').add({
         'id': newId,
         'name': category.name,
@@ -32,13 +32,25 @@ class CategoryBUS {
         'userID': GetData.getUID(),
       });
 
+      // Show success toast
+      // Fluttertoast.showToast(
+      //     msg: "Category added successfully",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     timeInSecForIosWeb: 1,
+      //     backgroundColor: Colors.green,
+      //     textColor: Colors.white,
+      //     fontSize: 16.0
+      // );
+
       await Database().updateCategoryListFromFirestore();
     } catch (e) {
-      throw Exception(e.toString());
+      // If an error occurs, catch it and show an error toast
+      throw Exception("An error occurred - Category: ${e.toString()}");
     }
   }
 
-  static void addCategory(CategoryModel category) {
+  static Future<void> addCategory(CategoryModel category) async {
     Firebase().categoryList.add(
       CategoryDTO(
         id: category.id,
@@ -52,9 +64,9 @@ class CategoryBUS {
         userID: GetData.getUID(),
       ),
     );
-    addCategoryToFirestore(category);
-    // Database().updateCategoryList();
-    // Database().updateCategoryListFromFirestore();
+    await addCategoryToFirestore(category);
+    // await Database().updateCategoryList();
+    // await Database().updateCategoryListFromFirestore();
   }
 
   static Future<void> deleteCategoryFromFirestore(int categoryId) async {
@@ -93,11 +105,18 @@ class CategoryBUS {
           });
         }
       });
-
+      // Fluttertoast.showToast(
+      //     msg: "Category deleted successfully!",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     timeInSecForIosWeb: 1,
+      //     backgroundColor: Colors.red,
+      //     textColor: Colors.white,
+      //     fontSize: 16.0
+      // );
       await Database().updateCategoryListFromFirestore();
-    }
-    catch (e) {
-      throw Exception(e.toString());
-    }
+    } catch (e) {
+      // If an error occurs, catch it and show an error toast
+      throw Exception("An error occurred - Category: ${e.toString()}");    
   }
 }
