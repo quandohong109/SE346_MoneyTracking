@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:money_tracking/functions/custom_exception.dart';
 
 import '../../objects/dtos/category_dto.dart';
 import '../../objects/models/category_model.dart';
@@ -11,6 +12,9 @@ import '../../functions/getdata.dart';
 class CategoryBUS {
   static Future<void> addCategory(CategoryModel category) async {
     try {
+      if (Database().categoryList.any((existingCategory) => existingCategory.name == category.name)) {
+        throw CustomException('Category name already exists');
+      }
       QuerySnapshot snapshot = await FirebaseFirestore.instance.collection(
           'categories').orderBy('id', descending: true).limit(1).get();
       int newId = 1; // Default value
@@ -33,13 +37,19 @@ class CategoryBUS {
         'userID': GetData.getUID(),
       });
       await Database().updateCategoryListFromFirestore();
-    } catch (e) {
-      throw Exception("An error occurred - Category: ${e.toString()}");
+    } on Exception {
+      rethrow;
     }
   }
 
   static Future<void> deleteCategory(int categoryId) async {
     try {
+      QuerySnapshot transactionSnapshot = await FirebaseFirestore.instance.collection('transactions')
+          .where('categoryId', isEqualTo: categoryId)
+          .get();
+      if (transactionSnapshot.docs.isNotEmpty) {
+        throw Exception("Category is in use");
+      }
       await FirebaseFirestore.instance.collection('categories')
           .where('id', isEqualTo: categoryId)
           .get()
@@ -49,8 +59,8 @@ class CategoryBUS {
         });
       });
       await Database().updateCategoryListFromFirestore();
-    } catch (e) {
-      throw Exception(e.toString());
+    } on Exception {
+      rethrow;
     }
   }
 
@@ -74,8 +84,8 @@ class CategoryBUS {
         }
       });
       await Database().updateCategoryListFromFirestore();
-    } catch (e) {
-      throw Exception("An error occurred - Category: ${e.toString()}");
+    } on Exception {
+      rethrow;
     }
   }
 }

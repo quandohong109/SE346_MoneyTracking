@@ -1,7 +1,6 @@
-part of 'add_screen_cubit.dart';
+part of 'modify_transaction_screen_cubit.dart';
 
-class AddScreenState with EquatableMixin {
-  final bool isExpanded;
+class ModifyTransactionScreenState with EquatableMixin {
   final BigInt? amount;
   final CategoryModel? category;
   final String note;
@@ -10,8 +9,7 @@ class AddScreenState with EquatableMixin {
   final ExecuteStatus status;
   final String errorName;
 
-  const AddScreenState({
-    this.isExpanded = false,
+  const ModifyTransactionScreenState({
     this.amount,
     this.category,
     this.note = '',
@@ -24,7 +22,6 @@ class AddScreenState with EquatableMixin {
   @override
   List<Object?> get props =>
       [
-        isExpanded,
         selectedDate,
         amount,
         category,
@@ -34,8 +31,7 @@ class AddScreenState with EquatableMixin {
         errorName
       ];
 
-  AddScreenState copyWith({
-    bool? isExpanded,
+  ModifyTransactionScreenState copyWith({
     BigInt? amount,
     CategoryModel? category,
     String? note,
@@ -44,8 +40,7 @@ class AddScreenState with EquatableMixin {
     ExecuteStatus? status,
     String? errorName
   }) {
-    return AddScreenState(
-      isExpanded: isExpanded ?? this.isExpanded,
+    return ModifyTransactionScreenState(
       amount: amount ?? this.amount,
       category: category ?? this.category,
       note: note ?? this.note,

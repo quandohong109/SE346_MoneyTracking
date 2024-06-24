@@ -1,33 +1,32 @@
 part of 'category_screen_cubit.dart';
 
 class CategoryScreenState with EquatableMixin {
-  final bool isExpanded;
   final IconType iconSelected;
   final Color categoryColor;
   final bool isIncome;
   final ExecuteStatus status;
-  final String errorName;
+  final String dialogContent;
   final String name;
   final bool isEdit;
   final bool hasChange;
 
-  const CategoryScreenState({this.isExpanded = false,
+  const CategoryScreenState({
     required this.iconSelected,
     this.categoryColor = Colors.white,
     this.isIncome = false,
     this.status = ExecuteStatus.waiting,
     this.hasChange = false,
     this.name = '',
-    this.errorName = '',
-    this.isEdit = false});
+    this.dialogContent = '',
+    this.isEdit = false
+  });
 
   @override
   List<Object?> get props =>
       [
         status,
-        errorName,
+        dialogContent,
         name,
-        isExpanded,
         iconSelected,
         categoryColor,
         isIncome,
@@ -36,23 +35,21 @@ class CategoryScreenState with EquatableMixin {
       ];
 
   CategoryScreenState copyWith({
-    bool? isExpanded,
     IconType? iconSelected,
     Color? categoryColor,
     bool? isIncome,
     ExecuteStatus? status,
     bool? isEdit,
     bool? hasChange,
-    String? errorName,
+    String? dialogContent,
     String? name
   }) {
     return CategoryScreenState(
-        isExpanded: isExpanded ?? this.isExpanded,
         iconSelected: iconSelected ?? this.iconSelected,
         categoryColor: categoryColor ?? this.categoryColor,
         isIncome: isIncome ?? this.isIncome,
         status: status ?? this.status,
-        errorName: errorName ?? this.errorName,
+        dialogContent: dialogContent ?? this.dialogContent,
         isEdit: isEdit ?? this.isEdit,
         hasChange: hasChange ?? this.hasChange,
         name: name ?? this.name);

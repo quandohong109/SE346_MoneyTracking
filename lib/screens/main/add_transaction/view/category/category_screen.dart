@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:money_tracking/functions/custom_dialog.dart';
 import 'package:money_tracking/screens/main/add_transaction/view/widgets/dropdown_icon_container.dart';
 import 'package:money_tracking/screens/main/add_transaction/view/widgets/field_with_icon.dart';
 import 'package:money_tracking/screens/main/add_transaction/view/widgets/standard_button.dart';
@@ -31,22 +32,29 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreen extends State<CategoryScreen> {
   CategoryScreenCubit get cubit => context.read<CategoryScreenCubit>();
-
   TextEditingController nameController = TextEditingController();
+  ValueNotifier<bool> isExpandedNotifier = ValueNotifier<bool>(false);
+
+  @override
+  void initState() {
+    super.initState();
+    isExpandedNotifier = ValueNotifier<bool>(false);
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<CategoryScreenCubit, CategoryScreenState>(
       listenWhen: (previous, current) =>
-      previous.status != current.status && current.status == ExecuteStatus.fail,
+      previous.status != current.status && (current.status == ExecuteStatus.fail || current.status == ExecuteStatus.success),
       listener: (context, state) {
-        showDialog(
-            context: context,
-            builder: (_) =>
-                AlertDialog(
-                  title: const Text('Error'),
-                  content: Text(state.errorName),
-                ));
+        if (state.status == ExecuteStatus.success) {
+          Navigator.of(context).pop();
+          CustomDialog.showInfoDialog(context, 'Success', state.dialogContent);
+          cubit.updateStatus();
+        } else if (state.status == ExecuteStatus.fail) {
+          CustomDialog.showInfoDialog(context, 'Error', state.dialogContent);
+          cubit.updateStatus();
+        }
       },
       child: Scaffold(
           backgroundColor: Theme.of(context).colorScheme.background,
@@ -88,10 +96,10 @@ class _CategoryScreen extends State<CategoryScreen> {
                             hintText: 'Name',
                             controller: nameController,
                             onPrefixIconPressed: () {
-                              cubit.updateIsExpanded(!state.isExpanded);
+                              isExpandedNotifier.value = !isExpandedNotifier.value;
                             },
                             border: OutlineInputBorder(
-                              borderRadius: state.isExpanded
+                              borderRadius: isExpandedNotifier.value
                                   ? const BorderRadius.vertical(
                                 top: Radius.circular(12),
                               )
@@ -103,13 +111,18 @@ class _CategoryScreen extends State<CategoryScreen> {
                               cubit.updateName(text);
                             },
                           ),
-                          DropdownIconContainer(
-                            isExpanded: state.isExpanded,
-                            selectedIcon: state.iconSelected,
-                            iconTypes: Database().iconTypeList,
-                            onIconSelected: (icon) {
-                              cubit.updateIconSelected(icon);
-                              cubit.updateIsExpanded(false);
+                          ValueListenableBuilder<bool>(
+                            valueListenable: isExpandedNotifier,
+                            builder: (context, isExpanded, child) {
+                              return DropdownIconContainer(
+                                isExpanded: isExpandedNotifier.value,
+                                selectedIcon: state.iconSelected,
+                                iconTypes: Database().iconTypeList,
+                                onIconSelected: (icon) {
+                                  cubit.updateIconSelected(icon);
+                                  isExpandedNotifier.value = false;
+                                },
+                              );
                             },
                           ),
                           const SizedBox(
@@ -191,17 +204,16 @@ class _CategoryScreen extends State<CategoryScreen> {
                             onTap: () async {
                               if (state.hasChange) {
                                 if (state.isEdit) {
-                                  await cubit.updateCategory();
-                                  if (cubit.state.status == ExecuteStatus.success) {
-                                    Navigator.of(context).pop();
-                                  }
-                                  cubit.updateStatus();
+                                  CustomDialog.showConfirmDialog(
+                                      context,
+                                      'Confirm',
+                                      'Are you sure you want to edit this category?',
+                                          () async {
+                                        await cubit.updateCategory();
+                                      }
+                                  );
                                 } else {
                                   await cubit.addCategory();
-                                  if (cubit.state.status == ExecuteStatus.success) {
-                                    Navigator.of(context).pop();
-                                  }
-                                  cubit.updateStatus();
                                 }
                               }
                             },
@@ -221,12 +233,15 @@ class _CategoryScreen extends State<CategoryScreen> {
                           Expanded(
                             child: StandardButton(
                               height: kToolbarHeight,
-                              onTap: () async {
-                                await cubit.deleteCategory();
-                                if (cubit.state.status == ExecuteStatus.success) {
-                                  Navigator.of(context).pop();
-                                }
-                                cubit.updateStatus();
+                              onTap: () {
+                                CustomDialog.showConfirmDialog(
+                                    context,
+                                    'Confirm',
+                                    'Are you sure you want to delete this category?',
+                                        () async {
+                                      await cubit.deleteCategory();
+                                    }
+                                );
                               },
                               text: 'Delete',
                               backgroundColor: Colors.red,

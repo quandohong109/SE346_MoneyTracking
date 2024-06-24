@@ -12,33 +12,35 @@ import 'package:money_tracking/screens/main/add_transaction/view/category/catego
 import 'package:money_tracking/screens/main/add_transaction/view/widgets/multi_field_with_icon.dart';
 import 'package:money_tracking/screens/main/add_transaction/view/widgets/standard_button.dart';
 import '../../../../objects/models/category_model.dart';
-import '../cubit/add_screen_cubit.dart';
+import '../cubit/modify_transaction_screen_cubit.dart';
 import 'package:intl/intl.dart';
 
-class AddScreen extends StatefulWidget {
-  const AddScreen({super.key});
+class ModifyTransactionScreen extends StatefulWidget {
+  const ModifyTransactionScreen({super.key});
 
   static Widget newInstance() =>
       BlocProvider(
-        create: (context) => AddScreenCubit(),
-        child: const AddScreen(),
+        create: (context) => ModifyTransactionScreenCubit(),
+        child: const ModifyTransactionScreen(),
       );
 
   @override
-  State<AddScreen> createState() => _AddScreen();
+  State<ModifyTransactionScreen> createState() => _ModifyTransactionScreen();
 }
 
-class _AddScreen extends State<AddScreen> {
-  AddScreenCubit get cubit => context.read<AddScreenCubit>();
+class _ModifyTransactionScreen extends State<ModifyTransactionScreen> {
+  ModifyTransactionScreenCubit get cubit => context.read<ModifyTransactionScreenCubit>();
 
   TextEditingController amountController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
   TextEditingController noteController = TextEditingController();
+  ValueNotifier<bool> isExpandedNotifier = ValueNotifier<bool>(false);
 
   @override
   void initState() {
     super.initState();
     cubit.updateCategoryList();
+    isExpandedNotifier = ValueNotifier<bool>(false);
   }
 
   @override
@@ -100,59 +102,61 @@ class _AddScreen extends State<AddScreen> {
                       ),
                       const SizedBox(height: 20,),
 
-                      BlocBuilder<AddScreenCubit, AddScreenState>(
+                      BlocBuilder<ModifyTransactionScreenCubit, ModifyTransactionScreenState>(
                           buildWhen: (previous, current) =>
                           (
-                              previous.isExpanded != current.isExpanded
-                                  || previous.category != current.category
-                                  || previous.categoryList != current.categoryList
+                              previous.category != current.category || previous.categoryList != current.categoryList
                           ),
                           builder: (context, state) {
-                            return Column(
-                              children: [
-                                CategoryField(
-                                  text: state.category?.getName() ?? '',
-                                  hintText: 'Category',
-                                  onTap: () {
-                                    cubit.updateIsExpanded(!state.isExpanded);
-                                  },
-                                  fillColor: state.category?.getColor() ?? Colors.white,
-                                  borderRadius: state.isExpanded
-                                      ? const BorderRadius.vertical(
-                                    top: Radius.circular(15),
-                                  )
-                                      : BorderRadius.circular(15.0),
-                                  prefixIcon: Icon(
-                                    state.category?.getIcon() ?? FontAwesomeIcons.list,
-                                    size: 20,
-                                    color: Colors.black,
-                                  ),
-                                  onSuffixIconPressed: () async {
-                                    await Navigator.push(
-                                        context,
-                                        MaterialPageRoute<void>(
-                                          builder: (BuildContext context) => CategoryScreen.newInstance(),
-                                        )
-                                    );
-                                    cubit.updateCategoryList();
-                                  },
-                                ),
+                            return ValueListenableBuilder(
+                              valueListenable: isExpandedNotifier,
+                              builder: (context, isExpanded, child) {
+                                return Column(
+                                  children: [
+                                    CategoryField(
+                                      text: state.category?.getName() ?? '',
+                                      hintText: 'Category',
+                                      onTap: () {
+                                        isExpandedNotifier.value = !isExpandedNotifier.value;
+                                      },
+                                      fillColor: state.category?.getColor() ?? Colors.white,
+                                      borderRadius: isExpanded
+                                          ? const BorderRadius.vertical(
+                                        top: Radius.circular(15),
+                                      )
+                                          : BorderRadius.circular(15.0),
+                                      prefixIcon: Icon(
+                                        state.category?.getIcon() ?? FontAwesomeIcons.list,
+                                        size: 20,
+                                        color: Colors.black,
+                                      ),
+                                      onSuffixIconPressed: () async {
+                                        await Navigator.push(
+                                            context,
+                                            MaterialPageRoute<void>(
+                                              builder: (BuildContext context) => CategoryScreen.newInstance(),
+                                            )
+                                        );
+                                        cubit.updateCategoryList();
+                                      },
+                                    ),
 
-                                CategoryListContainer(
-                                  isExpanded: state.isExpanded,
-                                  categories: state.categoryList,
-                                  onCategoryTap: (CategoryModel category) {
-                                    cubit.updateCategory(category);
-                                    cubit.updateIsExpanded(false);
-                                  },
-                                  onEditTap: () => cubit.updateCategoryList(),
-                                )
-                              ],
+                                    CategoryListContainer(
+                                      isExpanded: isExpanded,
+                                      categories: state.categoryList,
+                                      onCategoryTap: (CategoryModel category) {
+                                        cubit.updateCategory(category);
+                                        isExpandedNotifier.value = false;
+                                      },
+                                      onEditTap: () => cubit.updateCategoryList(),
+                                    )
+                                  ],
+                                );},
                             );
                           }),
 
                       const SizedBox(height: 20,),
-                      BlocBuilder<AddScreenCubit, AddScreenState>(
+                      BlocBuilder<ModifyTransactionScreenCubit, ModifyTransactionScreenState>(
                           buildWhen: (previous, current) =>
                           (
                               previous.selectedDate != current.selectedDate
