@@ -100,6 +100,7 @@ class Database {
           color: Color.fromRGBO(data['red'], data['green'], data['blue'], data['opacity']),
         );
       }).toList();
+      categoryList.sort((a, b) => a.name.compareTo(b.name));
       print(categoryList);
     } catch (e) {
       // If an error occurs, catch it and show an error toast
@@ -123,6 +124,7 @@ class Database {
           balance: BigInt.parse(data['balance']),
         );
       }).toList();
+      categoryList.sort((a, b) => a.name.compareTo(b.name));
       print(walletList);
     } catch (e) {
       // If an error occurs, catch it and show an error toast
@@ -153,6 +155,7 @@ class Database {
           isExpanded: false,
         );
       }).toList();
+      transactionList.sort((a, b) => b.date.compareTo(a.date));
       print(transactionList);
     } catch (e) {
       // If an error occurs, catch it and show an error toast
