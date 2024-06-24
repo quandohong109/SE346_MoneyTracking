@@ -1,12 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:money_tracking/functions/custom_exception.dart';
 
-import '../../objects/dtos/category_dto.dart';
 import '../../objects/models/category_model.dart';
 import '../database/database.dart';
-import '../firebase/firebase.dart';
 import '../../functions/getdata.dart';
 
 class CategoryBUS {
@@ -48,7 +44,7 @@ class CategoryBUS {
           .where('categoryId', isEqualTo: categoryId)
           .get();
       if (transactionSnapshot.docs.isNotEmpty) {
-        throw Exception("Category is in use");
+        throw CustomException('Category is in use');
       }
       await FirebaseFirestore.instance.collection('categories')
           .where('id', isEqualTo: categoryId)
