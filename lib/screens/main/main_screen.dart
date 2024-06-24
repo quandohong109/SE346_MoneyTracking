@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:money_tracking/screens/main/add_transaction/view/add_screen.dart';
+import 'package:money_tracking/screens/main/add_transaction/view/modify_transaction_screen.dart';
 import 'package:money_tracking/screens/transaction/views/transaction_screen.dart';
 
 import '../../data/firebase/firebase.dart';
@@ -79,7 +79,7 @@ class _MainScreenState extends State<MainScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) => AddScreen.newInstance(),
+                    builder: (BuildContext context) => ModifyTransactionScreen.newInstance(),
                   )
               );
             },

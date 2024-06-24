@@ -22,10 +22,6 @@ class CategoryScreenCubit extends Cubit<CategoryScreenState> {
           categoryColor: category?.color ?? Colors.white,
           isIncome: category?.isIncome ?? false));
 
-  void updateIsExpanded(bool isExpanded) {
-    emit(state.copyWith(isExpanded: isExpanded));
-  }
-
   void updateIconSelected(IconType iconSelected) {
     emit(state.copyWith(iconSelected: iconSelected, hasChange: true));
   }
@@ -43,18 +39,18 @@ class CategoryScreenCubit extends Cubit<CategoryScreenState> {
   }
 
   void updateStatus() {
-    emit(state.copyWith(status: ExecuteStatus.waiting, errorName: ''));
+    emit(state.copyWith(status: ExecuteStatus.waiting, dialogContent: ''));
   }
 
   bool _validate() {
-    emit(state.copyWith(status: ExecuteStatus.executing, errorName: ''));
+    emit(state.copyWith(status: ExecuteStatus.executing, dialogContent: ''));
     if (state.name.isEmpty) {
-      emit(state.copyWith(status: ExecuteStatus.fail, errorName: 'Name is empty'));
+      emit(state.copyWith(status: ExecuteStatus.fail, dialogContent: 'Name is empty'));
       return false;
     }
 
     if (state.iconSelected.id == 0) {
-      emit(state.copyWith(status: ExecuteStatus.fail, errorName: 'Choose an icon'));
+      emit(state.copyWith(status: ExecuteStatus.fail, dialogContent: 'Choose an icon'));
       return false;
     }
     return true;
@@ -72,9 +68,9 @@ class CategoryScreenCubit extends Cubit<CategoryScreenState> {
             isIncome: state.isIncome,
           ),
         );
-        emit(state.copyWith(status: ExecuteStatus.success, errorName: ''));
+        emit(state.copyWith(status: ExecuteStatus.success, dialogContent: 'Add category successfully'));
       } catch (e) {
-        emit(state.copyWith(status: ExecuteStatus.fail, errorName: e.toString()));
+        emit(state.copyWith(status: ExecuteStatus.fail, dialogContent: e.toString()));
       }
     }
   }
@@ -91,9 +87,9 @@ class CategoryScreenCubit extends Cubit<CategoryScreenState> {
               isIncome: state.isIncome,
             )
         );
-        emit(state.copyWith(status: ExecuteStatus.success, errorName: ''));
+        emit(state.copyWith(status: ExecuteStatus.success, dialogContent: 'Edit category successfully'));
       } catch (e) {
-        emit(state.copyWith(status: ExecuteStatus.fail, errorName: e.toString()));
+        emit(state.copyWith(status: ExecuteStatus.fail, dialogContent: e.toString()));
       }
     }
   }
@@ -101,9 +97,9 @@ class CategoryScreenCubit extends Cubit<CategoryScreenState> {
   Future<void> deleteCategory() async {
     try {
       await CategoryBUS.deleteCategory(categoryId!);
-      emit(state.copyWith(status: ExecuteStatus.success, errorName: ''));
+      emit(state.copyWith(status: ExecuteStatus.success, dialogContent: 'Delete category successfully'));
     } catch (e) {
-      emit(state.copyWith(status: ExecuteStatus.fail, errorName: e.toString()));
+      emit(state.copyWith(status: ExecuteStatus.fail, dialogContent: e.toString()));
     }
   }
 }
