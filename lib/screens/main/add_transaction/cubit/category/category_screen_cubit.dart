@@ -63,7 +63,7 @@ class CategoryScreenCubit extends Cubit<CategoryScreenState> {
   Future<void> addCategory() async {
     if (_validate()) {
       try {
-        await CategoryBUS.addCategoryToFirestore(
+        await CategoryBUS.addCategory(
           CategoryModel(
             id: 0,
             name: state.name,
@@ -82,7 +82,7 @@ class CategoryScreenCubit extends Cubit<CategoryScreenState> {
   Future<void> updateCategory() async {
     if (_validate()) {
       try {
-        await CategoryBUS.editCategoryInFirestore(
+        await CategoryBUS.updateCategory(
             CategoryModel(
               id: categoryId!,
               name: state.name,
@@ -100,7 +100,7 @@ class CategoryScreenCubit extends Cubit<CategoryScreenState> {
 
   Future<void> deleteCategory() async {
     try {
-      await CategoryBUS.deleteCategoryFromFirestore(categoryId!);
+      await CategoryBUS.deleteCategory(categoryId!);
       emit(state.copyWith(status: ExecuteStatus.success, errorName: ''));
     } catch (e) {
       emit(state.copyWith(status: ExecuteStatus.fail, errorName: e.toString()));
