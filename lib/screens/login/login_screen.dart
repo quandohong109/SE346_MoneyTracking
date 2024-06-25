@@ -34,6 +34,26 @@ class LoginScreen extends StatelessWidget {
     }
   }
 
+  Future<void> _sendPasswordResetEmail(BuildContext context) async {
+    try {
+      final String email = _emailController.text.trim();
+
+      await _auth.sendPasswordResetEmail(email: email);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Password reset email sent.')),
+      );
+    } catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      // Show error message to the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $error')),
+      );
+    }
+  }
+
   void _navigateToHome(BuildContext context) {
     Navigator.pushReplacementNamed(context, '/home');
   }
@@ -66,7 +86,7 @@ class LoginScreen extends StatelessWidget {
             children: <Widget>[
               // App icon placeholder
               Image.asset(
-                'assets/app_icon.png', // Replace with your actual app icon path
+                'assets/images/play_store_512.png', // Replace with your actual app icon path
                 height: 100,
                 width: 100,
               ),
@@ -85,6 +105,11 @@ class LoginScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () => _signInWithEmailPassword(context),
                 child: const Text('Login with Email/Password'),
+              ),
+              const SizedBox(height: 16.0),
+              TextButton(
+                onPressed: () => _sendPasswordResetEmail(context),
+                child: const Text('Forgot Password?'),
               ),
             ],
           ),

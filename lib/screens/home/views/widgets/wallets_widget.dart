@@ -11,6 +11,7 @@ class WalletsWidget extends StatefulWidget {
 }
 
 class _WalletsWidgetState extends State<WalletsWidget> {
+  int _selectedIndex = -1;
 
   // Hàm lấy danh sách 5 ví đầu tiên từ Firebase
   List<WalletDTO> _getWallets() {
@@ -21,7 +22,8 @@ class _WalletsWidgetState extends State<WalletsWidget> {
   // Hàm tính tổng số dư của 5 ví đầu tiên
   BigInt _getTotalBalance() {
     Firebase firebaseInstance = Firebase();
-    return firebaseInstance.walletList.fold(BigInt.zero, (prev, element) => prev + element.balance);
+    return firebaseInstance.walletList.fold(
+        BigInt.zero, (prev, element) => prev + element.balance);
   }
 
   @override
@@ -30,52 +32,69 @@ class _WalletsWidgetState extends State<WalletsWidget> {
     BigInt totalBalance = _getTotalBalance();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Wallets'),
-      ),
+
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _buildTotalBalanceHeader(totalBalance), // Widget header hiển thị tổng số dư
-          SizedBox(
-            height: 150, // Chiều cao cố định của ListView
-            child: ListView(
-              children: wallets.map((wallet) => ListTile(
-                title: Text(
-                  wallet.name,
-                  style: const TextStyle(
-                    fontStyle: FontStyle.italic,
-                  ),
-                ), // Tên ví
-                trailing: Text(
-                  NumberFormat.currency(
-                    locale: 'vi',
-                    symbol: '₫',
-                  ).format(wallet.balance.toDouble()),
-                  style: const TextStyle(
-                      fontSize: 16
-                  ),
-                ), // Số dư của ví
-                onTap: () {
-                  // Chuyển hướng đến trang khác (dummy screen)
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => DummyScreen(wallet: wallet)),
-                  );
-                },
-              )).toList(),
+          SizedBox(height: 40),
+          // Add some spacing from the top
+          Text(
+            'Wallets',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
             ),
           ),
+          SizedBox(height: 20),
+          // Add spacing between the title and content
+          _buildTotalBalanceHeader(totalBalance),
+          // Widget header hiển thị tổng số dư
+          Container(
+            color: Colors.pink, // Set the background color to pink
+            child: SizedBox(
+              height: 150, // Chiều cao cố định của ListView
+              child: ListView.builder(
+                itemCount: wallets.length,
+                itemBuilder: (context, index) {
+                  WalletDTO wallet = wallets[index];
+
+                  return Container(
+                    child: ListTile(
+                      title: Text(
+                        wallet.name,
+                        style: const TextStyle(
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ), // Tên ví
+                      trailing: Text(
+                        NumberFormat.currency(
+                          locale: 'vi',
+                          symbol: '₫',
+                        ).format(wallet.balance.toDouble()),
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
+                      ), // Số dư của ví
+                      onTap: () {
+                        setState(() {
+                          _selectedIndex = index;
+                        });
+                        // Chuyển hướng đến trang khác (dummy screen)
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) =>
+                              DummyScreen(wallet: wallet)),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          _buildAddWalletButton(),
+          // Nút thêm ví ở dưới cùng
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Chuyển hướng đến trang thêm ví mới (dummy screen)
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddWalletScreen()),
-          );
-        },
-        child: Icon(Icons.add),
       ),
     );
   }
@@ -105,9 +124,45 @@ class _WalletsWidgetState extends State<WalletsWidget> {
       ),
     );
   }
+
+  // Widget nút thêm ví ở dưới cùng
+  Widget _buildAddWalletButton() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: SizedBox(
+        width: double.infinity, // Make the button expand horizontally
+        child: OutlinedButton(
+          onPressed: () {
+            // Navigate to add wallet screen
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddWalletScreen()),
+            );
+          },
+          style: OutlinedButton.styleFrom(
+            backgroundColor: Colors.blue,
+            // Set background color directly to blue
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+            side: BorderSide(
+                color: Colors.blue), // Border color when button is enabled
+          ),
+          child: Text(
+            '+Add Wallet',
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.white, // Text color
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
-class DummyScreen extends StatelessWidget {
+  class DummyScreen extends StatelessWidget {
   final WalletDTO wallet;
 
   const DummyScreen({Key? key, required this.wallet}) : super(key: key);
@@ -130,9 +185,9 @@ class AddWalletScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Wallet'),
+        title: const Text('Add Wallet'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('This is a dummy screen for adding a new wallet'),
       ),
     );

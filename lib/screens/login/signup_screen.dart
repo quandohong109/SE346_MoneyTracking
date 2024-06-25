@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'emailverify_screen.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -39,17 +41,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
         password: password,
       );
 
-      // Save the user's name, email, and UID to Firestore
-      if (userCredential.user != null) {
-        await _firestore.collection('users').doc(userCredential.user!.uid).set({
-          'uid': userCredential.user!.uid,
-          'name': name,
-          'email': email,
-        });
+      // Send verification email
+      await userCredential.user!.sendEmailVerification();
 
-        // Navigate to the main screen after successful sign-up
-        Navigator.pushReplacementNamed(context, '/main');
-      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('A verification email has been sent to your email address. Please verify your email to continue.')),
+      );
+
+      // Navigate to the EmailVerificationScreen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EmailVerificationScreen(
+            user: userCredential.user!,
+            name: name,
+          ),
+        ),
+      );
     } catch (error) {
       if (kDebugMode) {
         print('Sign up failed: $error');
@@ -89,7 +97,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             children: <Widget>[
               // App icon placeholder
               Image.asset(
-                'assets/app_icon.png', // Replace with your actual app icon path
+                'assets/images/play_store_512.png', // Replace with your actual app icon path
                 height: 100,
                 width: 100,
               ),
