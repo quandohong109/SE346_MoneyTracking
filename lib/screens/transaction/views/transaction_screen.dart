@@ -42,13 +42,16 @@ class _TransactionScreen extends State<TransactionScreen> {
             children: [
               Expanded(
                 child: BlocBuilder<TransactionScreenCubit, TransactionScreenState>(
+                  buildWhen: (previous, current) => previous.transactionList != current.transactionList,
                   builder: (context, state) {
                     return ListView.builder(
                       itemCount: state.transactionList.length,
                       itemBuilder: (context, index) {
                         return TransactionWidget(
                             transaction: state.transactionList[index],
-                            onTap: () => {}
+                            onTap: () => {
+                              cubit.updateTransactionList(),
+                            }
                         );
                       },
                     );

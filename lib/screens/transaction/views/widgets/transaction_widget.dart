@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:money_tracking/objects/models/transaction_model.dart';
+import 'package:money_tracking/screens/main/add_transaction/view/modify_transaction_screen.dart';
 
 class TransactionWidget extends StatelessWidget {
   final TransactionModel transaction;
@@ -15,6 +16,17 @@ class TransactionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () async {
+        await Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+              builder: (BuildContext context) =>
+                  ModifyTransactionScreen.newInstanceWithTransaction(
+                      transaction: transaction)
+          ),
+        );
+        onTap();
+      },
       child: Card(
         color: Colors.white,
         child: ListTile(

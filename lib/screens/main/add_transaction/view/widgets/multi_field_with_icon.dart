@@ -12,6 +12,7 @@ class MultiFieldWithIcon extends StatelessWidget {
   final FontWeight fontWeight;
   final int? maxLines;
   final Function(String)? onSubmitted;
+  final Function(String)? onChange;
   final TextEditingController? controller;
 
   const MultiFieldWithIcon({
@@ -26,6 +27,7 @@ class MultiFieldWithIcon extends StatelessWidget {
     this.fontWeight = FontWeight.normal,
     this.maxLines,
     this.onSubmitted,
+    this.onChange,
     this.controller,
   });
 
@@ -64,6 +66,7 @@ class MultiFieldWithIcon extends StatelessWidget {
               onFieldSubmitted: onSubmitted,
               textInputAction: TextInputAction.done,
               controller: controller,
+              onChanged: onChange,
               decoration: InputDecoration(
                 filled: true,
                 isDense: true,
