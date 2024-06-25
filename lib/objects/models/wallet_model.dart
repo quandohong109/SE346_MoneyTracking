@@ -24,4 +24,8 @@ class WalletModel {
   String toString() {
     return 'WalletModel{id: $id, name: $name, balance: $balance}';
   }
+
+  String getName() {
+    return name;
+  }
 }

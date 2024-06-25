@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:money_tracking/data/firebase/firebase.dart';
 import 'package:money_tracking/functions/converter.dart';
@@ -56,16 +57,15 @@ class Database {
   //   }).toList();
   // }
 
-  // void updateWalletList() {
-  //   walletList = Firebase().walletList.map((e) {
-  //     return WalletModel(
-  //       id: e.id,
-  //       name: e.name,
-  //       icon: iconTypeList.firstWhere((element) => element.id == e.iconID),
-  //       balance: e.balance,
-  //     );
-  //   }).toList();
-  // }
+  void updateWalletList() {
+    walletList = Firebase().walletList.map((e) {
+      return WalletModel(
+        id: e.id,
+        name: e.name,
+        balance: e.balance,
+      );
+    }).toList();
+  }
 
   // void updateTransactionList() {
   //   updateCategoryList();
@@ -141,7 +141,7 @@ class Database {
           .get();
 
       await updateCategoryListFromFirestore();
-      await updateWalletListFromFirestore();
+      //await updateWalletListFromFirestore();
 
       transactionList = querySnapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
@@ -150,15 +150,13 @@ class Database {
           category: categoryList.firstWhere((element) => element.id == data['categoryID']),
           wallet: walletList.firstWhere((element) => element.id == data['walletID']),
           date: (data['date'] as Timestamp).toDate(),
-          note: data['note'],
+          note: data['note'] ?? '',
           amount: BigInt.parse(data['amount']),
           isExpanded: false,
         );
       }).toList();
       transactionList.sort((a, b) => b.date.compareTo(a.date));
-      print(transactionList);
     } catch (e) {
-      // If an error occurs, catch it and show an error toast
       throw Exception("An error occurred - Transaction: ${e.toString()}");
     }
   }

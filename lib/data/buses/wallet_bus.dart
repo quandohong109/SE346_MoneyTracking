@@ -46,17 +46,17 @@ class WalletBUS {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Cannot add wallet'),
-            content: const Text('A wallet with this name already exists.'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
+                title: const Text('Cannot add wallet'),
+                content: const Text('A wallet with this name already exists.'),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text('OK'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
               ),
-            ],
-          ),
         );
       } else {
         // If no wallet with the same name exists, add the new wallet
@@ -92,20 +92,20 @@ class WalletBUS {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Cannot delete wallet'),
-            content: const Text('This wallet has associated transactions and cannot be deleted.'),
-            actions: <Widget>[
-              TextButton(
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.green,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('OK'),
+                title: const Text('Cannot delete wallet'),
+                content: const Text('This wallet has associated transactions and cannot be deleted.'),
+                actions: <Widget>[
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.green,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
               ),
-            ],
-          ),
         );
       } else {
         // If there are no transactions, delete the wallet and show an AlertDialog

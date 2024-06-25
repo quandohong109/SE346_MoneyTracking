@@ -10,7 +10,6 @@ class TransactionScreenCubit extends Cubit<TransactionScreenState> {
 
   void updateTransactionList() {
     Database().updateTransactionListFromFirestore();
-    List<TransactionModel> transactionList = Database().transactionList;
-    emit(state.copyWith(transactionList: transactionList));
+    emit(state.copyWith(transactionList: Database().transactionList));
   }
 }

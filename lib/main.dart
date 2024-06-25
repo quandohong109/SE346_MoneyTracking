@@ -23,8 +23,8 @@ void main() async {
       ),
     );
     Database().updateCategoryListFromFirestore();
-    // Database().updateWalletListFromFirestore();
-    Database().updateWalletListFromFirestore();
+    //Database().updateWalletListFromFirestore();
+    Database().updateWalletList();
     Database().updateTransactionListFromFirestore();
     runApp(const MyApp());
   } catch (e) {

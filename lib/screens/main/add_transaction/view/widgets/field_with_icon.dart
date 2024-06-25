@@ -45,42 +45,47 @@ class FieldWithIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      readOnly: readOnly,
-      textAlignVertical: TextAlignVertical.center,
-      onTap: onTap,
-      onFieldSubmitted: onSubmitted,
-      onChanged: onChange,
-      controller: controller,
-      textInputAction: TextInputAction.done,
-      decoration: InputDecoration(
-        filled: true,
-        isDense: true,
-        fillColor: fillColor,
-        hintText: hintText,
-        hintStyle: const TextStyle(
-          color: Colors.grey,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: TextFormField(
+        readOnly: readOnly,
+        textAlignVertical: TextAlignVertical.center,
+        onTap: onTap,
+        onFieldSubmitted: onSubmitted,
+        onChanged: onChange,
+        controller: controller,
+        textInputAction: TextInputAction.done,
+        decoration: InputDecoration(
+          filled: true,
+          isDense: true,
+          fillColor: fillColor,
+          hintText: hintText,
+          hintStyle: const TextStyle(
+            color: Colors.grey,
+          ),
+          prefixIcon: prefixIcon != null ? InkWell(
+            onTap: onPrefixIconPressed,
+            child: prefixIcon,
+          )
+              : null,
+          suffixIcon: suffixIcon != null ? InkWell(
+            onTap: onSuffixIconPressed,
+            child: suffixIcon,
+          )
+              : null,
+          border: border ?? OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
         ),
-        prefixIcon: prefixIcon != null ? InkWell(
-          onTap: onPrefixIconPressed,
-          child: prefixIcon,
-        )
-            : null,
-        suffixIcon: suffixIcon != null ? InkWell(
-          onTap: onSuffixIconPressed,
-          child: suffixIcon,
-        )
-            : null,
-        border: border ?? OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
+        keyboardType: keyboardType,
+        inputFormatters: inputFormatters,
+        style: TextStyle(
+          fontSize: fontSize,
+          fontWeight: fontWeight,
         ),
-      ),
-      keyboardType: keyboardType,
-      inputFormatters: inputFormatters,
-      style: TextStyle(
-        fontSize: fontSize,
-        fontWeight: fontWeight,
       ),
     );
   }
