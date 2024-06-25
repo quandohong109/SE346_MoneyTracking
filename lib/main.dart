@@ -114,7 +114,7 @@ class HomeScreen extends StatelessWidget {
             children: <Widget>[
               // Add your app icon here
               Image.asset(
-                'assets/app_icon.png', // Make sure the icon is in the assets folder
+                'assets/images/play_store_512.png', // Make sure the icon is in the assets folder
                 height: 100,
                 width: 100,
               ),

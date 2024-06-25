@@ -66,7 +66,7 @@ class LoginScreen extends StatelessWidget {
             children: <Widget>[
               // App icon placeholder
               Image.asset(
-                'assets/app_icon.png', // Replace with your actual app icon path
+                'assets/images/play_store_512.png', // Replace with your actual app icon path
                 height: 100,
                 width: 100,
               ),
