@@ -38,7 +38,7 @@ class CustomDialog {
     );
   }
 
-  static void showConfirmDialog(BuildContext context, String title, String content, Function onYesPressed) {
+  static void showConfirmDialog(BuildContext context, String title, String content, Function onYesPressed, {Function? onNoPressed}) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -68,8 +68,8 @@ class CustomDialog {
                   child: StandardButton(
                     text: 'Yes',
                     onTap: () {
-                      onYesPressed();
                       Navigator.of(context).pop();
+                      onYesPressed();
                     },
                   ),
                 ),
@@ -81,6 +81,7 @@ class CustomDialog {
                     text: 'No',
                     onTap: () {
                       Navigator.of(context).pop();
+                      onNoPressed?.call() ?? () {};
                     },
                   ),
                 ),

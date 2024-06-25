@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_tracking/functions/custom_dialog.dart';
@@ -85,36 +86,35 @@ class _CategoryScreen extends State<CategoryScreen> {
                       if (state.name.isNotEmpty) {
                         nameController.text = state.name;
                       }
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          FieldWithIcon(
-                            prefixIcon: Icon(
-                              state.iconSelected.icon,
-                              size: 30,
-                            ),
-                            hintText: 'Name',
-                            controller: nameController,
-                            onPrefixIconPressed: () {
-                              isExpandedNotifier.value = !isExpandedNotifier.value;
-                            },
-                            border: OutlineInputBorder(
-                              borderRadius: isExpandedNotifier.value
-                                  ? const BorderRadius.vertical(
-                                top: Radius.circular(12),
-                              )
-                                  : BorderRadius.circular(12),
-                              borderSide: BorderSide.none,
-                            ),
-                            fillColor: state.categoryColor,
-                            onChange: (text) {
-                              cubit.updateName(text);
-                            },
-                          ),
-                          ValueListenableBuilder<bool>(
-                            valueListenable: isExpandedNotifier,
-                            builder: (context, isExpanded, child) {
-                              return DropdownIconContainer(
+                      return ValueListenableBuilder<bool>(
+                        valueListenable: isExpandedNotifier,
+                        builder: (context, value, child) { return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              FieldWithIcon(
+                                prefixIcon: Icon(
+                                  state.iconSelected.icon,
+                                  size: 30,
+                                ),
+                                hintText: 'Name',
+                                controller: nameController,
+                                onPrefixIconPressed: () {
+                                  isExpandedNotifier.value = !isExpandedNotifier.value;
+                                },
+                                border: OutlineInputBorder(
+                                  borderRadius: isExpandedNotifier.value
+                                      ? const BorderRadius.vertical(
+                                    top: Radius.circular(12),
+                                  )
+                                      : BorderRadius.circular(12),
+                                  borderSide: BorderSide.none,
+                                ),
+                                fillColor: state.categoryColor,
+                                onChange: (text) {
+                                  cubit.updateName(text);
+                                },
+                              ),
+                              DropdownIconContainer(
                                 isExpanded: isExpandedNotifier.value,
                                 selectedIcon: state.iconSelected,
                                 iconTypes: Database().iconTypeList,
@@ -122,69 +122,69 @@ class _CategoryScreen extends State<CategoryScreen> {
                                   cubit.updateIconSelected(icon);
                                   isExpandedNotifier.value = false;
                                 },
-                              );
-                            },
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                  child: StandardButton(
-                                    height: kToolbarHeight * 0.8,
-                                    onTap: () {
-                                      cubit.updateIsIncome(false);
-                                    },
-                                    backgroundColor:
-                                    state.isIncome ? Colors.grey : Colors.red,
-                                    text: 'Expense',
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w800,
-                                  )),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                  child: StandardButton(
-                                    height: kToolbarHeight * 0.8,
-                                    onTap: () {
-                                      cubit.updateIsIncome(true);
-                                    },
-                                    backgroundColor:
-                                    state.isIncome ? Colors.green : Colors.grey,
-                                    text: 'Income',
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w800,
-                                  )),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                  child: Container(
-                                    height: kToolbarHeight * 0.8,
-                                    decoration: BoxDecoration(
-                                      color: state.categoryColor,
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: IconButton(
-                                      icon: const Icon(
-                                        Icons.color_lens,
-                                        size: 30,
-                                      ),
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (ctx2) {
-                                            return ColorPickerDialog(
-                                              onColorChanged: (value) {
-                                                cubit.updateCategoryColor(value);
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Expanded(
+                                      child: StandardButton(
+                                        height: kToolbarHeight * 0.8,
+                                        onTap: () {
+                                          cubit.updateIsIncome(false);
+                                        },
+                                        backgroundColor:
+                                        state.isIncome ? Colors.grey : Colors.red,
+                                        text: 'Expense',
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w800,
+                                      )),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                      child: StandardButton(
+                                        height: kToolbarHeight * 0.8,
+                                        onTap: () {
+                                          cubit.updateIsIncome(true);
+                                        },
+                                        backgroundColor:
+                                        state.isIncome ? Colors.green : Colors.grey,
+                                        text: 'Income',
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w800,
+                                      )),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                      child: Container(
+                                        height: kToolbarHeight * 0.8,
+                                        decoration: BoxDecoration(
+                                          color: state.categoryColor,
+                                          borderRadius: BorderRadius.circular(12),
+                                        ),
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.color_lens,
+                                            size: 30,
+                                          ),
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (ctx2) {
+                                                return ColorPickerDialog(
+                                                  onColorChanged: (value) {
+                                                    cubit.updateCategoryColor(value);
+                                                  },
+                                                );
                                               },
                                             );
                                           },
-                                        );
-                                      },
-                                    ),
-                                  )),
+                                        ),
+                                      )),
+                                ],
+                              )
                             ],
-                          )
-                        ],
+                          );
+                        },
                       );
                     }),
                   ),
@@ -235,12 +235,12 @@ class _CategoryScreen extends State<CategoryScreen> {
                               height: kToolbarHeight,
                               onTap: () {
                                 CustomDialog.showConfirmDialog(
-                                    context,
-                                    'Confirm',
-                                    'Are you sure you want to delete this category?',
-                                        () async {
-                                      await cubit.deleteCategory();
-                                    }
+                                  context,
+                                  'Confirm',
+                                  'Are you sure you want to delete this category?',
+                                      () async {
+                                    await cubit.deleteCategory();
+                                  },
                                 );
                               },
                               text: 'Delete',
