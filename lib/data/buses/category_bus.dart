@@ -1,21 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:money_tracking/functions/custom_exception.dart';
 
-import '../../objects/dtos/category_dto.dart';
 import '../../objects/models/category_model.dart';
 import '../database/database.dart';
-import '../firebase/firebase.dart';
 import '../../functions/getdata.dart';
 
 class CategoryBUS {
-  static void addCategoryToFirestore(CategoryModel category) {
-    FirebaseFirestore.instance.collection('categories').orderBy('id', descending: true).limit(1).get().then((snapshot) {
-      int maxId = snapshot.docs.first.data()['id'];
-      int newId = maxId + 1;
+  static Future<void> addCategory(CategoryModel category) async {
+    try {
+      if (Database().categoryList.any((existingCategory) => existingCategory.name == category.name)) {
+        throw CustomException('Category name already exists');
+      }
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection(
+          'categories').orderBy('id', descending: true).limit(1).get();
+      int newId = 1; // Default value
+      if (snapshot.docs.isNotEmpty) {
+        var data = snapshot.docs.first.data() as Map<String, dynamic>;
+        int maxId = data['id'];
+        newId = maxId + 1;
+      }
 
       // Now use newId for the new category
-      FirebaseFirestore.instance.collection('categories').add({
+      await FirebaseFirestore.instance.collection('categories').add({
         'id': newId,
         'name': category.name,
         'iconID': category.iconType.id,
@@ -25,61 +31,57 @@ class CategoryBUS {
         'blue': category.color.blue,
         'opacity': category.color.opacity,
         'userID': GetData.getUID(),
-      }).then((_) {
-        // Show success toast
-        Fluttertoast.showToast(
-            msg: "Category added successfully",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
       });
-      Database().updateCategoryListFromFirestore();
-    });
+      await Database().updateCategoryListFromFirestore();
+    } on Exception {
+      rethrow;
+    }
   }
 
-  static void addCategory(CategoryModel category) {
-    Firebase().categoryList.add(
-      CategoryDTO(
-        id: category.id,
-        name: category.name,
-        iconID: category.iconType.id,
-        isIncome: category.isIncome,
-        red: category.color.red,
-        green: category.color.green,
-        blue: category.color.blue,
-        opacity: category.color.opacity,
-        userID: GetData.getUID(),
-      ),
-    );
-    addCategoryToFirestore(category);
-    // Database().updateCategoryList();
-    // Database().updateCategoryListFromFirestore();
+  static Future<void> deleteCategory(int categoryId) async {
+    try {
+      QuerySnapshot transactionSnapshot = await FirebaseFirestore.instance.collection('transactions')
+          .where('categoryId', isEqualTo: categoryId)
+          .get();
+      if (transactionSnapshot.docs.isNotEmpty) {
+        throw CustomException('Category is in use');
+      }
+      await FirebaseFirestore.instance.collection('categories')
+          .where('id', isEqualTo: categoryId)
+          .get()
+          .then((querySnapshot) {
+        querySnapshot.docs.forEach((doc) {
+          doc.reference.delete();
+        });
+      });
+      await Database().updateCategoryListFromFirestore();
+    } on Exception {
+      rethrow;
+    }
   }
 
-  static void deleteCategoryFromFirestore(int categoryId) {
-    FirebaseFirestore.instance.collection('categories')
-        .where('id', isEqualTo: categoryId)
-        .get()
-        .then((querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        doc.reference.delete();
+  static Future<void> updateCategory(CategoryModel category) async {
+    try {
+      await FirebaseFirestore.instance.collection('categories')
+          .where('id', isEqualTo: category.id)
+          .get()
+          .then((querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          doc.reference.update({
+            'name': category.name,
+            'iconID': category.iconType.id,
+            'isIncome': category.isIncome,
+            'red': category.color.red,
+            'green': category.color.green,
+            'blue': category.color.blue,
+            'opacity': category.color.opacity,
+            'userID': GetData.getUID(),
+          });
+        }
       });
-    }).then((_) {
-    // FirebaseFirestore.instance.collection('categories').doc(categoryId.toString()).delete().then((_) {
-      Fluttertoast.showToast(
-          msg: "Category deleted successfully!",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-    });
-    Database().updateCategoryListFromFirestore();
+      await Database().updateCategoryListFromFirestore();
+    } on Exception {
+      rethrow;
+    }
   }
 }

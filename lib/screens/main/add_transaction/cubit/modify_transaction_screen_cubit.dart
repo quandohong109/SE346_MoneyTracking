@@ -5,15 +5,12 @@ import 'package:money_tracking/data/database/database.dart';
 import 'package:money_tracking/objects/models/transaction_model.dart';
 
 import '../../../../objects/models/category_model.dart';
+import '../../../../objects/models/execute_status.dart';
 
-part 'add_screen_state.dart';
+part 'modify_transaction_screen_state.dart';
 
-class AddScreenCubit extends Cubit<AddScreenState> {
-  AddScreenCubit() : super(AddScreenState(selectedDate: DateTime.now()));
-
-  void updateIsExpanded(bool isExpanded) {
-    emit(state.copyWith(isExpanded: isExpanded));
-  }
+class ModifyTransactionScreenCubit extends Cubit<ModifyTransactionScreenState> {
+  ModifyTransactionScreenCubit() : super(ModifyTransactionScreenState(selectedDate: DateTime.now()));
 
   void updateAmount(String text) {
     BigInt amount = BigInt.parse(text);
@@ -33,8 +30,7 @@ class AddScreenCubit extends Cubit<AddScreenState> {
   }
 
   void updateCategoryList() {
-    List<CategoryModel> categoryList = Database().categoryList;
-    emit(state.copyWith(categoryList: categoryList));
+    emit(state.copyWith(categoryList: Database().categoryList));
   }
 
   void addTransaction() {

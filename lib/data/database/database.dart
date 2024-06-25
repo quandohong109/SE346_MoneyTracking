@@ -30,6 +30,14 @@ class Database {
     IconType(id: 10, icon: Icons.shopping_cart),
     IconType(id: 11, icon: Icons.train),
     IconType(id: 12, icon: Icons.local_gas_station),
+    IconType(id: 13, icon: Icons.card_travel),
+    IconType(id: 14, icon: Icons.garage),
+    IconType(id: 15, icon: Icons.home_work),
+    IconType(id: 16, icon: Icons.add_box),
+    IconType(id: 17, icon: Icons.money),
+    IconType(id: 18, icon: Icons.electric_bolt),
+    IconType(id: 19, icon: Icons.water_drop),
+    IconType(id: 20, icon: Icons.local_library),
   ];
 
   List<CategoryModel> categoryList = [];
@@ -48,16 +56,16 @@ class Database {
   //   }).toList();
   // }
 
-  void updateWalletList() {
-    walletList = Firebase().walletList.map((e) {
-      return WalletModel(
-        id: e.id,
-        name: e.name,
-        icon: iconTypeList.firstWhere((element) => element.id == e.iconID),
-        balance: e.balance,
-      );
-    }).toList();
-  }
+  // void updateWalletList() {
+  //   walletList = Firebase().walletList.map((e) {
+  //     return WalletModel(
+  //       id: e.id,
+  //       name: e.name,
+  //       icon: iconTypeList.firstWhere((element) => element.id == e.iconID),
+  //       balance: e.balance,
+  //     );
+  //   }).toList();
+  // }
 
   // void updateTransactionList() {
   //   updateCategoryList();
@@ -75,63 +83,83 @@ class Database {
   //   }).toList();
   // }
 
-  void updateCategoryListFromFirestore() async {
-    final firestoreInstance = FirebaseFirestore.instance;
-    final QuerySnapshot querySnapshot = await firestoreInstance.collection('categories')
-        .where('userID', isEqualTo: GetData.getUID())
-        .get();
-    categoryList = querySnapshot.docs.map((doc) {
-      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-      return CategoryModel(
-        id: data['id'],
-        name: data['name'],
-        iconType: iconTypeList.firstWhere((element) => element.id == data['iconID']),
-        isIncome: data['isIncome'],
-        color: Color.fromRGBO(data['red'], data['green'], data['blue'], data['opacity']),
-      );
-    }).toList();
-    print(categoryList);
+  Future<void> updateCategoryListFromFirestore() async {
+    try {
+      final firestoreInstance = FirebaseFirestore.instance;
+      final QuerySnapshot querySnapshot = await firestoreInstance
+          .collection('categories')
+          .where('userID', isEqualTo: GetData.getUID())
+          .get();
+      categoryList = querySnapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        return CategoryModel(
+          id: data['id'],
+          name: data['name'],
+          iconType: iconTypeList.firstWhere((element) => element.id == data['iconID']),
+          isIncome: data['isIncome'],
+          color: Color.fromRGBO(data['red'], data['green'], data['blue'], data['opacity']),
+        );
+      }).toList();
+      categoryList.sort((a, b) => a.name.compareTo(b.name));
+      print(categoryList);
+    } catch (e) {
+      // If an error occurs, catch it and show an error toast
+      throw Exception("An error occurred - Category: ${e.toString()}");
+    }
   }
 
-  void updateWalletListFromFirestore() async {
-    final firestoreInstance = FirebaseFirestore.instance;
-    final QuerySnapshot querySnapshot = await firestoreInstance.collection('wallets')
-        .where('userID', isEqualTo: GetData.getUID())
-        .get();
+  Future<void> updateWalletListFromFirestore() async {
+    try {
+      final firestoreInstance = FirebaseFirestore.instance;
+      final QuerySnapshot querySnapshot = await firestoreInstance
+          .collection('wallets')
+          .where('userID', isEqualTo: GetData.getUID())
+          .get();
 
-    walletList = querySnapshot.docs.map((doc) {
-      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-      return WalletModel(
-        id: data['id'],
-        name: data['name'],
-        icon: iconTypeList.firstWhere((element) => element.id == data['iconID']),
-        balance: BigInt.parse(data['balance']),
-      );
-    }).toList();
-    print(walletList);
+      walletList = querySnapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        return WalletModel(
+          id: data['id'],
+          name: data['name'],
+          balance: BigInt.parse(data['balance']),
+        );
+      }).toList();
+      categoryList.sort((a, b) => a.name.compareTo(b.name));
+      print(walletList);
+    } catch (e) {
+      // If an error occurs, catch it and show an error toast
+      throw Exception("An error occurred - Wallet: ${e.toString()}");
+    }
   }
 
-  void updateTransactionListFromFirestore() async {
-    final firestoreInstance = FirebaseFirestore.instance;
-    final QuerySnapshot querySnapshot = await firestoreInstance.collection('transactions')
-        .where('userID', isEqualTo: GetData.getUID())
-        .get();
+  Future<void> updateTransactionListFromFirestore() async {
+    try {
+      final firestoreInstance = FirebaseFirestore.instance;
+      final QuerySnapshot querySnapshot = await firestoreInstance
+          .collection('transactions')
+          .where('userID', isEqualTo: GetData.getUID())
+          .get();
 
-    updateCategoryListFromFirestore();
-    updateWalletListFromFirestore();
+      await updateCategoryListFromFirestore();
+      await updateWalletListFromFirestore();
 
-    transactionList = querySnapshot.docs.map((doc) {
-      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-      return TransactionModel(
-        id: data['id'],
-        category: categoryList.firstWhere((element) => element.id == data['categoryID']),
-        wallet: walletList.firstWhere((element) => element.id == data['walletID']),
-        date: (data['date'] as Timestamp).toDate(),
-        note: data['note'],
-        amount: BigInt.parse(data['amount']),
-        isExpanded: false,
-      );
-    }).toList();
-    print(transactionList);
+      transactionList = querySnapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        return TransactionModel(
+          id: data['id'],
+          category: categoryList.firstWhere((element) => element.id == data['categoryID']),
+          wallet: walletList.firstWhere((element) => element.id == data['walletID']),
+          date: (data['date'] as Timestamp).toDate(),
+          note: data['note'],
+          amount: BigInt.parse(data['amount']),
+          isExpanded: false,
+        );
+      }).toList();
+      transactionList.sort((a, b) => b.date.compareTo(a.date));
+      print(transactionList);
+    } catch (e) {
+      // If an error occurs, catch it and show an error toast
+      throw Exception("An error occurred - Transaction: ${e.toString()}");
+    }
   }
 }
