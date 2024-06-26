@@ -45,7 +45,7 @@ The project is constructed by:
     <td>Quan, Do Hong</td>
     <td>Member</td>
     <td><a href="https://github.com/quandohong109"><img src="https://img.shields.io/badge/quandohong109-%2324292f.svg?style=flat-square&logo=github" alt="GitHub"></a></td>
-    <td>22521175@gm.uit.edu.vn</td>
+    <td><a href="mailto:22521175@gm.uit.edu.vn">22521175@gm.uit.edu.vn</a></td>
   </tr>
   <tr>
     <td>2</td>
@@ -53,7 +53,7 @@ The project is constructed by:
     <td>Tien, To Vinh</td>
     <td>Member</td>
     <td><a href="https://github.com/Terry-UIT"><img src="https://img.shields.io/badge/Terry--UIT-%2324292f.svg?style=flat-square&logo=github" alt="GitHub"></a></td>
-    <td>22521474@gm.uit.edu.vn</td>
+    <td><a href="mailto:22521474@gm.uit.edu.vn">22521474@gm.uit.edu.vn</a></td>
   </tr>
   <tr>
     <td>3</td>
@@ -61,7 +61,7 @@ The project is constructed by:
     <td>Tri, Vu Hoang Trong</td>
     <td>Leader</td>
     <td><a href="https://github.com/DiamondSssssss"><img src="https://img.shields.io/badge/DiamondSssssss-%2324292f.svg?style=flat-square&logo=github" alt="GitHub"></a></td>
-    <td>22521529@gm.uit.edu.vn</td>
+    <td><a href="mailto:22521529@gm.uit.edu.vn">22521529@gm.uit.edu.vn</a></td>
   </tr>
   <tr>
     <td>4</td>
@@ -69,9 +69,10 @@ The project is constructed by:
     <td>Yen, Tran Thi Kim</td>
     <td>Member</td>
     <td><a href="https://github.com/swingsofwindy"><img src="https://img.shields.io/badge/swingsofwindy-%2324292f.svg?style=flat-square&logo=github" alt="GitHub"></a></td>
-    <td>22521717@gm.uit.edu.vn</td>
+    <td><a href="mailto:22521717@gm.uit.edu.vn">22521717@gm.uit.edu.vn</a></td>
   </tr>
 </table>
+
 
 <h2>🧐 Features</h2>
 
