@@ -25,7 +25,7 @@ class ModifyTransactionScreenCubit extends Cubit<ModifyTransactionScreenState> {
       ));
 
   void updateAmount(String text) {
-    BigInt amount = BigInt.parse(text);
+    double amount = double.parse(text);
     emit(state.copyWith(amount: amount, hasChange: true));
   }
 
@@ -64,7 +64,7 @@ class ModifyTransactionScreenCubit extends Cubit<ModifyTransactionScreenState> {
       return false;
     }
 
-    if (state.amount! <= BigInt.zero) {
+    if (state.amount! <= 0) {
       emit(state.copyWith(status: ExecuteStatus.fail, dialogContent: 'Amount is invalid'));
       return false;
     }

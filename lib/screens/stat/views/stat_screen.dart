@@ -305,55 +305,13 @@ class _StatScreenState extends State<StatScreen>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Expanded(
-                                child: Container(
-                                      color: AppColors
-                                          .backgroundColor, // để lúc export ra không bị transparent.
-                                      child: Column(
-                                        children: <Widget>[
-                                          Text(
-                                            'Income',
-                                            style: TextStyle(
-                                              color: AppColors.foregroundColor
-                                                  .withOpacity(0.7),
-                                              fontFamily: 'Montserrat',
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 16,
-                                            ),
-                                            textAlign: TextAlign.start,
-                                          ),
-                                          TotalMoney(
-                                            checkOverflow: true,
-                                            text: income,
-                                            currencyId: 'VND',
-                                            textStyle: TextStyle(
-                                              color: AppColors.incomeColor,
-                                              fontFamily: 'Montserrat',
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 20,
-                                              height: 1.5,
-                                            ),
-                                          ),
-                                            Container(
-                                              color: Colors.transparent,
-                                              child: PieChartScreen(
-                                                  isShowPercent: false,
-                                                  currentList: transactionList,
-                                                  categoryList:
-                                                  incomeCategoryList,
-                                                  total: BigInt.from(income)
-                                              ),
-                                            ),
-                                        ],
-                                      ),
-                                    )
-                              ),
-                              Expanded(
-                                child: Container(
-                                      color: AppColors
-                                          .backgroundColor, // để lúc export ra không bị transparent.
-                                      child: Column(children: <Widget>[
+                                  child: Container(
+                                    color: AppColors
+                                        .backgroundColor, // để lúc export ra không bị transparent.
+                                    child: Column(
+                                      children: <Widget>[
                                         Text(
-                                          'Expense',
+                                          'Income',
                                           style: TextStyle(
                                             color: AppColors.foregroundColor
                                                 .withOpacity(0.7),
@@ -365,28 +323,70 @@ class _StatScreenState extends State<StatScreen>
                                         ),
                                         TotalMoney(
                                           checkOverflow: true,
-                                          text: expense,
+                                          text: income,
                                           currencyId: 'VND',
                                           textStyle: TextStyle(
-                                            color: AppColors.expenseColor,
+                                            color: AppColors.incomeColor,
                                             fontFamily: 'Montserrat',
                                             fontWeight: FontWeight.w400,
                                             fontSize: 20,
                                             height: 1.5,
                                           ),
                                         ),
-                                          Container(
-                                            color: Colors.transparent,
-                                            child: PieChartScreen(
-                                                isShowPercent: false,
-                                                currentList: transactionList,
-                                                categoryList:
-                                                expenseCategoryList,
-                                                total: BigInt.from(expense)
-                                            ),
+                                        Container(
+                                          color: Colors.transparent,
+                                          child: PieChartScreen(
+                                              isShowPercent: false,
+                                              currentList: transactionList,
+                                              categoryList:
+                                              incomeCategoryList,
+                                              total: income
                                           ),
-                                      ]),
-                                    )
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                              ),
+                              Expanded(
+                                  child: Container(
+                                    color: AppColors
+                                        .backgroundColor, // để lúc export ra không bị transparent.
+                                    child: Column(children: <Widget>[
+                                      Text(
+                                        'Expense',
+                                        style: TextStyle(
+                                          color: AppColors.foregroundColor
+                                              .withOpacity(0.7),
+                                          fontFamily: 'Montserrat',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                        ),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                      TotalMoney(
+                                        checkOverflow: true,
+                                        text: expense,
+                                        currencyId: 'VND',
+                                        textStyle: TextStyle(
+                                          color: AppColors.expenseColor,
+                                          fontFamily: 'Montserrat',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 20,
+                                          height: 1.5,
+                                        ),
+                                      ),
+                                      Container(
+                                        color: Colors.transparent,
+                                        child: PieChartScreen(
+                                            isShowPercent: false,
+                                            currentList: transactionList,
+                                            categoryList:
+                                            expenseCategoryList,
+                                            total: expense
+                                        ),
+                                      ),
+                                    ]),
+                                  )
                               ),
                             ],
                           ),

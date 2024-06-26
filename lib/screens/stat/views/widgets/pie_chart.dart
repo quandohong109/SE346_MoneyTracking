@@ -10,7 +10,7 @@ class PieChartScreen extends StatefulWidget {
   final List<TransactionModel> currentList;
   final List<CategoryModel> categoryList;
   final bool isShowPercent;
-  final BigInt total;
+  final double total;
   PieChartScreen({
     Key? key,
     required this.currentList,
@@ -27,7 +27,7 @@ class PieChartScreenState extends State<PieChartScreen> {
   List<Color> colors = AppColors.pieChartCategoryColors;
 
   // Tổng số tiền.
-  late BigInt total;
+  late double total;
 
   // Biến để lấy vị trí đã chạm vào pie chart.
   int touchedIndex = -1;
@@ -42,7 +42,7 @@ class PieChartScreenState extends State<PieChartScreen> {
   late List<CategoryModel> categoryList;
 
   // Danh sách tổng số tiền của từng danh mục.
-  List<BigInt> info = [];
+  List<double> info = [];
 
   @override
   void initState() {
@@ -71,9 +71,9 @@ class PieChartScreenState extends State<PieChartScreen> {
   }
 
   // Hàm tính toán tổng số tiền của từng danh mục trong danh sách transactions.
-  BigInt calculateByCategory(
+  double calculateByCategory(
       CategoryModel category, List<TransactionModel> transactionList) {
-    BigInt sum = BigInt.zero;
+    double sum = 0;
     transactionList.forEach((element) {
       if (element.category.name == category.name) sum += element.amount;
     });
@@ -223,7 +223,7 @@ class PieChartScreenState extends State<PieChartScreen> {
       final double fontTitleSize = isTouched ? 17 : 8.5;
 
       if (total == 0)
-        total = 1 as BigInt;
+        total = 1.0;
       var value = ((info[i] / total) * 100);
 
       return PieChartSectionData(
@@ -268,7 +268,7 @@ class PieChartScreenState extends State<PieChartScreen> {
       final radius = 8.0;
 
       if (total == 0)
-        total = 1 as BigInt;
+        total = 1.0;
       var value = ((info[i] / total) * 100);
 
       return PieChartSectionData(

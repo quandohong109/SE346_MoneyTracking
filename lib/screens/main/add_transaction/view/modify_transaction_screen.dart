@@ -113,7 +113,7 @@ class _ModifyTransactionScreen extends State<ModifyTransactionScreen> {
                             BlocBuilder<ModifyTransactionScreenCubit, ModifyTransactionScreenState>(
                                 builder: (context, state) {
                                   if (state.amount != null) {
-                                    amountController.text = Converter.formatBigInt(state.amount!);
+                                    amountController.text = NumberFormat.decimalPattern('vi').format(state.amount);
                                   }
                                   return FieldWithIcon(
                                     hintText: 'Amount',

@@ -13,7 +13,7 @@ class Converter {
     return BigInt.parse(value);
   }
 
-  static String formatBigInt(BigInt number) {
+  static String formatNumber(double number) {
     final String str = number.toString();
     String result = '';
     int count = 0;

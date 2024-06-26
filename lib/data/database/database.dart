@@ -154,7 +154,7 @@ class Database {
           wallet: walletList.firstWhere((element) => element.id == data['walletID']),
           date: (data['date'] as Timestamp).toDate(),
           note: data['note'] ?? '',
-          amount: BigInt.parse(data['amount']),
+          amount: data['amount'],
           isExpanded: false,
         );
       }).toList();
@@ -184,7 +184,7 @@ class Database {
             wallet: walletList.firstWhere((element) => element.id == data['walletID']),
             date: (data['date'] as Timestamp).toDate(),
             note: data['note'] ?? '',
-            amount: BigInt.parse(data['amount']),
+            amount: data['amount'],
             isExpanded: false,
           );
         }).toList();
