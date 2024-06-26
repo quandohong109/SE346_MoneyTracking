@@ -20,6 +20,13 @@ The project is constructed by:
 *  Tri, Vu Hoang Trong - 22521529.
 *  Yen, Tran Thi Kim   - 22521717.
 
+| No. |   Student ID   | Full Name           |    Role |                                                                                                                         GitHub |                  Email |
+| --- | :------: | ------------------- | ---------: | -----------------------------------------------------------------------------------------------------------------------------: | ---------------------: |
+| 1   | 22521175 | Quan, Do Hong       | Member |         [![](https://img.shields.io/badge/quandohong109-%2324292f.svg?style=flat-square&logo=github)](https://github.com/quando109) | 22521175@gm.uit.edu.vn |
+| 2   | 22521474 | Tien, To Vinh   | Member |    [![](https://img.shields.io/badge/Terry--UIT-%2324292f.svg?style=flat-square&logo=github)](https://github.com/Terry-UIT) | 22521474@gm.uit.edu.vn |
+| 3   | 22521529 | Tri, Vu Hoang Trong    | Leader | [![](https://img.shields.io/badge/DiamondSssssss-%2324292f.svg?style=flat-square&logo=github)](https://github.com/DiamondSssssss) | 22521529@gm.uit.edu.vn |
+| 4   | 22521717 | Yen, Tran Thi Kim | Member |          [![](https://img.shields.io/badge/swingsofwindy-%2324292f.svg?style=flat-square&logo=github)](https://github.com/swingsofwindy) | 22521717@gm.uit.edu.vn |
+
 <h2>🧐 Features</h2>
 
 Here are some of the project's best features:
