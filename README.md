@@ -30,12 +30,48 @@ The Money Tracking application, developed by K17-2022 students from the Universi
 
 The project is constructed by:
 
-| No. | Student ID | Full Name |  Role |                                                                                                              GitHub | Email |
-| --- | :------: | ------------------- | ----: | -----------------------------------------------------------------------------------------------------------------------------: | ---------------------: |
-| 1 | `22521175` | Quan, Do Hong       | Member |         [![](https://img.shields.io/badge/quandohong109-%2324292f.svg?style=flat-square&logo=github)](https://github.com/quandohong109) | 22521175@gm.uit.edu.vn |
-| 2 | `22521474` | Tien, To Vinh   | Member |    [![](https://img.shields.io/badge/Terry--UIT-%2324292f.svg?style=flat-square&logo=github)](https://github.com/Terry-UIT) | 22521474@gm.uit.edu.vn |
-| 3 | `22521529` | Tri, Vu Hoang Trong    | Leader | [![](https://img.shields.io/badge/DiamondSssssss-%2324292f.svg?style=flat-square&logo=github)](https://github.com/DiamondSssssss) | 22521529@gm.uit.edu.vn |
-| 4 | `22521717` | Yen, Tran Thi Kim | Member |          [![](https://img.shields.io/badge/swingsofwindy-%2324292f.svg?style=flat-square&logo=github)](https://github.com/swingsofwindy) | 22521717@gm.uit.edu.vn |
+<table align="center">
+  <tr>
+    <th>No.</th>
+    <th>Student ID</th>
+    <th>Full Name</th>
+    <th>Role</th>
+    <th>GitHub</th>
+    <th>Email</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>22521175</td>
+    <td>Quan, Do Hong</td>
+    <td>Member</td>
+    <td><a href="https://github.com/quandohong109"><img src="https://img.shields.io/badge/quandohong109-%2324292f.svg?style=flat-square&logo=github" alt="GitHub"></a></td>
+    <td>22521175@gm.uit.edu.vn</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>22521474</td>
+    <td>Tien, To Vinh</td>
+    <td>Member</td>
+    <td><a href="https://github.com/Terry-UIT"><img src="https://img.shields.io/badge/Terry--UIT-%2324292f.svg?style=flat-square&logo=github" alt="GitHub"></a></td>
+    <td>22521474@gm.uit.edu.vn</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>22521529</td>
+    <td>Tri, Vu Hoang Trong</td>
+    <td>Leader</td>
+    <td><a href="https://github.com/DiamondSssssss"><img src="https://img.shields.io/badge/DiamondSssssss-%2324292f.svg?style=flat-square&logo=github" alt="GitHub"></a></td>
+    <td>22521529@gm.uit.edu.vn</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>22521717</td>
+    <td>Yen, Tran Thi Kim</td>
+    <td>Member</td>
+    <td><a href="https://github.com/swingsofwindy"><img src="https://img.shields.io/badge/swingsofwindy-%2324292f.svg?style=flat-square&logo=github" alt="GitHub"></a></td>
+    <td>22521717@gm.uit.edu.vn</td>
+  </tr>
+</table>
 
 <h2>🧐 Features</h2>
 
