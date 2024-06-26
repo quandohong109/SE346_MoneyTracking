@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:money_tracking/data/firebase/firebase.dart';
+import 'package:money_tracking/functions/custom_exception.dart';
 
 import '../../functions/custom_dialog.dart';
 import '../../functions/getdata.dart';
@@ -113,7 +114,7 @@ class WalletBUS {
     }
   }
 
-  static Future<void> decreaseWalletBalanceOnFirestore(int walletId, BigInt transactionValue, BuildContext context) async {
+  static Future<bool> decreaseWalletBalanceOnFirestore(int walletId, BigInt transactionValue) async {
     try {
       var walletSnapshot = await FirebaseFirestore.instance.collection('wallets')
           .where('id', isEqualTo: walletId)
@@ -121,30 +122,32 @@ class WalletBUS {
       for (var doc in walletSnapshot.docs) {
         BigInt currentBalance = BigInt.parse(doc.data()['balance']);
         if (transactionValue > currentBalance) {
-          // If the transaction value is greater than the current balance, show an AlertDialog and do not decrease the balance
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-                  title: const Text('Cannot decrease wallet balance'),
-                  content: const Text('The transaction value is greater than the current wallet balance.'),
-                  actions: <Widget>[
-                    TextButton(
-                      child: const Text('OK'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                ),
-          );
+          return false;
+          // If the transaction value is greater than the current balance, do not decrease the balance
         } else {
           BigInt newBalance = currentBalance - transactionValue;
+
+          // Get the total value of transactions using the wallet
+          var transactionSnapshot = await FirebaseFirestore.instance.collection('transactions')
+              .where('walletID', isEqualTo: walletId)
+              .get();
+          BigInt totalTransactionValue = BigInt.zero;
+          for (var transactionDoc in transactionSnapshot.docs) {
+            totalTransactionValue += BigInt.parse(transactionDoc.data()['value']);
+          }
+
+          // If the new balance is less than the total transaction value, do not decrease the balance
+          if (newBalance < totalTransactionValue) {
+            return false;
+          }
+
           await doc.reference.update({
             'balance': newBalance.toString(),
           });
         }
       }
       await Database().updateWalletListFromFirestore();
+      return true;
     } catch (e) {
       // If an error occurs, catch it and show an error toast
       throw Exception("An error occurred - Wallet: ${e.toString()}");

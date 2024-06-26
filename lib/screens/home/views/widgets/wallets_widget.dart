@@ -127,16 +127,16 @@ class _WalletsWidgetState extends State<WalletsWidget> {
                           String condition = await WalletBUS.editWalletOnFirestore(wallet.id, nameController.text, balanceController.text, context);
                           if (condition == 'noChange') {
                             Navigator.of(context).pop();
-                            CustomDialog.showInfoDialog(context, 'ℹ️ NOTIFICATION ℹ️', 'No changes have been made!');
+                            CustomDialog.showInfoDialog(context, 'NOTIFICATION', 'No changes have been made!');
                           } else if (condition == 'success') {
                             Navigator.of(context).pop();
-                            CustomDialog.showInfoDialog(context, '✅ SUCCESS ✅', 'The wallet has been successfully edited!');
+                            CustomDialog.showInfoDialog(context, 'SUCCESS', 'The wallet has been successfully edited!');
                           } else if (condition == 'nameExists') {
-                            CustomDialog.showInfoDialog(context, '❗ERROR❗', 'The wallet name already exists!');
+                            CustomDialog.showInfoDialog(context, 'ERROR', 'The wallet name already exists!');
                           } else if (condition == 'badBalance'){
-                            CustomDialog.showInfoDialog(context, '❗ERROR❗', 'The edited balance cannot be less than the total of all transactions in the wallet. Please try again!');
+                            CustomDialog.showInfoDialog(context, 'ERROR', 'The edited balance cannot be less than the total of all transactions in the wallet. Please try again!');
                           } else {
-                            CustomDialog.showInfoDialog(context, '❗ERROR❗', condition);
+                            CustomDialog.showInfoDialog(context, 'ERROR', condition);
                           }
                         },
                         onNoPressed: () {
@@ -162,9 +162,9 @@ class _WalletsWidgetState extends State<WalletsWidget> {
                           bool isDeleted = await WalletBUS.deleteWalletFromFirestore(wallet.id, context);
                           if (isDeleted == true) {
                             Navigator.of(context).pop();
-                            CustomDialog.showInfoDialog(context, '✅ SUCCESS ✅', 'The wallet has been successfully deleted!');
+                            CustomDialog.showInfoDialog(context, 'SUCCESS', 'The wallet has been successfully deleted!');
                           } else {
-                            CustomDialog.showInfoDialog(context, '❗ERROR❗', 'Cannot delete wallet with transactions associated!');
+                            CustomDialog.showInfoDialog(context, 'ERROR', 'Cannot delete wallet with transactions associated!');
                           }
                         },
                         onNoPressed: () {
@@ -440,7 +440,7 @@ void _showAddWalletDialog(BuildContext context) {
                         onPressed: isEnabled ? () {
                           WalletBUS.addWalletToFirestore(nameController.text, balanceController.text, context);
                           Navigator.of(context).pop();
-                          CustomDialog.showInfoDialog(context, '✅ Success ✅', 'The wallet has been successfully added.');
+                          CustomDialog.showInfoDialog(context, 'Success', 'The wallet has been successfully added.');
                         } : null,
                         child: const Text(
                           'ADD',
