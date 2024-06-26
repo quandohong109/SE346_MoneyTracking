@@ -16,7 +16,14 @@ The Money Tracking application, developed by K17-2022 students from the Universi
 </div>
 </p>
 
-<p align="center"><img src="https://img.shields.io/badge/Flutter-02569B?logo=flutter&amp;logoColor=fff&amp;style=flat" alt="shields"><img src="https://img.shields.io/badge/Dart-0175C2?logo=dart&amp;logoColor=fff&amp;style=flat" alt="shields"><img src="https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&amp;logoColor=000&amp;style=flat" alt="shields"><img src="https://img.shields.io/badge/Figma-F24E1E?logo=figma&amp;logoColor=fff&amp;style=flat" alt="shields"><img src="https://img.shields.io/badge/Android%20Studio-3DDC84?logo=androidstudio&amp;logoColor=fff&amp;style=flat" alt="shields"></p>
+<p align="center">
+  <img src="https://img.shields.io/badge/Flutter-02569B?logo=flutter&amp;logoColor=fff&amp;style=flat" alt="shields" style="margin-right: 5px;">
+  <img src="https://img.shields.io/badge/Dart-0175C2?logo=dart&amp;logoColor=fff&amp;style=flat" alt="shields" style="margin-right: 5px;">
+  <img src="https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&amp;logoColor=000&amp;style=flat" alt="shields" style="margin-right: 5px;">
+  <img src="https://img.shields.io/badge/Figma-F24E1E?logo=figma&amp;logoColor=fff&amp;style=flat" alt="shields" style="margin-right: 5px;">
+  <img src="https://img.shields.io/badge/Android%20Studio-3DDC84?logo=androidstudio&amp;logoColor=fff&amp;style=flat" alt="shields">
+</p>
+
 
 <h2>🎓 Course Information </h2>
 
