@@ -10,7 +10,7 @@ class PieChartScreen extends StatefulWidget {
   final List<TransactionModel> currentList;
   final List<CategoryModel> categoryList;
   final bool isShowPercent;
-  final double total;
+  final BigInt total;
   PieChartScreen({
     Key? key,
     required this.currentList,
@@ -27,7 +27,7 @@ class PieChartScreenState extends State<PieChartScreen> {
   List<Color> colors = AppColors.pieChartCategoryColors;
 
   // Tổng số tiền.
-  late double total;
+  late BigInt total;
 
   // Biến để lấy vị trí đã chạm vào pie chart.
   int touchedIndex = -1;
@@ -42,7 +42,7 @@ class PieChartScreenState extends State<PieChartScreen> {
   late List<CategoryModel> categoryList;
 
   // Danh sách tổng số tiền của từng danh mục.
-  List<double> info = [];
+  List<BigInt> info = [];
 
   @override
   void initState() {
@@ -71,9 +71,9 @@ class PieChartScreenState extends State<PieChartScreen> {
   }
 
   // Hàm tính toán tổng số tiền của từng danh mục trong danh sách transactions.
-  double calculateByCategory(
+  BigInt calculateByCategory(
       CategoryModel category, List<TransactionModel> transactionList) {
-    double sum = 0;
+    BigInt sum = BigInt.zero;
     transactionList.forEach((element) {
       if (element.category.name == category.name) sum += element.amount;
     });
@@ -215,7 +215,7 @@ class PieChartScreenState extends State<PieChartScreen> {
   }
 
   List<PieChartSectionData> showingSections() {
-    return (categoryList.length != 0)
+    return (categoryList.isNotEmpty)
         ? List.generate(categoryList.length, (i) {
       final isTouched = i == touchedIndex;
       final radius = isTouched ? 28.0 : 18.0;
@@ -223,7 +223,7 @@ class PieChartScreenState extends State<PieChartScreen> {
       final double fontTitleSize = isTouched ? 17 : 8.5;
 
       if (total == 0)
-        total = 1.0;
+        total = BigInt.from(1);
       var value = ((info[i] / total) * 100);
 
       return PieChartSectionData(
@@ -268,7 +268,7 @@ class PieChartScreenState extends State<PieChartScreen> {
       final radius = 8.0;
 
       if (total == 0)
-        total = 1.0;
+        total = BigInt.from(1);
       var value = ((info[i] / total) * 100);
 
       return PieChartSectionData(

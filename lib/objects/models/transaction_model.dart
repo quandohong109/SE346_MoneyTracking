@@ -7,7 +7,7 @@ class TransactionModel {
   final WalletModel wallet;
   final DateTime date;
   final String? note;
-  final double amount;
+  final BigInt amount;
   final bool isExpanded;
 
   TransactionModel({

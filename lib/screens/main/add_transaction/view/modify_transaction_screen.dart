@@ -97,7 +97,7 @@ class _ModifyTransactionScreen extends State<ModifyTransactionScreen> {
                   BlocBuilder<ModifyTransactionScreenCubit, ModifyTransactionScreenState>(
                     builder: (context, state) {
                       return Text(
-                        state.isEdit ? 'Edit' : 'New transaction',
+                        state.isEdit ? 'Edit transaction' : 'New transaction',
                         style: const TextStyle(
                             fontSize: 30, fontWeight: FontWeight.w500),
                       );
@@ -113,15 +113,12 @@ class _ModifyTransactionScreen extends State<ModifyTransactionScreen> {
                             BlocBuilder<ModifyTransactionScreenCubit, ModifyTransactionScreenState>(
                                 builder: (context, state) {
                                   if (state.amount != null) {
-                                    amountController.text = NumberFormat.decimalPattern('vi').format(state.amount);
+                                    amountController.text = Converter.formatNumber(state.amount!);
                                   }
                                   return FieldWithIcon(
                                     hintText: 'Amount',
                                     controller: amountController,
                                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-                                    ],
                                     onSubmitted: (amount) {
                                       cubit.updateAmount(amount);
                                     },

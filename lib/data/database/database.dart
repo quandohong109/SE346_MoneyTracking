@@ -154,7 +154,7 @@ class Database {
           wallet: walletList.firstWhere((element) => element.id == data['walletID']),
           date: (data['date'] as Timestamp).toDate(),
           note: data['note'] ?? '',
-          amount: data['amount'],
+          amount: Converter.toBigInt(data['amount']),
           isExpanded: false,
         );
       }).toList();
@@ -184,14 +184,13 @@ class Database {
             wallet: walletList.firstWhere((element) => element.id == data['walletID']),
             date: (data['date'] as Timestamp).toDate(),
             note: data['note'] ?? '',
-            amount: data['amount'],
+            amount: Converter.toBigInt(data['amount']),
             isExpanded: false,
           );
         }).toList();
 
         // Sort the transactions by date in descending order
         transactions.sort((a, b) => b.date.compareTo(a.date));
-
         return transactions;
       });
     } catch (e) {

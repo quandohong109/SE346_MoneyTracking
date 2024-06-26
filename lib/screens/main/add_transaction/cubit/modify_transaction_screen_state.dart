@@ -1,7 +1,7 @@
 part of 'modify_transaction_screen_cubit.dart';
 
 class ModifyTransactionScreenState with EquatableMixin {
-  final double? amount;
+  final BigInt? amount;
   final CategoryModel? category;
   final WalletModel? wallet;
   final String note;
@@ -44,7 +44,7 @@ class ModifyTransactionScreenState with EquatableMixin {
       ];
 
   ModifyTransactionScreenState copyWith({
-    double? amount,
+    BigInt? amount,
     CategoryModel? category,
     WalletModel? wallet,
     String? note,
