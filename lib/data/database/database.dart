@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:money_tracking/data/firebase/firebase.dart';
 import 'package:money_tracking/functions/converter.dart';
@@ -44,6 +45,8 @@ class Database {
   List<WalletModel> walletList = [];
   List<TransactionModel> transactionList = [];
 
+  Stream<List<TransactionModel>> transactionListStream = const Stream.empty();
+
   // void updateCategoryList() {
   //   categoryList = Firebase().categoryList.map((e) {
   //     return CategoryModel(
@@ -61,7 +64,6 @@ class Database {
   //     return WalletModel(
   //       id: e.id,
   //       name: e.name,
-  //       icon: iconTypeList.firstWhere((element) => element.id == e.iconID),
   //       balance: e.balance,
   //     );
   //   }).toList();
@@ -101,7 +103,9 @@ class Database {
         );
       }).toList();
       categoryList.sort((a, b) => a.name.compareTo(b.name));
-      print(categoryList);
+      if (kDebugMode) {
+        print(categoryList);
+      }
     } catch (e) {
       // If an error occurs, catch it and show an error toast
       throw Exception("An error occurred - Category: ${e.toString()}");
@@ -124,8 +128,7 @@ class Database {
           balance: BigInt.parse(data['balance']),
         );
       }).toList();
-      categoryList.sort((a, b) => a.name.compareTo(b.name));
-      print(walletList);
+      walletList.sort((a, b) => a.name.compareTo(b.name));
     } catch (e) {
       // If an error occurs, catch it and show an error toast
       throw Exception("An error occurred - Wallet: ${e.toString()}");
@@ -150,15 +153,47 @@ class Database {
           category: categoryList.firstWhere((element) => element.id == data['categoryID']),
           wallet: walletList.firstWhere((element) => element.id == data['walletID']),
           date: (data['date'] as Timestamp).toDate(),
-          note: data['note'],
-          amount: BigInt.parse(data['amount']),
+          note: data['note'] ?? '',
+          amount: Converter.toBigInt(data['amount']),
           isExpanded: false,
         );
       }).toList();
       transactionList.sort((a, b) => b.date.compareTo(a.date));
-      print(transactionList);
+      await Database().updateTransactionListStream();
     } catch (e) {
-      // If an error occurs, catch it and show an error toast
+      throw Exception("An error occurred - Transaction: ${e.toString()}");
+    }
+  }
+
+  Future<void> updateTransactionListStream() async {
+    try {
+      final firestoreInstance = FirebaseFirestore.instance;
+      transactionListStream = firestoreInstance
+          .collection('transactions')
+          .where('userID', isEqualTo: GetData.getUID())
+          .snapshots()
+          .asyncMap((querySnapshot) async {
+        await updateCategoryListFromFirestore();
+        await updateWalletListFromFirestore();
+
+        var transactions = querySnapshot.docs.map((doc) {
+          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          return TransactionModel(
+            id: data['id'],
+            category: categoryList.firstWhere((element) => element.id == data['categoryID']),
+            wallet: walletList.firstWhere((element) => element.id == data['walletID']),
+            date: (data['date'] as Timestamp).toDate(),
+            note: data['note'] ?? '',
+            amount: Converter.toBigInt(data['amount']),
+            isExpanded: false,
+          );
+        }).toList();
+
+        // Sort the transactions by date in descending order
+        transactions.sort((a, b) => b.date.compareTo(a.date));
+        return transactions;
+      });
+    } catch (e) {
       throw Exception("An error occurred - Transaction: ${e.toString()}");
     }
   }

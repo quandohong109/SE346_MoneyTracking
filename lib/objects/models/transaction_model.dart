@@ -6,7 +6,7 @@ class TransactionModel {
   final CategoryModel category;
   final WalletModel wallet;
   final DateTime date;
-  final String note;
+  final String? note;
   final BigInt amount;
   final bool isExpanded;
 
@@ -15,7 +15,7 @@ class TransactionModel {
     required this.category,
     required this.wallet,
     required this.date,
-    required this.note,
+    this.note,
     required this.amount,
     required this.isExpanded,
   });

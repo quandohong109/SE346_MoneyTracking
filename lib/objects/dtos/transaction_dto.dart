@@ -5,8 +5,8 @@ class TransactionDTO {
   final int categoryID;
   final int walletID;
   final Timestamp date;
-  final String note;
-  final BigInt amount;
+  final String? note;
+  final double amount;
   final String userID;
 
   TransactionDTO({

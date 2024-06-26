@@ -12,16 +12,20 @@ class WalletModel {
     required this.balance,
   });
 
-  bool addBalance(BigInt amount) {
-    return WalletBUS.changeBalance(amount, id);
-  }
-
-  bool subtractBalance(BigInt amount) {
-    return WalletBUS.changeBalance(-amount, id);
-  }
+  // bool addBalance(BigInt amount) {
+  //   return WalletBUS.changeBalance(amount, id);
+  // }
+  //
+  // bool subtractBalance(BigInt amount) {
+  //   return WalletBUS.changeBalance(-amount, id);
+  // }
 
   @override
   String toString() {
     return 'WalletModel{id: $id, name: $name, balance: $balance}';
+  }
+
+  String getName() {
+    return name;
   }
 }

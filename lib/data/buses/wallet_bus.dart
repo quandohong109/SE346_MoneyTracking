@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:money_tracking/data/firebase/firebase.dart';
+import 'package:money_tracking/functions/custom_exception.dart';
 
+import '../../functions/custom_dialog.dart';
 import '../../functions/getdata.dart';
-import '../../objects/models/wallet_model.dart';
+import '../../objects/dtos/wallet_dto.dart';
 import '../database/database.dart';
 
 class WalletBUS {
@@ -34,30 +36,17 @@ class WalletBUS {
     });
   }
 
-  static Future<void> addWalletToFirestore(WalletModel wallet, BuildContext context) async {
+  static Future<void> addWalletToFirestore(String walletName, String balance, BuildContext context) async {
     try {
       // Check if a wallet with the same name already exists
       var nameSnapshot = await FirebaseFirestore.instance.collection('wallets')
-          .where('name', isEqualTo: wallet.name)
+          .where('name', isEqualTo: walletName)
           .get();
 
       if (nameSnapshot.docs.isNotEmpty) {
-        // If a wallet with the same name exists, show an AlertDialog and do not add the new wallet
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Cannot add wallet'),
-            content: const Text('A wallet with this name already exists.'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-        );
+        // If a wallet with the same name exists, do not add the new wallet
+        CustomDialog.showInfoDialog(context, 'Error', 'A wallet with the same name already exists.');
+        return;
       } else {
         // If no wallet with the same name exists, add the new wallet
         var idSnapshot = await FirebaseFirestore.instance.collection('wallets').orderBy('id', descending: true).limit(1).get();
@@ -67,11 +56,10 @@ class WalletBUS {
 
         await FirebaseFirestore.instance.collection('wallets').add({
           'id': newId,
-          'name': wallet.name,
-          'balance': wallet.balance.toString(),
+          'name': walletName,
+          'balance': balance,
           'userID': GetData.getUID(),
         });
-
         await Database().updateWalletListFromFirestore();
       }
     } catch (e) {
@@ -80,7 +68,7 @@ class WalletBUS {
     }
   }
 
-  static Future<void> deleteWalletFromFirestore(int walletId, BuildContext context) async {
+  static Future<bool> deleteWalletFromFirestore(int walletId, BuildContext context) async {
     try {
       // Check if there are any transactions associated with the wallet
       var transactionSnapshot = await FirebaseFirestore.instance.collection('transactions')
@@ -89,24 +77,7 @@ class WalletBUS {
 
       if (transactionSnapshot.docs.isNotEmpty) {
         // If there are transactions, show an AlertDialog and do not delete the wallet
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Cannot delete wallet'),
-            content: const Text('This wallet has associated transactions and cannot be deleted.'),
-            actions: <Widget>[
-              TextButton(
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.green,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          ),
-        );
+        return false;
       } else {
         // If there are no transactions, delete the wallet and show an AlertDialog
         var walletSnapshot = await FirebaseFirestore.instance.collection('wallets')
@@ -115,118 +86,8 @@ class WalletBUS {
         for (var doc in walletSnapshot.docs) {
           await doc.reference.delete();
         }
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Wallet deleted'),
-            content: const Text('The wallet has been successfully deleted.'),
-            actions: <Widget>[
-              TextButton(
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.green,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          ),
-        );
         await Database().updateWalletListFromFirestore();
-      }
-    } catch (e) {
-      // If an error occurs, catch it and show an error toast
-      throw Exception("An error occurred - Wallet: ${e.toString()}");
-    }
-  }
-
-  static Future<void> updateWalletOnFirestore(int walletId, String newName, BigInt newBalance, BuildContext context) async {
-    try {
-      // Check if a wallet with the same name already exists
-      var nameSnapshot = await FirebaseFirestore.instance.collection('wallets')
-          .where('name', isEqualTo: newName)
-          .get();
-
-      if (nameSnapshot.docs.isNotEmpty && nameSnapshot.docs.first.id != walletId.toString()) {
-        // If a wallet with the same name exists and it's not the current wallet, show an AlertDialog and do not update the wallet
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Cannot update wallet'),
-            content: const Text('A wallet with this name already exists.'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-        );
-      } else {
-        // Get the total value of all transactions associated with the wallet
-        var transactionSnapshot = await FirebaseFirestore.instance.collection('transactions')
-            .where('walletID', isEqualTo: walletId)
-            .get();
-
-        BigInt totalTransactionValue = BigInt.zero;
-        for (var doc in transactionSnapshot.docs) {
-          totalTransactionValue += BigInt.parse(doc.data()['value']);
-        }
-
-        if (totalTransactionValue > newBalance) {
-          // If the total transaction value is greater than the new balance, show an AlertDialog and do not update the balance
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: const Text('Cannot update wallet balance'),
-              content: Text('The new balance is less than the total value of transactions associated with this wallet. Current balance: ${totalTransactionValue.toString()}'),
-              actions: <Widget>[
-                TextButton(
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.green,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('OK'),
-                ),
-              ],
-            ),
-          );
-        } else {
-          // If the total transaction value is not greater than the new balance, update the wallet name and balance
-          var walletSnapshot = await FirebaseFirestore.instance.collection('wallets')
-              .where('id', isEqualTo: walletId)
-              .get();
-          for (var doc in walletSnapshot.docs) {
-            await doc.reference.update({
-              'name': newName,
-              'balance': newBalance.toString(),
-            });
-          }
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: const Text('Wallet updated'),
-              content: const Text('The wallet has been successfully updated.'),
-              actions: <Widget>[
-                TextButton(
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.green,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('OK'),
-                ),
-              ],
-            ),
-          );
-          await Database().updateWalletListFromFirestore();
-        }
+        return true;
       }
     } catch (e) {
       // If an error occurs, catch it and show an error toast
@@ -253,7 +114,7 @@ class WalletBUS {
     }
   }
 
-  static Future<void> decreaseWalletBalanceOnFirestore(int walletId, BigInt transactionValue, BuildContext context) async {
+  static Future<bool> decreaseWalletBalanceOnFirestore(int walletId, BigInt transactionValue) async {
     try {
       var walletSnapshot = await FirebaseFirestore.instance.collection('wallets')
           .where('id', isEqualTo: walletId)
@@ -261,33 +122,125 @@ class WalletBUS {
       for (var doc in walletSnapshot.docs) {
         BigInt currentBalance = BigInt.parse(doc.data()['balance']);
         if (transactionValue > currentBalance) {
-          // If the transaction value is greater than the current balance, show an AlertDialog and do not decrease the balance
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: const Text('Cannot decrease wallet balance'),
-              content: const Text('The transaction value is greater than the current wallet balance.'),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
-          );
+          return false;
+          // If the transaction value is greater than the current balance, do not decrease the balance
         } else {
           BigInt newBalance = currentBalance - transactionValue;
+
+          // Get the total value of transactions using the wallet
+          var transactionSnapshot = await FirebaseFirestore.instance.collection('transactions')
+              .where('walletID', isEqualTo: walletId)
+              .get();
+          BigInt totalTransactionValue = BigInt.zero;
+          for (var transactionDoc in transactionSnapshot.docs) {
+            totalTransactionValue += BigInt.parse(transactionDoc.data()['value']);
+          }
+
+          // If the new balance is less than the total transaction value, do not decrease the balance
+          if (newBalance < totalTransactionValue) {
+            return false;
+          }
+
           await doc.reference.update({
             'balance': newBalance.toString(),
           });
         }
       }
       await Database().updateWalletListFromFirestore();
+      return true;
     } catch (e) {
       // If an error occurs, catch it and show an error toast
       throw Exception("An error occurred - Wallet: ${e.toString()}");
+    }
+  }
+
+  static Stream<List<WalletDTO>> getWalletListFromFirestore() {
+    final firestoreInstance = FirebaseFirestore.instance;
+    return firestoreInstance
+        .collection('wallets')
+        .where('userID', isEqualTo: GetData.getUID())
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        return WalletDTO(
+          id: data['id'],
+          name: data['name'],
+          balance: BigInt.parse(data['balance']),
+          userID: data['userID'],
+        );
+      }).toList()
+        ..sort((a, b) => a.name.compareTo(b.name));
+    });
+  }
+
+  static Stream<BigInt> getTotalBalanceFromFirestore() {
+    return FirebaseFirestore.instance
+        .collection('wallets')
+        .where('userID', isEqualTo: GetData.getUID())
+        .snapshots()
+        .map((snapshot) {
+      BigInt totalBalance = BigInt.zero;
+      for (var doc in snapshot.docs) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        totalBalance += BigInt.parse(data['balance']);
+      }
+      return totalBalance;
+    });
+  }
+
+  static Future<String> editWalletOnFirestore(int walletId, String newWalletName, String newBalance, BuildContext context) async {
+    try {
+      var walletSnapshot = await FirebaseFirestore.instance.collection('wallets')
+          .where('id', isEqualTo: walletId)
+          .get();
+      var walletData = walletSnapshot.docs.first.data();
+      String currentName = walletData['name'];
+      String currentBalance = walletData['balance'];
+
+      // Check if the new name or balance is different from the current name or balance
+      if (newWalletName == currentName && newBalance == currentBalance) {
+        // If both the name and balance are the same, do not update the wallet
+        return 'noChange';
+      }
+
+      // Get the total balance from transactions associated with the wallet
+      var transactionSnapshot = await FirebaseFirestore.instance.collection('transactions')
+          .where('walletID', isEqualTo: walletId)
+          .get();
+      BigInt totalTransactionAmount = BigInt.zero;
+      for (var doc in transactionSnapshot.docs) {
+        Map<String, dynamic> data = doc.data();
+        BigInt transactionAmount = (data['amount'] != null) ? BigInt.parse(data['amount']) : BigInt.zero;
+        totalTransactionAmount += transactionAmount;
+      }
+
+      // Check if the new balance is less than the total transaction balance
+      if (BigInt.parse(newBalance) < totalTransactionAmount) {
+        // If the new balance is less, do not update the wallet
+        return 'badBalance';
+      }
+
+      // Check if a wallet with the new name already exists
+      var nameSnapshot = await FirebaseFirestore.instance.collection('wallets')
+          .where('name', isEqualTo: newWalletName)
+          .get();
+
+      if (nameSnapshot.docs.isNotEmpty && currentBalance == newBalance) {
+        // If a wallet with the new name exists, do not update the wallet
+        return 'nameExists';
+      }
+
+      // If the new balance is not less, update the wallet
+      await walletSnapshot.docs.first.reference.update({
+        'name': newWalletName,
+        'balance': newBalance,
+      });
+      await Database().updateWalletListFromFirestore();
+      return 'success';
+    } catch (e) {
+      // If an error occurs, catch it and return an error message
+      return e.toString();
     }
   }
 }
