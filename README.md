@@ -41,7 +41,7 @@ The project is constructed by:
   </tr>
   <tr>
     <td>1</td>
-    <td>`22521175`</td>
+    <td>22521175</td>
     <td>Quan, Do Hong</td>
     <td>Member</td>
     <td><a href="https://github.com/quandohong109"><img src="https://img.shields.io/badge/quandohong109-%2324292f.svg?style=flat-square&logo=github" alt="GitHub"></a></td>
