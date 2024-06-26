@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://www.uit.edu.vn/" title="Trường Đại học Công nghệ Thông tin" style="border: none;">
+    <img src="https://i.imgur.com/WmMnSRt.png" alt="Trường Đại học Công nghệ Thông tin | University of Information Technology">
+  </a>
+</p>
+
 <h1 align="center" id="title">Money Tracking - Mobile Expense Management App</h1>
 
 <p align="center"><img src="https://socialify.git.ci/quandohong109/SE346_MoneyTracking/image?font=Source%20Code%20Pro&amp;logo=https%3A%2F%2Fi.postimg.cc%2FWb396tQC%2Fplay-store-512.png&amp;name=1&amp;pattern=Overlapping%20Hexagons&amp;theme=Auto" alt="project-image"></p>
