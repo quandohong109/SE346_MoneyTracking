@@ -113,6 +113,7 @@ class TransactionBUS {
           } else {
             // If the old transaction was an expense and the new one is an income, increase the wallet balance
             await WalletBUS.increaseWalletBalanceOnFirestore(transaction.wallet.id, transaction.amount);
+            await WalletBUS.increaseWalletBalanceOnFirestore(transaction.wallet.id, transaction.amount);
           }
         }
 
