@@ -38,6 +38,7 @@ class TransactionBUS {
         'note': transaction.note,
         'userID': GetData.getUID(),
       });
+
       await Database().updateTransactionListFromFirestore();
     } on Exception {
       rethrow;
@@ -112,7 +113,6 @@ class TransactionBUS {
             await WalletBUS.decreaseWalletBalanceOnFirestore(transaction.wallet.id, transaction.amount);
           } else {
             // If the old transaction was an expense and the new one is an income, increase the wallet balance
-            await WalletBUS.increaseWalletBalanceOnFirestore(transaction.wallet.id, transaction.amount);
             await WalletBUS.increaseWalletBalanceOnFirestore(transaction.wallet.id, transaction.amount);
           }
         }

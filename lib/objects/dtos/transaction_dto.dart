@@ -6,7 +6,7 @@ class TransactionDTO {
   final int walletID;
   final Timestamp date;
   final String? note;
-  final double amount;
+  final BigInt amount;
   final String userID;
 
   TransactionDTO({

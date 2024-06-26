@@ -88,7 +88,6 @@ class WalletBUS {
           'balance': newBalance.toString(),
         });
       }
-      await Database().updateWalletListFromFirestore();
     } catch (e) {
       // If an error occurs, catch it and show an error toast
       throw Exception("An error occurred - Wallet: ${e.toString()}");
@@ -108,15 +107,15 @@ class WalletBUS {
           // If the transaction value is greater than the current balance, do not decrease the balance
         } else {
           BigInt newBalance = currentBalance - transactionValue;
-
           // Get the total value of transactions using the wallet
           var transactionSnapshot = await FirebaseFirestore.instance.collection('transactions')
               .where('walletID', isEqualTo: walletId)
               .where('userID', isEqualTo: GetData.getUID())
               .get();
+
           BigInt totalTransactionValue = BigInt.zero;
           for (var transactionDoc in transactionSnapshot.docs) {
-            totalTransactionValue += BigInt.parse(transactionDoc.data()['value']);
+            totalTransactionValue += BigInt.parse(transactionDoc.data()['amount']);
           }
 
           // If the new balance is less than the total transaction value, do not decrease the balance
@@ -129,7 +128,6 @@ class WalletBUS {
           });
         }
       }
-      await Database().updateWalletListFromFirestore();
     } on Exception {
       // If an error occurs, catch it and show an error toast
       rethrow;
@@ -222,7 +220,6 @@ class WalletBUS {
         'name': newWalletName,
         'balance': balance,
       });
-      await Database().updateWalletListFromFirestore();
       return 'success';
     } catch (e) {
       // If an error occurs, catch it and return an error message
