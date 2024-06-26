@@ -24,7 +24,7 @@ The Money Tracking application, developed by K17-2022 students from the Universi
 * Course code: SE346.
 * Class code: SE346.O21.
 * Session: Semester II (2023 - 2024).
-* Lecturer: Master Anh, Huynh Tuan, Lecturer, Faculty of Software Engineering, University of Information Technology, Vietnam National University, Ho Chi Minh City
+* Lecturer: Master Huynh Tuan Anh, Lecturer, Faculty of Software Engineering, University of Information Technology, Vietnam National University, Ho Chi Minh City
   
 <h2>👨‍💻👩‍💻 Creators </h2>
 
