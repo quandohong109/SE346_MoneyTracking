@@ -1,8 +1,6 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:money_tracking/objects/models/wallet_model.dart';
-import 'package:money_tracking/screens/main/add_transaction/view/category/category_screen.dart';
 
-import '../../../../../objects/models/category_model.dart';
 import 'package:flutter/material.dart';
 
 class WalletWidget extends StatelessWidget {

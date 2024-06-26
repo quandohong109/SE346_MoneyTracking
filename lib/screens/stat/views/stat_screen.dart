@@ -13,10 +13,9 @@ import 'package:money_tracking/screens/stat/views/widgets/total_money.dart';
 class StatScreen extends StatefulWidget {
   final DateTime? beginDate;
   final DateTime? endDate;
-  StatScreen({Key? key,  this.endDate,  this.beginDate})
+  const StatScreen({Key? key,  this.endDate,  this.beginDate})
       : super(key: key);
 
-  @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.cyan,

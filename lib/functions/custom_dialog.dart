@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:money_tracking/screens/main/add_transaction/view/widgets/standard_button.dart';
 
 class CustomDialog {
   static void showInfoDialog(BuildContext context, String title, String content) {
@@ -26,12 +25,24 @@ class CustomDialog {
             ),
           ),
           actions: <Widget>[
-            StandardButton(
-              text: 'OK',
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-            ),
+            Center(
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.green, // Set the background color to green
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0), // Set the border radius
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 48.0),
+                ),
+                child: const Text(
+                  'OK',
+                  style: TextStyle(color: Colors.white), // Set the text color to white
+                ),
+              ),
+            )
           ],
         );
       },
@@ -63,26 +74,40 @@ class CustomDialog {
           ),
           actions: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Expanded(
-                  child: StandardButton(
-                    text: 'Yes',
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      onYesPressed();
-                    },
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 48.0),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    onNoPressed?.call() ?? () {};
+                  },
+                  child: const Text(
+                    'NO',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
-
-                const SizedBox(width: 10),
-
-                Expanded(
-                  child: StandardButton(
-                    text: 'No',
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      onNoPressed?.call() ?? () {};
-                    },
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 48.0),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    onYesPressed();
+                  },
+                  child: const Text(
+                    'YES',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ],

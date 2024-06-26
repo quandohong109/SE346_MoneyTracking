@@ -36,16 +36,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-        automaticallyImplyLeading: false, // This removes the back arrow
-      ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-          child: Column(
-            children: [
-              Row(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
@@ -87,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             Text(
-                              _name ?? 'User',
+                              _name ?? '',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -105,15 +101,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
-              Expanded(
-                child: BlocProvider(
-                  create: (context) => WalletBloc(),
-                  child: WalletsWidget(),
-                ),
+            ),
+            const Divider(color: Colors.grey),
+            const SizedBox(height: 0),
+            Expanded(
+              child: BlocProvider(
+                create: (context) => WalletBloc(),
+                child: WalletsWidget(),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
