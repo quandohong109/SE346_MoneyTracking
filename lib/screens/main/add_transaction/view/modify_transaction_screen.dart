@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:money_tracking/data/database/database.dart';
+import 'package:money_tracking/functions/converter.dart';
 import 'package:money_tracking/objects/models/wallet_model.dart';
 import 'package:money_tracking/screens/main/add_transaction/view/widgets/category_field.dart';
 import 'package:money_tracking/screens/main/add_transaction/view/widgets/category_list_container.dart';
@@ -52,7 +53,6 @@ class _ModifyTransactionScreen extends State<ModifyTransactionScreen> {
   @override
   void initState() {
     super.initState();
-    Database().updateWalletListFromFirestore();
     cubit.updateCategoryList();
     cubit.updateWalletList();
     isCategoryExpandedNotifier = ValueNotifier<bool>(false);
@@ -97,7 +97,7 @@ class _ModifyTransactionScreen extends State<ModifyTransactionScreen> {
                   BlocBuilder<ModifyTransactionScreenCubit, ModifyTransactionScreenState>(
                     builder: (context, state) {
                       return Text(
-                        state.isEdit ? 'Edit' : 'New transaction',
+                        state.isEdit ? 'Edit transaction' : 'New transaction',
                         style: const TextStyle(
                             fontSize: 30, fontWeight: FontWeight.w500),
                       );
@@ -113,20 +113,23 @@ class _ModifyTransactionScreen extends State<ModifyTransactionScreen> {
                             BlocBuilder<ModifyTransactionScreenCubit, ModifyTransactionScreenState>(
                                 builder: (context, state) {
                                   if (state.amount != null) {
-                                    amountController.text = state.amount.toString();
+                                    amountController.text = Converter.formatNumber(state.amount!);
                                   }
                                   return FieldWithIcon(
                                     hintText: 'Amount',
                                     controller: amountController,
                                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-                                    ],
                                     onSubmitted: (amount) {
                                       cubit.updateAmount(amount);
                                     },
                                     onChange: (amount) {
-                                      cubit.updateAmount(amount);
+                                      if (amount.isEmpty) {
+                                        amountController.text = '';
+                                        cubit.updateAmount(amount);
+                                      } else {
+                                        String formattedAmount = amount.replaceAll('.', '');
+                                        cubit.updateAmount(formattedAmount);
+                                      }
                                     },
                                     prefixIcon: const Icon(
                                       FontAwesomeIcons.dollarSign,

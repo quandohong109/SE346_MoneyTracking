@@ -125,17 +125,17 @@ class WalletBUS {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: const Text('Cannot decrease wallet balance'),
-              content: const Text('The transaction value is greater than the current wallet balance.'),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                  title: const Text('Cannot decrease wallet balance'),
+                  content: const Text('The transaction value is greater than the current wallet balance.'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text('OK'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
                 ),
-              ],
-            ),
           );
         } else {
           BigInt newBalance = currentBalance - transactionValue;

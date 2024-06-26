@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:money_tracking/data/database/database.dart';
@@ -166,137 +167,137 @@ class _StatScreenState extends State<StatScreen>
                         parent: AlwaysScrollableScrollPhysics()),
                     children: <Widget>[
                       Container(
-                        padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
-                        decoration: BoxDecoration(
-                            color: AppColors.backgroundColor,
-                            border: Border(
-                              bottom: BorderSide(
-                                color: AppColors.foregroundColor.withOpacity(0.24),
-                                width: 0.5,
-                              ),
-                            )),
-                        child:Container(
-                              color: AppColors
-                                  .backgroundColor, // để lúc export ra không bị transparent.
-                              child: Column(
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Column(
-                                          children: <Widget>[
-                                            Text(
-                                              'Opening balance',
-                                              style: TextStyle(
-                                                color: AppColors.foregroundColor
-                                                    .withOpacity(0.7),
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 15,
-                                              ),
-                                            ),
-                                            TotalMoney(
-                                              checkOverflow: true,
-                                              text: openingBalance,
-                                              currencyId: 'VND',
-                                              textStyle: TextStyle(
-                                                color: AppColors.foregroundColor,
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 20,
-                                                height: 1.5,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          children: <Widget>[
-                                            Text(
-                                              'Closing balance',
-                                              style: TextStyle(
-                                                color: AppColors.foregroundColor
-                                                    .withOpacity(0.7),
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 15,
-                                              ),
-                                            ),
-                                            TotalMoney(
-                                              checkOverflow: true,
-                                              text: closingBalance,
-                                              currencyId: 'VND',
-                                              textStyle: TextStyle(
-                                                color: AppColors.foregroundColor,
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 20,
-                                                height: 1.5,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Divider(
-                                    color:
-                                    AppColors.foregroundColor.withOpacity(0.12),
-                                    thickness: 2,
-                                    height: 40,
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  Hero(
-                                    tag: 'netIncomeChart',
-                                    child: Material(
-                                      color: AppColors.backgroundColor,
+                          padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+                          decoration: BoxDecoration(
+                              color: AppColors.backgroundColor,
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: AppColors.foregroundColor.withOpacity(0.24),
+                                  width: 0.5,
+                                ),
+                              )),
+                          child:Container(
+                            color: AppColors
+                                .backgroundColor, // để lúc export ra không bị transparent.
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Expanded(
                                       child: Column(
-                                        children: [
-                                          Text('Net Income',
-                                              style: TextStyle(
-                                                color: AppColors.foregroundColor
-                                                    .withOpacity(0.7),
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 15,
-                                              )),
-                                          TotalMoney(
-                                              text: closingBalance -
-                                                  openingBalance,
-                                              currencyId: 'VND',
-                                              textStyle: TextStyle(
-                                                color: (closingBalance -
-                                                    openingBalance) >
-                                                    0
-                                                    ? AppColors.incomeColor
-                                                    : (closingBalance -
-                                                    openingBalance) ==
-                                                    0
-                                                    ? AppColors.foregroundColor
-                                                    :AppColors.expenseColor,
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 22,
-                                                height: 1.5,
-                                              )),
-                                          SizedBox(
-                                              width: 450,
-                                              height: 350,
-                                              child: BarChartScreen(
-                                                  currentList: transactionList,
-                                                  beginDate: beginDate,
-                                                  endDate: endDate),
+                                        children: <Widget>[
+                                          Text(
+                                            'Opening balance',
+                                            style: TextStyle(
+                                              color: AppColors.foregroundColor
+                                                  .withOpacity(0.7),
+                                              fontFamily: 'Montserrat',
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 15,
                                             ),
+                                          ),
+                                          TotalMoney(
+                                            checkOverflow: true,
+                                            text: openingBalance,
+                                            currencyId: 'VND',
+                                            textStyle: TextStyle(
+                                              color: AppColors.foregroundColor,
+                                              fontFamily: 'Montserrat',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 20,
+                                              height: 1.5,
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ),
+                                    Expanded(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Text(
+                                            'Closing balance',
+                                            style: TextStyle(
+                                              color: AppColors.foregroundColor
+                                                  .withOpacity(0.7),
+                                              fontFamily: 'Montserrat',
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          TotalMoney(
+                                            checkOverflow: true,
+                                            text: closingBalance,
+                                            currencyId: 'VND',
+                                            textStyle: TextStyle(
+                                              color: AppColors.foregroundColor,
+                                              fontFamily: 'Montserrat',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 20,
+                                              height: 1.5,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Divider(
+                                  color:
+                                  AppColors.foregroundColor.withOpacity(0.12),
+                                  thickness: 2,
+                                  height: 40,
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Hero(
+                                  tag: 'netIncomeChart',
+                                  child: Material(
+                                    color: AppColors.backgroundColor,
+                                    child: Column(
+                                      children: [
+                                        Text('Net Income',
+                                            style: TextStyle(
+                                              color: AppColors.foregroundColor
+                                                  .withOpacity(0.7),
+                                              fontFamily: 'Montserrat',
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 15,
+                                            )),
+                                        TotalMoney(
+                                            text: closingBalance -
+                                                openingBalance,
+                                            currencyId: 'VND',
+                                            textStyle: TextStyle(
+                                              color: (closingBalance -
+                                                  openingBalance) >
+                                                  0
+                                                  ? AppColors.incomeColor
+                                                  : (closingBalance -
+                                                  openingBalance) ==
+                                                  0
+                                                  ? AppColors.foregroundColor
+                                                  :AppColors.expenseColor,
+                                              fontFamily: 'Montserrat',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 22,
+                                              height: 1.5,
+                                            )),
+                                        SizedBox(
+                                          width: 450,
+                                          height: 350,
+                                          child: BarChartScreen(
+                                              currentList: transactionList,
+                                              beginDate: beginDate,
+                                              endDate: endDate),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
-                            )
+                                ),
+                              ],
+                            ),
+                          )
                       ),
                       Container(
                         padding: EdgeInsets.symmetric(vertical: 15),
@@ -305,55 +306,13 @@ class _StatScreenState extends State<StatScreen>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Expanded(
-                                child: Container(
-                                      color: AppColors
-                                          .backgroundColor, // để lúc export ra không bị transparent.
-                                      child: Column(
-                                        children: <Widget>[
-                                          Text(
-                                            'Income',
-                                            style: TextStyle(
-                                              color: AppColors.foregroundColor
-                                                  .withOpacity(0.7),
-                                              fontFamily: 'Montserrat',
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 16,
-                                            ),
-                                            textAlign: TextAlign.start,
-                                          ),
-                                          TotalMoney(
-                                            checkOverflow: true,
-                                            text: income,
-                                            currencyId: 'VND',
-                                            textStyle: TextStyle(
-                                              color: AppColors.incomeColor,
-                                              fontFamily: 'Montserrat',
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 20,
-                                              height: 1.5,
-                                            ),
-                                          ),
-                                            Container(
-                                              color: Colors.transparent,
-                                              child: PieChartScreen(
-                                                  isShowPercent: false,
-                                                  currentList: transactionList,
-                                                  categoryList:
-                                                  incomeCategoryList,
-                                                  total: BigInt.from(income)
-                                              ),
-                                            ),
-                                        ],
-                                      ),
-                                    )
-                              ),
-                              Expanded(
-                                child: Container(
-                                      color: AppColors
-                                          .backgroundColor, // để lúc export ra không bị transparent.
-                                      child: Column(children: <Widget>[
+                                  child: Container(
+                                    color: AppColors
+                                        .backgroundColor, // để lúc export ra không bị transparent.
+                                    child: Column(
+                                      children: <Widget>[
                                         Text(
-                                          'Expense',
+                                          'Income',
                                           style: TextStyle(
                                             color: AppColors.foregroundColor
                                                 .withOpacity(0.7),
@@ -365,28 +324,70 @@ class _StatScreenState extends State<StatScreen>
                                         ),
                                         TotalMoney(
                                           checkOverflow: true,
-                                          text: expense,
+                                          text: income,
                                           currencyId: 'VND',
                                           textStyle: TextStyle(
-                                            color: AppColors.expenseColor,
+                                            color: AppColors.incomeColor,
                                             fontFamily: 'Montserrat',
                                             fontWeight: FontWeight.w400,
                                             fontSize: 20,
                                             height: 1.5,
                                           ),
                                         ),
-                                          Container(
-                                            color: Colors.transparent,
-                                            child: PieChartScreen(
-                                                isShowPercent: false,
-                                                currentList: transactionList,
-                                                categoryList:
-                                                expenseCategoryList,
-                                                total: BigInt.from(expense)
-                                            ),
+                                        Container(
+                                          color: Colors.transparent,
+                                          child: PieChartScreen(
+                                              isShowPercent: false,
+                                              currentList: transactionList,
+                                              categoryList:
+                                              incomeCategoryList,
+                                              total: BigInt.from(income)
                                           ),
-                                      ]),
-                                    )
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                              ),
+                              Expanded(
+                                  child: Container(
+                                    color: AppColors
+                                        .backgroundColor, // để lúc export ra không bị transparent.
+                                    child: Column(children: <Widget>[
+                                      Text(
+                                        'Expense',
+                                        style: TextStyle(
+                                          color: AppColors.foregroundColor
+                                              .withOpacity(0.7),
+                                          fontFamily: 'Montserrat',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                        ),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                      TotalMoney(
+                                        checkOverflow: true,
+                                        text: expense,
+                                        currencyId: 'VND',
+                                        textStyle: TextStyle(
+                                          color: AppColors.expenseColor,
+                                          fontFamily: 'Montserrat',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 20,
+                                          height: 1.5,
+                                        ),
+                                      ),
+                                      Container(
+                                        color: Colors.transparent,
+                                        child: PieChartScreen(
+                                            isShowPercent: false,
+                                            currentList: transactionList,
+                                            categoryList:
+                                            expenseCategoryList,
+                                            total: BigInt.from(expense)
+                                        ),
+                                      ),
+                                    ]),
+                                  )
                               ),
                             ],
                           ),

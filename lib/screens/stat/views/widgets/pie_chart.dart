@@ -215,7 +215,7 @@ class PieChartScreenState extends State<PieChartScreen> {
   }
 
   List<PieChartSectionData> showingSections() {
-    return (categoryList.length != 0)
+    return (categoryList.isNotEmpty)
         ? List.generate(categoryList.length, (i) {
       final isTouched = i == touchedIndex;
       final radius = isTouched ? 28.0 : 18.0;
@@ -223,7 +223,7 @@ class PieChartScreenState extends State<PieChartScreen> {
       final double fontTitleSize = isTouched ? 17 : 8.5;
 
       if (total == 0)
-        total = 1 as BigInt;
+        total = BigInt.from(1);
       var value = ((info[i] / total) * 100);
 
       return PieChartSectionData(
@@ -268,7 +268,7 @@ class PieChartScreenState extends State<PieChartScreen> {
       final radius = 8.0;
 
       if (total == 0)
-        total = 1 as BigInt;
+        total = BigInt.from(1);
       var value = ((info[i] / total) * 100);
 
       return PieChartSectionData(

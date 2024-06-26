@@ -25,6 +25,10 @@ class ModifyTransactionScreenCubit extends Cubit<ModifyTransactionScreenState> {
       ));
 
   void updateAmount(String text) {
+    if (text.isEmpty) {
+      emit(state.copyWith(amount: null, hasChange: true));
+      return;
+    }
     BigInt amount = BigInt.parse(text);
     emit(state.copyWith(amount: amount, hasChange: true));
   }

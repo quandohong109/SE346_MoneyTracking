@@ -19,10 +19,9 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget Function()> widgetList = [
         () => const HomeScreen(),
         () => TransactionScreen.newInstance(),
-        () =>  StatScreen(),
+        () => const StatScreen(),
+        () => const StatScreen(),
   ];
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +31,7 @@ class _MainScreenState extends State<MainScreen> {
               top: Radius.circular(30)
           ),
           child: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
               onTap: (value) {
                 if (value != index) {
                   setState(() {
@@ -56,7 +56,11 @@ class _MainScreenState extends State<MainScreen> {
                 BottomNavigationBarItem(
                     icon: Icon(Icons.bar_chart),
                     label: "Stats"
-                )
+                ),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.bar_chart),
+                    label: "Stats"
+                ),
               ]
           ),
         ),
