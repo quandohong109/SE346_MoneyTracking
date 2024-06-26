@@ -16,7 +16,7 @@ The Money Tracking application, developed by K17-2022 students from the Universi
 
 The project is constructed by:
 
-| No. |   Student ID   | Full Name           |    Role |                                                                                                                         GitHub |                  Email |
+| No. |   Student ID   | Full Name           |  Role |                                                                                                                         GitHub |                  Email |
 | --- | :------: | ------------------- | ---------: | -----------------------------------------------------------------------------------------------------------------------------: | ---------------------: |
 | 1   | 22521175 | Quan, Do Hong       | Member |         [![](https://img.shields.io/badge/quandohong109-%2324292f.svg?style=flat-square&logo=github)](https://github.com/quandohong109) | 22521175@gm.uit.edu.vn |
 | 2   | 22521474 | Tien, To Vinh   | Member |    [![](https://img.shields.io/badge/Terry--UIT-%2324292f.svg?style=flat-square&logo=github)](https://github.com/Terry-UIT) | 22521474@gm.uit.edu.vn |
