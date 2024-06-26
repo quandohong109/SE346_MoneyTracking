@@ -73,7 +73,7 @@ class _CategoryScreen extends State<CategoryScreen> {
                     BlocBuilder<CategoryScreenCubit, CategoryScreenState>(
                       builder: (context, state) {
                         return Text(
-                          state.isEdit ? 'Edit' : 'New category',
+                          state.isEdit ? 'Edit category' : 'New category',
                           style: const TextStyle(
                               fontSize: 30, fontWeight: FontWeight.w500),
                         );

@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://www.uit.edu.vn/" title="Trường Đại học Công nghệ Thông tin" style="border: none;">
+    <img src="https://i.imgur.com/WmMnSRt.png" alt="Trường Đại học Công nghệ Thông tin | University of Information Technology">
+  </a>
+</p>
+
 <h1 align="center" id="title">Money Tracking - Mobile Expense Management App</h1>
 
 <p align="center"><img src="https://socialify.git.ci/quandohong109/SE346_MoneyTracking/image?font=Source%20Code%20Pro&amp;logo=https%3A%2F%2Fi.postimg.cc%2FWb396tQC%2Fplay-store-512.png&amp;name=1&amp;pattern=Overlapping%20Hexagons&amp;theme=Auto" alt="project-image"></p>
@@ -10,15 +16,70 @@ The Money Tracking application, developed by K17-2022 students from the Universi
 </div>
 </p>
 
-<p align="center"><img src="https://img.shields.io/badge/Flutter-02569B?logo=flutter&amp;logoColor=fff&amp;style=flat" alt="shields"><img src="https://img.shields.io/badge/Dart-0175C2?logo=dart&amp;logoColor=fff&amp;style=flat" alt="shields"><img src="https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&amp;logoColor=000&amp;style=flat" alt="shields"><img src="https://img.shields.io/badge/Figma-F24E1E?logo=figma&amp;logoColor=fff&amp;style=flat" alt="shields"><img src="https://img.shields.io/badge/Android%20Studio-3DDC84?logo=androidstudio&amp;logoColor=fff&amp;style=flat" alt="shields"></p>
+<p align="center">
+  <img src="https://img.shields.io/badge/Flutter-02569B?logo=flutter&amp;logoColor=fff&amp;style=flat" alt="shields" style="margin-right: 5px;">
+  <img src="https://img.shields.io/badge/Dart-0175C2?logo=dart&amp;logoColor=fff&amp;style=flat" alt="shields" style="margin-right: 5px;">
+  <img src="https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&amp;logoColor=000&amp;style=flat" alt="shields" style="margin-right: 5px;">
+  <img src="https://img.shields.io/badge/Figma-F24E1E?logo=figma&amp;logoColor=fff&amp;style=flat" alt="shields" style="margin-right: 5px;">
+  <img src="https://img.shields.io/badge/Android%20Studio-3DDC84?logo=androidstudio&amp;logoColor=fff&amp;style=flat" alt="shields">
+</p>
+
+
+<h2>🎓 Course Information </h2>
+
+* Course name: Mobile Programming.
+* Course code: SE346.
+* Class code: SE346.O21.
+* Session: Semester II (2023 - 2024).
+* Lecturer: Master Huynh Tuan Anh, Lecturer, Faculty of Software Engineering, University of Information Technology, Vietnam National University, Ho Chi Minh City
   
 <h2>👨‍💻👩‍💻 Creators </h2>
 
 The project is constructed by:
-*  Quan, Do Hong       - 22521175.
-*  Tien, To Vinh       - 22521474.
-*  Tri, Vu Hoang Trong - 22521529.
-*  Yen, Tran Thi Kim   - 22521717.
+
+<table align="center">
+  <tr>
+    <th>No.</th>
+    <th>Student ID</th>
+    <th>Full Name</th>
+    <th>Role</th>
+    <th>GitHub</th>
+    <th>Email</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>22521175</td>
+    <td>Quan, Do Hong</td>
+    <td>Member</td>
+    <td><a href="https://github.com/quandohong109"><img src="https://img.shields.io/badge/quandohong109-%2324292f.svg?style=flat-square&logo=github" alt="GitHub"></a></td>
+    <td><a href="mailto:22521175@gm.uit.edu.vn">22521175@gm.uit.edu.vn</a></td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>22521474</td>
+    <td>Tien, To Vinh</td>
+    <td>Member</td>
+    <td><a href="https://github.com/Terry-UIT"><img src="https://img.shields.io/badge/Terry--UIT-%2324292f.svg?style=flat-square&logo=github" alt="GitHub"></a></td>
+    <td><a href="mailto:22521474@gm.uit.edu.vn">22521474@gm.uit.edu.vn</a></td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>22521529</td>
+    <td>Tri, Vu Hoang Trong</td>
+    <td>Leader</td>
+    <td><a href="https://github.com/DiamondSssssss"><img src="https://img.shields.io/badge/DiamondSssssss-%2324292f.svg?style=flat-square&logo=github" alt="GitHub"></a></td>
+    <td><a href="mailto:22521529@gm.uit.edu.vn">22521529@gm.uit.edu.vn</a></td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>22521717</td>
+    <td>Yen, Tran Thi Kim</td>
+    <td>Member</td>
+    <td><a href="https://github.com/swingsofwindy"><img src="https://img.shields.io/badge/swingsofwindy-%2324292f.svg?style=flat-square&logo=github" alt="GitHub"></a></td>
+    <td><a href="mailto:22521717@gm.uit.edu.vn">22521717@gm.uit.edu.vn</a></td>
+  </tr>
+</table>
+
 
 <h2>🧐 Features</h2>
 
