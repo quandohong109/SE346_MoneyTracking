@@ -177,7 +177,7 @@ class Database {
         await updateWalletListFromFirestore();
 
         var transactions = querySnapshot.docs.map((doc) {
-          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          Map<String, dynamic> data = doc.data();
           return TransactionModel(
             id: data['id'],
             category: categoryList.firstWhere((element) => element.id == data['categoryID']),

@@ -7,6 +7,7 @@ import '../../../../data/buses/wallet_bus.dart';
 import '../../../../data/database/database.dart';
 import '../../../../functions/custom_dialog.dart';
 import '../../../../objects/dtos/wallet_dto.dart'; // Đường dẫn đến WalletDTO
+import 'package:money_tracking/functions/converter.dart';
 
 class WalletsWidget extends StatefulWidget {
   const WalletsWidget({super.key});
@@ -30,7 +31,7 @@ class _WalletsWidgetState extends State<WalletsWidget> {
 
   void showConfigureWalletDialog(BuildContext context, WalletDTO wallet) {
     final TextEditingController nameController = TextEditingController(text: wallet.name);
-    final TextEditingController balanceController = TextEditingController(text: wallet.balance.toString());
+    final TextEditingController balanceController = TextEditingController(text: wallet.balance.toString().isNotEmpty ? Converter.formatNumber(wallet.balance) : '');
 
     showDialog(
       context: context,
@@ -66,6 +67,18 @@ class _WalletsWidgetState extends State<WalletsWidget> {
               const SizedBox(height: 10), // Add space between the two TextFields
               TextField(
                 controller: balanceController,
+                onChanged: (balance) {
+                  if (balance.isEmpty) {
+                    balanceController.clear();
+                  } else {
+                    String formattedAmount = balance.replaceAll('.', '');
+                    if (formattedAmount.isEmpty) {
+                      balanceController.clear();
+                    } else {
+                      balanceController.text = Converter.formatNumber(BigInt.parse(formattedAmount));
+                    }
+                  }
+                },
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.money),
                   labelText: 'Balance',
@@ -79,17 +92,6 @@ class _WalletsWidgetState extends State<WalletsWidget> {
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly, // Only allows digits
                 ],
-                onChanged: (value) {
-                  if (double.tryParse(value) != null) {
-                    if (double.parse(value) <= 0) {
-                      // If the value is 0 or less, clear the input
-                      balanceController.clear();
-                    }
-                  } else {
-                    // If the value is not a number, clear the input
-                    balanceController.clear();
-                  }
-                },
               ),
             ],
           ),
@@ -375,6 +377,18 @@ void _showAddWalletDialog(BuildContext context) {
             const SizedBox(height: 10), // Add space between the two TextFields
             TextField(
               controller: balanceController,
+              onChanged: (balance) {
+                if (balance.isEmpty) {
+                  balanceController.clear();
+                } else {
+                  String formattedAmount = balance.replaceAll('.', '');
+                  if (formattedAmount.isEmpty) {
+                    balanceController.clear();
+                  } else {
+                    balanceController.text = Converter.formatNumber(BigInt.parse(formattedAmount));
+                  }
+                }
+              },
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.money),
                 labelText: 'Balance',
@@ -388,17 +402,6 @@ void _showAddWalletDialog(BuildContext context) {
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly, // Only allows digits
               ],
-              onChanged: (value) {
-                if (double.tryParse(value) != null) {
-                  if (double.parse(value) <= 0) {
-                    // If the value is 0 or less, clear the input
-                    balanceController.clear();
-                  }
-                } else {
-                  // If the value is not a number, clear the input
-                  balanceController.clear();
-                }
-              },
             ),
           ],
         ),
