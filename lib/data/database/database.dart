@@ -57,15 +57,15 @@ class Database {
   //   }).toList();
   // }
 
-  void updateWalletList() {
-    walletList = Firebase().walletList.map((e) {
-      return WalletModel(
-        id: e.id,
-        name: e.name,
-        balance: e.balance,
-      );
-    }).toList();
-  }
+  // void updateWalletList() {
+  //   walletList = Firebase().walletList.map((e) {
+  //     return WalletModel(
+  //       id: e.id,
+  //       name: e.name,
+  //       balance: e.balance,
+  //     );
+  //   }).toList();
+  // }
 
   // void updateTransactionList() {
   //   updateCategoryList();
@@ -124,8 +124,7 @@ class Database {
           balance: BigInt.parse(data['balance']),
         );
       }).toList();
-      categoryList.sort((a, b) => a.name.compareTo(b.name));
-      print(walletList);
+      walletList.sort((a, b) => a.name.compareTo(b.name));
     } catch (e) {
       // If an error occurs, catch it and show an error toast
       throw Exception("An error occurred - Wallet: ${e.toString()}");
@@ -141,7 +140,7 @@ class Database {
           .get();
 
       await updateCategoryListFromFirestore();
-      //await updateWalletListFromFirestore();
+      await updateWalletListFromFirestore();
 
       transactionList = querySnapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;

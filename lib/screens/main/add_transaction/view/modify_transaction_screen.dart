@@ -52,7 +52,7 @@ class _ModifyTransactionScreen extends State<ModifyTransactionScreen> {
   @override
   void initState() {
     super.initState();
-    Database().updateWalletList();
+    Database().updateWalletListFromFirestore();
     cubit.updateCategoryList();
     cubit.updateWalletList();
     isCategoryExpandedNotifier = ValueNotifier<bool>(false);
