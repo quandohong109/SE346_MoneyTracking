@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../../objects/models/category_model.dart';
-import '../view/widgets/budget_item.dart';
-import '../view/widgets/outside_budget_item.dart';
+import 'widgets/budget_item.dart';
 import '../../../../../objects/models/icon_type.dart';
 
 class BudgetScreen extends StatefulWidget {

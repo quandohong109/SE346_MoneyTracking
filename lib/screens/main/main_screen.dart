@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:money_tracking/screens/main/add_transaction/view/modify_transaction_screen.dart';
 import 'package:money_tracking/screens/transaction/views/transaction_screen.dart';
 
+import '../budget/views/budget_screen.dart';
 import '../home/views/home_screen.dart';
 import '../stat/views/stat_screen.dart';
-import '../main/budget/view/budget_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});

@@ -3,8 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:money_tracking/data/firebase/firebase.dart';
 import 'package:money_tracking/functions/converter.dart';
+import 'package:money_tracking/objects/models/budget_model.dart';
 import 'package:money_tracking/objects/models/category_model.dart';
 import '../../functions/getdata.dart';
+import '../../objects/models/budget_detail_model.dart';
 import '../../objects/models/icon_type.dart';
 import '../../objects/models/transaction_model.dart';
 import '../../objects/models/wallet_model.dart';
@@ -46,6 +48,7 @@ class Database {
   List<TransactionModel> transactionList = [];
 
   Stream<List<TransactionModel>> transactionListStream = const Stream.empty();
+  Stream<List<BudgetModel>> budgetListStream = const Stream.empty();
 
   // void updateCategoryList() {
   //   categoryList = Firebase().categoryList.map((e) {
@@ -195,6 +198,53 @@ class Database {
       });
     } catch (e) {
       throw Exception("An error occurred - Transaction: ${e.toString()}");
+    }
+  }
+
+  Future<void> updateBudgetListStream() async {
+    try {
+      final firestoreInstance = FirebaseFirestore.instance;
+
+      // Fetch budget_details from Firestore
+      final QuerySnapshot budgetDetailsQuerySnapshot = await firestoreInstance
+          .collection('budget_details')
+          .where('userID', isEqualTo: GetData.getUID())
+          .get();
+
+      // Map budget_details to BudgetDetailModel objects
+      final budgetDetails = budgetDetailsQuerySnapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        return BudgetDetailModel(
+          budgetID: data['budgetID'],
+          categoryID: categoryList.firstWhere((element) => element.id == data['categoryID']),
+          amount: Converter.toBigInt(data['amount']),
+          userID: data['userID'],
+        );
+      }).toList();
+
+      budgetListStream = firestoreInstance
+          .collection('budgets')
+          .where('userID', isEqualTo: GetData.getUID())
+          .snapshots()
+          .asyncMap((querySnapshot) async {
+        var budgets = querySnapshot.docs.map((doc) {
+          Map<String, dynamic> data = doc.data();
+
+          // Filter budgetDetails for the current BudgetModel
+          var details = budgetDetails.where((detail) => detail.budgetID == data['id']).toList();
+
+          return BudgetModel(
+            id: data['id'],
+            month: data['month'],
+            year: data['year'],
+            budgetDetails: details,
+            userID: data['userID'],
+          );
+        }).toList();
+        return budgets;
+      });
+    } on Exception {
+      rethrow;
     }
   }
 }

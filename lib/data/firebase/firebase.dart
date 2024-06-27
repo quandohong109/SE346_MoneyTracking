@@ -3,6 +3,8 @@ import 'package:money_tracking/functions/converter.dart';
 import 'package:money_tracking/functions/getdata.dart';
 import 'package:money_tracking/objects/dtos/category_dto.dart';
 
+import '../../objects/dtos/budget_detail_dto.dart';
+import '../../objects/dtos/budget_dto.dart';
 import '../../objects/dtos/transaction_dto.dart';
 import '../../objects/dtos/wallet_dto.dart';
 
@@ -211,6 +213,52 @@ class Firebase {
         amount: 4000,
         date: Converter.toTimestamp(DateTime(2024, 5, 28)),
         note: "",
+        userID: GetData.getUID()),
+  ];
+
+  List<BudgetDetailDTO> budgetDetailList = [
+    BudgetDetailDTO(
+        budgetID: 1,
+        categoryID: 1,
+        amount: BigInt.from(1000000),
+        userID: GetData.getUID()),
+    BudgetDetailDTO(
+        budgetID: 1,
+        categoryID: 2,
+        amount: BigInt.from(2000000),
+        userID: GetData.getUID()),
+    BudgetDetailDTO(
+        budgetID: 1,
+        categoryID: 3,
+        amount: BigInt.from(3000000),
+        userID: GetData.getUID()),
+    BudgetDetailDTO(
+        budgetID: 2,
+        categoryID: 1,
+        amount: BigInt.from(4000000),
+        userID: GetData.getUID()),
+    BudgetDetailDTO(
+        budgetID: 2,
+        categoryID: 2,
+        amount: BigInt.from(5000000),
+        userID: GetData.getUID()),
+    BudgetDetailDTO(
+        budgetID: 2,
+        categoryID: 3,
+        amount: BigInt.from(6000000),
+        userID: GetData.getUID()),
+  ];
+
+  List<BudgetDTO> budgetList = [
+    BudgetDTO(
+        id: 1,
+        month: 6,
+        year: 2024,
+        userID: GetData.getUID()),
+    BudgetDTO(
+        id: 2,
+        month: 5,
+        year: 2024,
         userID: GetData.getUID()),
   ];
 }

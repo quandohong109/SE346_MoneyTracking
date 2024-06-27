@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../objects/models/category_model.dart';
-import 'category_widget.dart';
+import '../../../main/add_transaction/view/widgets/category_widget.dart';
 
 class CategoryListContainer extends StatelessWidget {
   final bool isExpanded;
