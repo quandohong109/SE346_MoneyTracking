@@ -4,7 +4,7 @@ import 'package:money_tracking/objects/models/icon_type.dart';
 class WalletModel {
   final int id;
   final String name;
-  final BigInt balance;
+  BigInt balance;
 
   WalletModel({
     required this.id,

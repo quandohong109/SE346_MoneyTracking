@@ -81,6 +81,7 @@ class WalletBUS {
           .where('id', isEqualTo: walletId)
           .where('userID', isEqualTo: GetData.getUID())
           .get();
+
       for (var doc in walletSnapshot.docs) {
         BigInt currentBalance = BigInt.parse(doc.data()['balance']);
         BigInt newBalance = currentBalance + transactionValue;
@@ -103,30 +104,14 @@ class WalletBUS {
       for (var doc in walletSnapshot.docs) {
         BigInt currentBalance = BigInt.parse(doc.data()['balance']);
         if (transactionValue > currentBalance) {
-          throw CustomException("Transaction value is greater than the current wallet balance");
           // If the transaction value is greater than the current balance, do not decrease the balance
-        } else {
-          BigInt newBalance = currentBalance - transactionValue;
-          // Get the total value of transactions using the wallet
-          var transactionSnapshot = await FirebaseFirestore.instance.collection('transactions')
-              .where('walletID', isEqualTo: walletId)
-              .where('userID', isEqualTo: GetData.getUID())
-              .get();
-
-          BigInt totalTransactionValue = BigInt.zero;
-          for (var transactionDoc in transactionSnapshot.docs) {
-            totalTransactionValue += BigInt.parse(transactionDoc.data()['amount']);
-          }
-
-          // If the new balance is less than the total transaction value, do not decrease the balance
-          if (newBalance < totalTransactionValue) {
-            throw CustomException("New balance is less than the total transaction value");
-          }
-
-          await doc.reference.update({
-            'balance': newBalance.toString(),
-          });
+          throw CustomException("Transaction value is greater than the current wallet balance");
         }
+
+        BigInt newBalance = currentBalance - transactionValue;
+        await doc.reference.update({
+          'balance': newBalance.toString(),
+        });
       }
     } on Exception {
       // If an error occurs, catch it and show an error toast
@@ -184,24 +169,6 @@ class WalletBUS {
       if (newWalletName == currentName && balance == currentBalance) {
         // If both the name and balance are the same, do not update the wallet
         return 'noChange';
-      }
-
-      // Get the total balance from transactions associated with the wallet
-      var transactionSnapshot = await FirebaseFirestore.instance.collection('transactions')
-          .where('walletID', isEqualTo: walletId)
-          .where('userID', isEqualTo: GetData.getUID())
-          .get();
-      BigInt totalTransactionAmount = BigInt.zero;
-      for (var doc in transactionSnapshot.docs) {
-        Map<String, dynamic> data = doc.data();
-        BigInt transactionAmount = (data['amount'] != null) ? BigInt.parse(data['amount']) : BigInt.zero;
-        totalTransactionAmount += transactionAmount;
-      }
-
-      // Check if the new balance is less than the total transaction balance
-      if (BigInt.parse(balance) < totalTransactionAmount) {
-        // If the new balance is less, do not update the wallet
-        return 'badBalance';
       }
 
       // Check if a wallet with the new name already exists

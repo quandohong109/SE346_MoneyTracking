@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:money_tracking/data/buses/wallet_bus.dart';
 import 'package:money_tracking/functions/converter.dart';
+import 'package:money_tracking/objects/models/wallet_model.dart';
 
+import '../../functions/custom_exception.dart';
 import '../../objects/dtos/transaction_dto.dart';
 import '../../objects/models/transaction_model.dart';
 import '../database/database.dart';
@@ -45,21 +47,6 @@ class TransactionBUS {
     }
   }
 
-  // static void addTransaction(TransactionModel transaction) {
-  //   Firebase().transactionList.add(
-  //     TransactionDTO(
-  //       id: transaction.id,
-  //       categoryID: transaction.category.id,
-  //       walletID: transaction.wallet.id,
-  //       amount: transaction.amount,
-  //       date: Converter.toTimestamp(transaction.date),
-  //       note: transaction.note ?? '',
-  //       userID: GetData.getUID(),
-  //     ),
-  //   );
-  //   addTransactionToFirestore(transaction);
-  // }
-
   static Future<void> deleteTransactionFromFirestore(int transactionId) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance.collection('transactions')
@@ -90,13 +77,44 @@ class TransactionBUS {
           .get();
 
       final TransactionModel oldTransaction = Database().transactionList.where((e) => e.id == transaction.id).first;
+      final WalletModel oldWallet = Database().walletList.where((e) => e.id == oldTransaction.wallet.id).first;
+      final WalletModel newWallet = Database().walletList.where((e) => e.id == transaction.wallet.id).first;
+
+      if (oldWallet.id == newWallet.id) {
+        if (oldTransaction.category.isIncome) {
+          newWallet.balance -= oldTransaction.amount;
+        } else {
+          newWallet.balance += oldTransaction.amount;
+        }
+
+        if (transaction.category.isIncome) {
+          newWallet.balance += transaction.amount;
+        } else {
+          newWallet.balance -= transaction.amount;
+        }
+
+        if (newWallet.balance < BigInt.zero) {
+          throw CustomException("Transaction value is greater than the current wallet balance");
+        }
+
+        await FirebaseFirestore.instance.collection('wallets').doc(newWallet.id.toString()).update({
+          'balance': newWallet.balance.toString(),
+        });
+      } else {
+        if (oldTransaction.category.isIncome) {
+          await WalletBUS.decreaseWalletBalanceOnFirestore(transaction.wallet.id, transaction.amount);
+        } else {
+          await WalletBUS.increaseWalletBalanceOnFirestore(transaction.wallet.id, transaction.amount);
+        }
+
+        if (transaction.category.isIncome) {
+          await WalletBUS.increaseWalletBalanceOnFirestore(transaction.wallet.id, transaction.amount);
+        } else {
+          await WalletBUS.decreaseWalletBalanceOnFirestore(transaction.wallet.id, transaction.amount);
+        }
+      }
 
       for (var doc in querySnapshot.docs) {
-        // Get the old transaction details
-        bool oldIsIncome = oldTransaction.category.isIncome;
-        int oldWalletId = oldTransaction.wallet.id;
-        BigInt oldAmount = oldTransaction.amount;
-
         // Update the transaction
         await doc.reference.update({
           'categoryID': transaction.category.id,
@@ -105,36 +123,6 @@ class TransactionBUS {
           'date': Converter.toTimestamp(transaction.date),
           'note': transaction.note,
         });
-
-        // If the category has changed, update the wallet balance
-        if (oldIsIncome != transaction.category.isIncome) {
-          if (oldIsIncome) {
-            // If the old transaction was an income and the new one is an expense, decrease the wallet balance
-            await WalletBUS.decreaseWalletBalanceOnFirestore(transaction.wallet.id, transaction.amount);
-          } else {
-            // If the old transaction was an expense and the new one is an income, increase the wallet balance
-            await WalletBUS.increaseWalletBalanceOnFirestore(transaction.wallet.id, transaction.amount);
-          }
-        }
-
-        // If the wallet has changed, update the old and new wallet balances
-        if (oldWalletId != transaction.wallet.id) {
-          // Decrease the old wallet balance
-          await WalletBUS.decreaseWalletBalanceOnFirestore(oldWalletId, oldAmount);
-          // Increase the new wallet balance
-          await WalletBUS.increaseWalletBalanceOnFirestore(transaction.wallet.id, transaction.amount);
-        }
-
-        // If the amount has changed, update the wallet balance
-        if (oldAmount != transaction.amount) {
-          if (transaction.category.isIncome) {
-            // If the transaction is an income, increase the wallet balance by the difference
-            await WalletBUS.increaseWalletBalanceOnFirestore(transaction.wallet.id, transaction.amount - oldAmount);
-          } else {
-            // If the transaction is an expense, decrease the wallet balance by the difference
-            await WalletBUS.decreaseWalletBalanceOnFirestore(transaction.wallet.id, oldAmount - transaction.amount);
-          }
-        }
       }
       await Database().updateTransactionListFromFirestore();
     } on Exception {
