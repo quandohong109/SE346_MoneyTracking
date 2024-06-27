@@ -254,11 +254,13 @@ class Firebase {
         id: 1,
         month: 6,
         year: 2024,
+        otherAmount: BigInt.from(100000),
         userID: GetData.getUID()),
     BudgetDTO(
         id: 2,
         month: 5,
         year: 2024,
+        otherAmount: BigInt.from(200000),
         userID: GetData.getUID()),
   ];
 }

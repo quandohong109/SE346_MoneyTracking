@@ -245,6 +245,7 @@ class Database {
             id: data['id'],
             month: data['month'],
             year: data['year'],
+            otherAmount: Converter.toBigInt(data['otherAmount']),
             budgetDetails: details,
             userID: data['userID'],
           );
@@ -279,6 +280,7 @@ class Database {
           id: budget.id,
           month: budget.month,
           year: budget.year,
+          otherAmount: budget.otherAmount,
           budgetDetails: details,
           userID: budget.userID,
         );
