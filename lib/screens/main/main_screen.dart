@@ -5,6 +5,7 @@ import 'package:money_tracking/screens/transaction/views/transaction_screen.dart
 
 import '../home/views/home_screen.dart';
 import '../stat/views/stat_screen.dart';
+import '../main/budget/view/budget_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -19,7 +20,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget Function()> widgetList = [
         () => const HomeScreen(),
         () => TransactionScreen.newInstance(),
-        () => const StatScreen(),
+        () => BudgetScreen(),
         () => const StatScreen(),
   ];
 
@@ -54,8 +55,8 @@ class _MainScreenState extends State<MainScreen> {
                     label: "Transaction"
                 ),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.bar_chart),
-                    label: "Stats"
+                    icon: Icon(Icons.money),
+                    label: "Budget"
                 ),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.bar_chart),
