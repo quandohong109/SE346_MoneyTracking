@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import '../../../../../objects/models/category_model.dart';
+import '../cubits/budget_screen_cubit.dart';
 import 'widgets/budget_item.dart';
 import '../../../../../objects/models/icon_type.dart';
 
 class BudgetScreen extends StatefulWidget {
+  const BudgetScreen({super.key});
+
+  static Widget newInstance() =>
+      BlocProvider(
+        create: (context) => BudgetScreenCubit(),
+        child: const BudgetScreen(),
+      );
+
   @override
-  _BudgetScreenState createState() => _BudgetScreenState();
+  State<BudgetScreen> createState() => _BudgetScreen();
 }
 
-class _BudgetScreenState extends State<BudgetScreen> {
+class _BudgetScreen extends State<BudgetScreen> {
+  BudgetScreenCubit get cubit => context.read<BudgetScreenCubit>();
+
   DateTime selectedDate = DateTime.now();
   double? currentMonthBudget;
   List<CategoryModel> categories = [
@@ -283,32 +295,32 @@ class _BudgetScreenState extends State<BudgetScreen> {
               ),
             ),
           ] else ...[
-            BudgetBar(totalBudget: totalBudget, spent: totalSpent),
-            Expanded(
-              child: ListView.builder(
-                itemCount: visibleCategories.length,
-                itemBuilder: (context, index) {
-                  int originalIndex = categories.indexOf(visibleCategories[index]);
-                  return BudgetItem(
-                    key: ValueKey(visibleCategories[index].id), // Use a unique key for each item
-                    category: visibleCategories[index],
-                    isChecked: isChecked[originalIndex],
-                    amount: amounts[originalIndex],
-                    onCheckChanged: (value) {
-                      setState(() {
-                        isChecked[originalIndex] = value ?? false;
-                      });
-                    },
-                    onAmountChanged: (value) {
-                      setState(() {
-                        amounts[originalIndex] = double.tryParse(value) ?? 0.0;
-                      });
-                    },
-                  );
-                },
+              BudgetBar(totalBudget: totalBudget, spent: totalSpent),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: visibleCategories.length,
+                  itemBuilder: (context, index) {
+                    int originalIndex = categories.indexOf(visibleCategories[index]);
+                    return BudgetItem(
+                      key: ValueKey(visibleCategories[index].id), // Use a unique key for each item
+                      category: visibleCategories[index],
+                      isChecked: isChecked[originalIndex],
+                      amount: amounts[originalIndex],
+                      onCheckChanged: (value) {
+                        setState(() {
+                          isChecked[originalIndex] = value ?? false;
+                        });
+                      },
+                      onAmountChanged: (value) {
+                        setState(() {
+                          amounts[originalIndex] = double.tryParse(value) ?? 0.0;
+                        });
+                      },
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
         ],
       ),
     );

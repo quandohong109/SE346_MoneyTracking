@@ -4,7 +4,6 @@ import 'package:money_tracking/screens/transaction/views/widgets/transaction_wid
 
 import '../../../objects/models/transaction_model.dart';
 import '../cubits/transaction_screen_cubit.dart';
-import '../cubits/transaction_screen_state.dart';
 
 class TransactionScreen extends StatefulWidget {
   const TransactionScreen({super.key});

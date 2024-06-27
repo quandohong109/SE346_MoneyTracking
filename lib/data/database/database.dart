@@ -100,9 +100,11 @@ class Database {
         return CategoryModel(
           id: data['id'],
           name: data['name'],
-          iconType: iconTypeList.firstWhere((element) => element.id == data['iconID']),
+          iconType: iconTypeList.firstWhere((element) =>
+          element.id == data['iconID']),
           isIncome: data['isIncome'],
-          color: Color.fromRGBO(data['red'], data['green'], data['blue'], data['opacity']),
+          color: Color.fromRGBO(
+              data['red'], data['green'], data['blue'], data['opacity']),
         );
       }).toList();
       categoryList.sort((a, b) => a.name.compareTo(b.name));
@@ -153,8 +155,10 @@ class Database {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         return TransactionModel(
           id: data['id'],
-          category: categoryList.firstWhere((element) => element.id == data['categoryID']),
-          wallet: walletList.firstWhere((element) => element.id == data['walletID']),
+          category: categoryList.firstWhere((element) =>
+          element.id == data['categoryID']),
+          wallet: walletList.firstWhere((element) =>
+          element.id == data['walletID']),
           date: (data['date'] as Timestamp).toDate(),
           note: data['note'] ?? '',
           amount: Converter.toBigInt(data['amount']),
@@ -183,8 +187,10 @@ class Database {
           Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
           return TransactionModel(
             id: data['id'],
-            category: categoryList.firstWhere((element) => element.id == data['categoryID']),
-            wallet: walletList.firstWhere((element) => element.id == data['walletID']),
+            category: categoryList.firstWhere((element) =>
+            element.id == data['categoryID']),
+            wallet: walletList.firstWhere((element) =>
+            element.id == data['walletID']),
             date: (data['date'] as Timestamp).toDate(),
             note: data['note'] ?? '',
             amount: Converter.toBigInt(data['amount']),
@@ -203,8 +209,8 @@ class Database {
 
   Future<void> updateBudgetListStream() async {
     try {
+      await updateCategoryListFromFirestore();
       final firestoreInstance = FirebaseFirestore.instance;
-
       // Fetch budget_details from Firestore
       final QuerySnapshot budgetDetailsQuerySnapshot = await firestoreInstance
           .collection('budget_details')
@@ -216,7 +222,8 @@ class Database {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         return BudgetDetailModel(
           budgetID: data['budgetID'],
-          categoryID: categoryList.firstWhere((element) => element.id == data['categoryID']),
+          category: categoryList.firstWhere((element) =>
+          element.id == data['categoryID']),
           amount: Converter.toBigInt(data['amount']),
           userID: data['userID'],
         );
@@ -231,7 +238,8 @@ class Database {
           Map<String, dynamic> data = doc.data();
 
           // Filter budgetDetails for the current BudgetModel
-          var details = budgetDetails.where((detail) => detail.budgetID == data['id']).toList();
+          var details = budgetDetails.where((detail) =>
+          detail.budgetID == data['id']).toList();
 
           return BudgetModel(
             id: data['id'],
@@ -243,6 +251,41 @@ class Database {
         }).toList();
         return budgets;
       });
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<void> updateBudgetListStreamTest() async {
+    try {
+      await updateCategoryListFromFirestore();
+      final firebaseInstance = Firebase();
+
+      final budgetDetails = firebaseInstance.budgetDetailList.map((detailDTO) {
+        // Create a BudgetDetailModel
+        return BudgetDetailModel(
+          budgetID: detailDTO.budgetID,
+          category: categoryList.firstWhere((element) => element.id == detailDTO.categoryID),
+          amount: detailDTO.amount,
+          userID: detailDTO.userID,
+        );
+      }).toList();
+
+      var budgets = firebaseInstance.budgetList.map((budget) {
+        var details = budgetDetails.where((detail) =>
+        detail.budgetID == budget.id).toList();
+
+        return BudgetModel(
+          id: budget.id,
+          month: budget.month,
+          year: budget.year,
+          budgetDetails: details,
+          userID: budget.userID,
+        );
+      }).toList();
+
+      // Convert the list of BudgetModel objects to a stream
+      budgetListStream = Stream.value(budgets);
     } on Exception {
       rethrow;
     }

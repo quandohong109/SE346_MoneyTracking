@@ -11,7 +11,7 @@ import '../../objects/dtos/wallet_dto.dart';
 class Firebase {
   static final Firebase _firebase = Firebase._internal();
 
-  factory  Firebase() {
+  factory Firebase() {
     return _firebase;
   }
 

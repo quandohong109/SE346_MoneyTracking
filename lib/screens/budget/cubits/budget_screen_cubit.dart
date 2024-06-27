@@ -11,7 +11,7 @@ class BudgetScreenCubit extends Cubit<BudgetScreenState> {
       ));
 
   void updateBudgetListStream() {
-    Database().updateBudgetListStream();
+    Database().updateBudgetListStreamTest();
     emit(state.copyWith(budgetListStream: Database().budgetListStream));
   }
 }
