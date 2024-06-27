@@ -101,17 +101,31 @@ class TransactionBUS {
           'balance': newWallet.balance.toString(),
         });
       } else {
+        BigInt newBalance1 = oldWallet.balance;
+        BigInt newBalance2 = newWallet.balance;
+
         if (oldTransaction.category.isIncome) {
-          await WalletBUS.decreaseWalletBalanceOnFirestore(transaction.wallet.id, transaction.amount);
+          newBalance1 -= oldTransaction.amount;
         } else {
-          await WalletBUS.increaseWalletBalanceOnFirestore(transaction.wallet.id, transaction.amount);
+          newBalance1 += oldTransaction.amount;
         }
 
         if (transaction.category.isIncome) {
-          await WalletBUS.increaseWalletBalanceOnFirestore(transaction.wallet.id, transaction.amount);
+          newBalance2 += transaction.amount;
         } else {
-          await WalletBUS.decreaseWalletBalanceOnFirestore(transaction.wallet.id, transaction.amount);
+          newBalance2 -= transaction.amount;
         }
+
+        if (newBalance1 < BigInt.zero || newBalance2 < BigInt.zero) {
+          throw CustomException("Transaction value is greater than the current wallet balance");
+        }
+
+        await FirebaseFirestore.instance.collection('wallets').doc(oldWallet.id.toString()).update({
+          'balance': newBalance1.toString(),
+        });
+        await FirebaseFirestore.instance.collection('wallets').doc(newWallet.id.toString()).update({
+          'balance': newBalance2.toString(),
+        });
       }
 
       for (var doc in querySnapshot.docs) {
