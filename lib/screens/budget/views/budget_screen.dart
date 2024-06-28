@@ -66,80 +66,99 @@ class _BudgetScreen extends State<BudgetScreen> {
   }
 
   void _pickMonthYear() async {
+    int selectedMonthIndex = selectedDate.month - 1; // Initialize with current month
+    int selectedYearIndex = selectedDate.year - 2000; // Initialize with current year
+
     final DateTime? picked = await showDialog<DateTime>(
       context: context,
       builder: (BuildContext context) {
         DateTime tempPickedDate = selectedDate;
-        int initialMonthIndex = selectedDate.month - 1;
-        int initialYearIndex = selectedDate.year - 2000;
 
-        return AlertDialog(
-          title: Text("Select Month and Year"),
-          content: Container(
-            height: 150,
-            child: Row(
-              children: <Widget>[
-                // Month picker (đặt ở vị trí bên trái)
-                Expanded(
-                  child: ListWheelScrollView(
-                    itemExtent: 50,
-                    physics: FixedExtentScrollPhysics(), // Giữ mục đã chọn ở giữa
-                    onSelectedItemChanged: (index) {
-                      tempPickedDate = DateTime(
-                        tempPickedDate.year,
-                        index + 1,
-                      );
-                    },
-                    controller: FixedExtentScrollController(initialItem: initialMonthIndex),
-                    children: List<Widget>.generate(12, (index) {
-                      return Center(
-                        child: Text(
-                          DateFormat.MMMM().format(DateTime(0, index + 1)),
-                          style: TextStyle(fontSize: 18.0), // Cải thiện độ dễ nhìn
-                        ),
-                      );
-                    }),
-                  ),
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text("Select Month and Year"),
+              content: Container(
+                height: 150,
+                child: Row(
+                  children: <Widget>[
+                    // Month picker (đặt ở vị trí bên trái)
+                    Expanded(
+                      child: ListWheelScrollView(
+                        itemExtent: 50,
+                        physics: FixedExtentScrollPhysics(), // Giữ mục đã chọn ở giữa
+                        onSelectedItemChanged: (index) {
+                          setState(() {
+                            selectedMonthIndex = index;
+                            tempPickedDate = DateTime(
+                              tempPickedDate.year,
+                              index + 1,
+                            );
+                          });
+                        },
+                        controller: FixedExtentScrollController(initialItem: selectedMonthIndex),
+                        children: List<Widget>.generate(12, (index) {
+                          bool isBold = index == selectedMonthIndex; // In đậm nếu đang scroll tới
+                          return Center(
+                            child: Text(
+                              DateFormat.MMMM().format(DateTime(0, index + 1)),
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                    // Year picker (đặt ở vị trí bên phải)
+                    Expanded(
+                      child: ListWheelScrollView(
+                        itemExtent: 50,
+                        physics: FixedExtentScrollPhysics(), // Giữ mục đã chọn ở giữa
+                        onSelectedItemChanged: (index) {
+                          setState(() {
+                            selectedYearIndex = index;
+                            tempPickedDate = DateTime(
+                              index + 2000,
+                              tempPickedDate.month,
+                            );
+                          });
+                        },
+                        controller: FixedExtentScrollController(initialItem: selectedYearIndex),
+                        children: List<Widget>.generate(101, (index) {
+                          bool isBold = index == selectedYearIndex; // In đậm nếu đang scroll tới
+                          return Center(
+                            child: Text(
+                              '${index + 2000}',
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  ],
                 ),
-                // Year picker (đặt ở vị trí bên phải)
-                Expanded(
-                  child: ListWheelScrollView(
-                    itemExtent: 50,
-                    physics: FixedExtentScrollPhysics(), // Giữ mục đã chọn ở giữa
-                    onSelectedItemChanged: (index) {
-                      tempPickedDate = DateTime(
-                        index + 2000,
-                        tempPickedDate.month,
-                      );
-                    },
-                    controller: FixedExtentScrollController(initialItem: initialYearIndex),
-                    children: List<Widget>.generate(101, (index) {
-                      return Center(
-                        child: Text(
-                          '${index + 2000}',
-                          style: TextStyle(fontSize: 18.0), // Cải thiện độ dễ nhìn
-                        ),
-                      );
-                    }),
-                  ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('CANCEL'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop(tempPickedDate);
+                  },
                 ),
               ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('CANCEL'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop(tempPickedDate);
-              },
-            ),
-          ],
+            );
+          },
         );
       },
     );
@@ -150,8 +169,6 @@ class _BudgetScreen extends State<BudgetScreen> {
       });
     }
   }
-
-
 
   void _addBudget() {
     showDialog(
@@ -351,15 +368,17 @@ class MonthPicker extends StatelessWidget {
           onPressed: onPrevious,
         ),
         Column(
-          children: List<Widget>.generate(3, (index) {
-            int displayMonth = selectedDate.month - 1 + index - 1;
-            return Opacity(
-              opacity: index == 1 ? 1.0 : 0.5,
-              child: TextButton(
-                onPressed: index == 1 ? onPick : null,
-                child: Text(
-                  DateFormat.yMMM().format(DateTime(selectedDate.year, displayMonth + 1)),
-                  style: TextStyle(fontWeight: index == 1 ? FontWeight.bold : FontWeight.normal),
+          children: List<Widget>.generate(1, (index) {
+            int displayMonth = selectedDate.month;
+            return TextButton(
+              onPressed: () {
+                final pickedDate = DateTime(selectedDate.year, displayMonth);
+                onPick();
+              },
+              child: Text(
+                DateFormat.yMMM().format(DateTime(selectedDate.year, displayMonth)),
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
                 ),
               ),
             );
@@ -373,6 +392,8 @@ class MonthPicker extends StatelessWidget {
     );
   }
 }
+
+
 
 class BudgetBar extends StatelessWidget {
   final double totalBudget;
