@@ -1,6 +1,4 @@
 import 'package:equatable/equatable.dart';
-
-import '../../../objects/models/category_model.dart';
 import '../../../objects/models/transaction_model.dart';
 
 class TransactionScreenState with EquatableMixin {
