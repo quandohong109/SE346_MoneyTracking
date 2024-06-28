@@ -40,8 +40,8 @@ class CategoryBUS {
 
   static Future<void> deleteCategory(int categoryId) async {
     try {
-      QuerySnapshot transactionSnapshot = await FirebaseFirestore.instance.collection('transactions')
-          .where('categoryId', isEqualTo: categoryId)
+      var transactionSnapshot = await FirebaseFirestore.instance.collection('transactions')
+          .where('categoryID', isEqualTo: categoryId)
           .get();
       if (transactionSnapshot.docs.isNotEmpty) {
         throw CustomException('Category is in use');

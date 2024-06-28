@@ -3,8 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:money_tracking/data/firebase/firebase.dart';
 import 'package:money_tracking/functions/converter.dart';
+import 'package:money_tracking/objects/models/budget_model.dart';
 import 'package:money_tracking/objects/models/category_model.dart';
 import '../../functions/getdata.dart';
+import '../../objects/models/budget_detail_model.dart';
 import '../../objects/models/icon_type.dart';
 import '../../objects/models/transaction_model.dart';
 import '../../objects/models/wallet_model.dart';
@@ -45,6 +47,9 @@ class Database {
   List<WalletModel> walletList = [];
   List<TransactionModel> transactionList = [];
 
+  Stream<List<TransactionModel>> transactionListStream = const Stream.empty();
+  Stream<List<BudgetModel>> budgetListStream = const Stream.empty();
+
   // void updateCategoryList() {
   //   categoryList = Firebase().categoryList.map((e) {
   //     return CategoryModel(
@@ -57,15 +62,15 @@ class Database {
   //   }).toList();
   // }
 
-  void updateWalletList() {
-    walletList = Firebase().walletList.map((e) {
-      return WalletModel(
-        id: e.id,
-        name: e.name,
-        balance: e.balance,
-      );
-    }).toList();
-  }
+  // void updateWalletList() {
+  //   walletList = Firebase().walletList.map((e) {
+  //     return WalletModel(
+  //       id: e.id,
+  //       name: e.name,
+  //       balance: e.balance,
+  //     );
+  //   }).toList();
+  // }
 
   // void updateTransactionList() {
   //   updateCategoryList();
@@ -95,13 +100,17 @@ class Database {
         return CategoryModel(
           id: data['id'],
           name: data['name'],
-          iconType: iconTypeList.firstWhere((element) => element.id == data['iconID']),
+          iconType: iconTypeList.firstWhere((element) =>
+          element.id == data['iconID']),
           isIncome: data['isIncome'],
-          color: Color.fromRGBO(data['red'], data['green'], data['blue'], data['opacity']),
+          color: Color.fromRGBO(
+              data['red'], data['green'], data['blue'], data['opacity']),
         );
       }).toList();
       categoryList.sort((a, b) => a.name.compareTo(b.name));
-      print(categoryList);
+      if (kDebugMode) {
+        print(categoryList);
+      }
     } catch (e) {
       // If an error occurs, catch it and show an error toast
       throw Exception("An error occurred - Category: ${e.toString()}");
@@ -124,8 +133,7 @@ class Database {
           balance: BigInt.parse(data['balance']),
         );
       }).toList();
-      categoryList.sort((a, b) => a.name.compareTo(b.name));
-      print(walletList);
+      walletList.sort((a, b) => a.name.compareTo(b.name));
     } catch (e) {
       // If an error occurs, catch it and show an error toast
       throw Exception("An error occurred - Wallet: ${e.toString()}");
@@ -141,23 +149,147 @@ class Database {
           .get();
 
       await updateCategoryListFromFirestore();
-      //await updateWalletListFromFirestore();
+      await updateWalletListFromFirestore();
 
       transactionList = querySnapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         return TransactionModel(
           id: data['id'],
-          category: categoryList.firstWhere((element) => element.id == data['categoryID']),
-          wallet: walletList.firstWhere((element) => element.id == data['walletID']),
+          category: categoryList.firstWhere((element) =>
+          element.id == data['categoryID']),
+          wallet: walletList.firstWhere((element) =>
+          element.id == data['walletID']),
           date: (data['date'] as Timestamp).toDate(),
           note: data['note'] ?? '',
-          amount: BigInt.parse(data['amount']),
+          amount: Converter.toBigInt(data['amount']),
           isExpanded: false,
         );
       }).toList();
       transactionList.sort((a, b) => b.date.compareTo(a.date));
+      await Database().updateTransactionListStream();
     } catch (e) {
       throw Exception("An error occurred - Transaction: ${e.toString()}");
+    }
+  }
+
+  Future<void> updateTransactionListStream() async {
+    try {
+      final firestoreInstance = FirebaseFirestore.instance;
+      transactionListStream = firestoreInstance
+          .collection('transactions')
+          .where('userID', isEqualTo: GetData.getUID())
+          .snapshots()
+          .asyncMap((querySnapshot) async {
+        await updateCategoryListFromFirestore();
+        await updateWalletListFromFirestore();
+
+        var transactions = querySnapshot.docs.map((doc) {
+          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          return TransactionModel(
+            id: data['id'],
+            category: categoryList.firstWhere((element) =>
+            element.id == data['categoryID']),
+            wallet: walletList.firstWhere((element) =>
+            element.id == data['walletID']),
+            date: (data['date'] as Timestamp).toDate(),
+            note: data['note'] ?? '',
+            amount: Converter.toBigInt(data['amount']),
+            isExpanded: false,
+          );
+        }).toList();
+
+        // Sort the transactions by date in descending order
+        transactions.sort((a, b) => b.date.compareTo(a.date));
+        return transactions;
+      });
+    } catch (e) {
+      throw Exception("An error occurred - Transaction: ${e.toString()}");
+    }
+  }
+
+  Future<void> updateBudgetListStream() async {
+    try {
+      await updateCategoryListFromFirestore();
+      final firestoreInstance = FirebaseFirestore.instance;
+      // Fetch budget_details from Firestore
+      final QuerySnapshot budgetDetailsQuerySnapshot = await firestoreInstance
+          .collection('budget_details')
+          .where('userID', isEqualTo: GetData.getUID())
+          .get();
+
+      // Map budget_details to BudgetDetailModel objects
+      final budgetDetails = budgetDetailsQuerySnapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        return BudgetDetailModel(
+          budgetID: data['budgetID'],
+          category: categoryList.firstWhere((element) =>
+          element.id == data['categoryID']),
+          amount: Converter.toBigInt(data['amount']),
+          userID: data['userID'],
+        );
+      }).toList();
+
+      budgetListStream = firestoreInstance
+          .collection('budgets')
+          .where('userID', isEqualTo: GetData.getUID())
+          .snapshots()
+          .asyncMap((querySnapshot) async {
+        var budgets = querySnapshot.docs.map((doc) {
+          Map<String, dynamic> data = doc.data();
+
+          // Filter budgetDetails for the current BudgetModel
+          var details = budgetDetails.where((detail) =>
+          detail.budgetID == data['id']).toList();
+
+          return BudgetModel(
+            id: data['id'],
+            month: data['month'],
+            year: data['year'],
+            otherAmount: Converter.toBigInt(data['otherAmount']),
+            budgetDetails: details,
+            userID: data['userID'],
+          );
+        }).toList();
+        return budgets;
+      });
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<void> updateBudgetListStreamTest() async {
+    try {
+      await updateCategoryListFromFirestore();
+      final firebaseInstance = Firebase();
+
+      final budgetDetails = firebaseInstance.budgetDetailList.map((detailDTO) {
+        // Create a BudgetDetailModel
+        return BudgetDetailModel(
+          budgetID: detailDTO.budgetID,
+          category: categoryList.firstWhere((element) => element.id == detailDTO.categoryID),
+          amount: detailDTO.amount,
+          userID: detailDTO.userID,
+        );
+      }).toList();
+
+      var budgets = firebaseInstance.budgetList.map((budget) {
+        var details = budgetDetails.where((detail) =>
+        detail.budgetID == budget.id).toList();
+
+        return BudgetModel(
+          id: budget.id,
+          month: budget.month,
+          year: budget.year,
+          otherAmount: budget.otherAmount,
+          budgetDetails: details,
+          userID: budget.userID,
+        );
+      }).toList();
+
+      // Convert the list of BudgetModel objects to a stream
+      budgetListStream = Stream.value(budgets);
+    } on Exception {
+      rethrow;
     }
   }
 }

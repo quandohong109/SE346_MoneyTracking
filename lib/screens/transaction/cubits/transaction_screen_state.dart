@@ -1,23 +1,29 @@
 import 'package:equatable/equatable.dart';
-
-import '../../../objects/models/category_model.dart';
 import '../../../objects/models/transaction_model.dart';
 
 class TransactionScreenState with EquatableMixin {
-  final List<TransactionModel> transactionList;
+  final DateTime startOfMonth;
+  final DateTime endOfMonth;
+  final Stream<List<TransactionModel>> transactionListStream;
 
   const TransactionScreenState({
-    this.transactionList = const [],
+    required this.startOfMonth,
+    required this.endOfMonth,
+    this.transactionListStream = const Stream.empty(),
   });
 
   @override
-  List<Object?> get props => [transactionList];
+  List<Object?> get props => [startOfMonth, endOfMonth, transactionListStream];
 
   TransactionScreenState copyWith({
-    List<TransactionModel>? transactionList,
+    DateTime? startOfMonth,
+    DateTime? endOfMonth,
+    Stream<List<TransactionModel>>? transactionListStream,
   }) {
     return TransactionScreenState(
-      transactionList: transactionList ?? this.transactionList,
+      startOfMonth: startOfMonth ?? this.startOfMonth,
+      endOfMonth: endOfMonth ?? this.endOfMonth,
+      transactionListStream: transactionListStream ?? this.transactionListStream,
     );
   }
 }

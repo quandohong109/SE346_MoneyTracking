@@ -3,13 +3,15 @@ import 'package:money_tracking/functions/converter.dart';
 import 'package:money_tracking/functions/getdata.dart';
 import 'package:money_tracking/objects/dtos/category_dto.dart';
 
+import '../../objects/dtos/budget_detail_dto.dart';
+import '../../objects/dtos/budget_dto.dart';
 import '../../objects/dtos/transaction_dto.dart';
 import '../../objects/dtos/wallet_dto.dart';
 
 class Firebase {
   static final Firebase _firebase = Firebase._internal();
 
-  factory  Firebase() {
+  factory Firebase() {
     return _firebase;
   }
 
@@ -136,7 +138,7 @@ class Firebase {
         id: 1,
         categoryID: 1,
         walletID: 1,
-        amount: BigInt.from(100000),
+        amount: 100000,
         date: Converter.toTimestamp(DateTime(2024, 6, 10)),
         note: "",
         userID: GetData.getUID()),
@@ -144,7 +146,7 @@ class Firebase {
         id: 2,
         categoryID: 2,
         walletID: 2,
-        amount: BigInt.from(200000),
+        amount: 200000,
         date: Converter.toTimestamp(DateTime(2024, 6, 12)),
         note: "",
         userID: GetData.getUID()),
@@ -152,7 +154,7 @@ class Firebase {
         id: 3,
         categoryID: 3,
         walletID: 1,
-        amount: BigInt.from(300000),
+        amount: 300000,
         date: Converter.toTimestamp(DateTime(2024, 6, 12)),
         note: "",
         userID: GetData.getUID()),
@@ -160,7 +162,7 @@ class Firebase {
         id: 4,
         categoryID: 1,
         walletID: 2,
-        amount: BigInt.from(40000),
+        amount: 40000,
         date: Converter.toTimestamp(DateTime(2024, 6, 8)),
         note: "",
         userID: GetData.getUID()),
@@ -168,7 +170,7 @@ class Firebase {
         id: 5,
         categoryID: 2,
         walletID: 3,
-        amount: BigInt.from(500000),
+        amount: 500000,
         date: Converter.toTimestamp(DateTime(2024, 5, 30)),
         note: "",
         userID: GetData.getUID()),
@@ -176,7 +178,7 @@ class Firebase {
         id: 6,
         categoryID: 3,
         walletID: 1,
-        amount: BigInt.from(60000),
+        amount: 60000,
         date: Converter.toTimestamp(DateTime(2024, 5, 30)),
         note: "",
         userID: GetData.getUID()),
@@ -184,7 +186,7 @@ class Firebase {
         id: 7,
         categoryID: 1,
         walletID: 2,
-        amount: BigInt.from(10000),
+        amount: 10000,
         date: Converter.toTimestamp(DateTime(2024, 5, 29)),
         note: "",
         userID: GetData.getUID()),
@@ -192,7 +194,7 @@ class Firebase {
         id: 8,
         categoryID: 2,
         walletID: 3,
-        amount: BigInt.from(20000),
+        amount: 20000,
         date: Converter.toTimestamp(DateTime(2024, 5, 29)),
         note: "",
         userID: GetData.getUID()),
@@ -200,7 +202,7 @@ class Firebase {
         id: 9,
         categoryID: 3,
         walletID: 1,
-        amount: BigInt.from(30000),
+        amount: 30000,
         date: Converter.toTimestamp(DateTime(2024, 6, 10)),
         note: "",
         userID: GetData.getUID()),
@@ -208,9 +210,57 @@ class Firebase {
         id: 10,
         categoryID: 1,
         walletID: 2,
-        amount: BigInt.from(40000),
+        amount: 4000,
         date: Converter.toTimestamp(DateTime(2024, 5, 28)),
         note: "",
+        userID: GetData.getUID()),
+  ];
+
+  List<BudgetDetailDTO> budgetDetailList = [
+    BudgetDetailDTO(
+        budgetID: 1,
+        categoryID: 1,
+        amount: BigInt.from(1000000),
+        userID: GetData.getUID()),
+    BudgetDetailDTO(
+        budgetID: 1,
+        categoryID: 2,
+        amount: BigInt.from(2000000),
+        userID: GetData.getUID()),
+    BudgetDetailDTO(
+        budgetID: 1,
+        categoryID: 3,
+        amount: BigInt.from(3000000),
+        userID: GetData.getUID()),
+    BudgetDetailDTO(
+        budgetID: 2,
+        categoryID: 1,
+        amount: BigInt.from(4000000),
+        userID: GetData.getUID()),
+    BudgetDetailDTO(
+        budgetID: 2,
+        categoryID: 2,
+        amount: BigInt.from(5000000),
+        userID: GetData.getUID()),
+    BudgetDetailDTO(
+        budgetID: 2,
+        categoryID: 3,
+        amount: BigInt.from(6000000),
+        userID: GetData.getUID()),
+  ];
+
+  List<BudgetDTO> budgetList = [
+    BudgetDTO(
+        id: 1,
+        month: 6,
+        year: 2024,
+        otherAmount: BigInt.from(100000),
+        userID: GetData.getUID()),
+    BudgetDTO(
+        id: 2,
+        month: 5,
+        year: 2024,
+        otherAmount: BigInt.from(200000),
         userID: GetData.getUID()),
   ];
 }

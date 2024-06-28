@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_tracking/screens/transaction/views/widgets/transaction_widget.dart';
 
+import '../../../objects/models/transaction_model.dart';
 import '../cubits/transaction_screen_cubit.dart';
-import '../cubits/transaction_screen_state.dart';
 
 class TransactionScreen extends StatefulWidget {
   const TransactionScreen({super.key});
@@ -24,7 +24,7 @@ class _TransactionScreen extends State<TransactionScreen> {
   @override
   void initState() {
     super.initState();
-    cubit.updateTransactionList();
+    cubit.updateTransactionListStream();
   }
 
   @override
@@ -41,20 +41,30 @@ class _TransactionScreen extends State<TransactionScreen> {
           child: Column(
             children: [
               Expanded(
-                child: BlocBuilder<TransactionScreenCubit, TransactionScreenState>(
-                  buildWhen: (previous, current) => previous.transactionList != current.transactionList,
-                  builder: (context, state) {
-                    return ListView.builder(
-                      itemCount: state.transactionList.length,
-                      itemBuilder: (context, index) {
-                        return TransactionWidget(
-                            transaction: state.transactionList[index],
-                            onTap: () => {
-                              cubit.updateTransactionList(),
-                            }
-                        );
-                      },
-                    );
+                child: StreamBuilder<List<TransactionModel>>(
+                  stream: cubit.state.transactionListStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final now = DateTime.now();
+                      final startOfMonth = DateTime(now.year, now.month);
+                      final endOfMonth = DateTime(now.year, now.month + 1, 0);
+                      final thisMonthTransactions = snapshot.data!.where((transaction) {
+                        return transaction.date.isAfter(startOfMonth) && transaction.date.isBefore(endOfMonth);
+                      }).toList();
+                      return ListView.builder(
+                        itemCount: thisMonthTransactions.length,
+                        itemBuilder: (context, index) {
+                          return TransactionWidget(
+                              transaction: thisMonthTransactions[index],
+                              onTap: () => {
+                                cubit.updateTransactionListStream(),
+                              }
+                          );
+                        },
+                      );
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
                   },
                 ),
               ),

@@ -37,20 +37,20 @@ class TransactionBUS {
     }
   }
 
-  static void addTransaction(TransactionModel transaction) {
-    Firebase().transactionList.add(
-      TransactionDTO(
-        id: transaction.id,
-        categoryID: transaction.category.id,
-        walletID: transaction.wallet.id,
-        amount: transaction.amount,
-        date: Converter.toTimestamp(transaction.date),
-        note: transaction.note ?? '',
-        userID: GetData.getUID(),
-      ),
-    );
-    addTransactionToFirestore(transaction);
-  }
+  // static void addTransaction(TransactionModel transaction) {
+  //   Firebase().transactionList.add(
+  //     TransactionDTO(
+  //       id: transaction.id,
+  //       categoryID: transaction.category.id,
+  //       walletID: transaction.wallet.id,
+  //       amount: transaction.amount,
+  //       date: Converter.toTimestamp(transaction.date),
+  //       note: transaction.note ?? '',
+  //       userID: GetData.getUID(),
+  //     ),
+  //   );
+  //   addTransactionToFirestore(transaction);
+  // }
 
   static Future<void> deleteTransactionFromFirestore(int transactionId) async {
     try {
