@@ -60,10 +60,6 @@ class BarChartScreenState extends State<BarChartScreen> {
     // Tạo đối tượng khoảng thời gian ban đầu dựa vào ngày bắt đầu và ngày kết thúc được truyền vào.
     DateTimeRange value = DateTimeRange(start: beginDate, end: endDate);
 
-    // Lấy số lượng của khoảng thời gian chia nhỏ
-    // Nếu khoảng thời gian ban đầu lớn hơn hoặc bằng 6 ngày thì số lượngsẽ bằng 6.
-    // Nếu khoảng thời gian ban đầu nhỏ hơn 6 ngày và lớn hơn 0 thì số lượng sẽ bằng đúng khoảng thời gian ban đầu đó.
-    // Nếu khoảng thời gian ban đầu bằng 0 thì số lượng sẽ bằng 1.
     int dayRange = (value.duration >= const Duration(days: 6))
         ? 6
         : (value.duration.inDays == 0)
@@ -76,8 +72,6 @@ class BarChartScreenState extends State<BarChartScreen> {
     // Giá trị thực của một khoảng thời gian (tức là một khoảng thời gian sau khi chia nhỏ có bao nhiêu ngày) được tính bằng khoảng thời gian ban đầu chia cho số lượng khoảng thời gian được tính ở trên.
     var x = (value.duration.inDays / dayRange).round();
 
-    // Subtract ở chỗ này là để khi vào hàm for bên dưới, firstDate quay về đúng với giá trị ban đầu của beginDate.
-    // Vì việc add 1 ngày ở dòng đầu trong hàm for là cần thiết, không thể bỏ.
     var firstDate = beginDate.subtract(const Duration(days: 1));
 
     for (int i = 0; i < dayRange; i++) {
@@ -86,9 +80,6 @@ class BarChartScreenState extends State<BarChartScreen> {
       var secondDate =
       (i != dayRange - 1) ? firstDate.add(Duration(days: x)) : endDate;
 
-      // Lưu kết quả tính toán thu nhập và chi tiêu theo khoảng thời gian xác định.
-      // Có một danh sách để lưu khoảng thời gian đã được chia nhỏ và một danh sách để lưu số tiền thu, chi trong khoảng thời gian đó, đối chiếu với nhau theo thứ tự.
-      // Ví dụ: Khoảng thời gian có thứ tự là 1 trong danh sách khoảng thời gian sẽ có thông tin thu chi có thứ tự là 1 tranh danh sách lưu số tiền thu chi.
       List<double> calculation =
       calculateByTimeRange(firstDate, secondDate, transactionList);
       if (firstDate.compareTo(endDate) < 0) {
@@ -100,16 +91,11 @@ class BarChartScreenState extends State<BarChartScreen> {
         timeRangeList.add(firstDate.day.toString());
       }
 
-      // Phần dưới này sẽ là tính toán giá trị lớn nhất trong tất cả các giao dịch.
-      // Bước này là để lấy giá trị lớn nhất, hỗ trợ cho việc hiển thị cột trong chart.
-      // calculation.first là số tiền thu nhập, calculation.last là số tiền chi tiêu
       double temp = (calculation.first > calculation.last
           ? calculation.first
           : calculation.last);
       if (temp > maximumAmount) maximumAmount = temp;
 
-      // Tăng lên một chu kỳ.
-      // Nghĩa là sẽ tiếp tục tính toán khoảng thời gian được chia nhỏ tiếp theo cho đến khi vòng lặp kết thúc.
       firstDate = firstDate.add(Duration(days: x));
     }
     if (calculationList.isNotEmpty) {
@@ -171,11 +157,8 @@ class BarChartScreenState extends State<BarChartScreen> {
     maximumAmount = 1;
 
     // Hàm lấy tính toán và chia các khoảng thời gian để thống kê từ danh sách các giao dịch.
-    generateData(
-        beginDate, endDate, timeRangeList, transactionList, rawBarGroups);
+    generateData(beginDate, endDate, timeRangeList, transactionList, rawBarGroups);
 
-    // Gán giá trị cho danh sách dữ liệu hiển thị.
-    // Việc này dùng để chạy hiệu ứng chia trung bình khi chạm vào cột.
     showingBarGroups = rawBarGroups;
   }
 
@@ -187,7 +170,7 @@ class BarChartScreenState extends State<BarChartScreen> {
       child: Card(
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        color: AppColors.backgroundColor,
+        color: Colors.grey.shade100,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -201,57 +184,6 @@ class BarChartScreenState extends State<BarChartScreen> {
                   child: BarChart(
                     BarChartData(
                       maxY: 20,
-                      barTouchData: BarTouchData(
-                          touchTooltipData: BarTouchTooltipData(
-                            tooltipBgColor:
-                            AppColors.foregroundColor.withOpacity(0.54),
-                            getTooltipItem: (_a, _b, _c, _d) => null,
-                          ),
-                          touchCallback: (FlTouchEvent event, BarTouchResponse? response) {
-                            // Xử lý chạm trong bar chart.
-                            if (response?.spot == null) {
-                              setState(() {
-                                touchedGroupIndex = -1;
-                                showingBarGroups = List.of(rawBarGroups);
-                              });
-                              return;
-                            }
-
-                            touchedGroupIndex =
-                                response!.spot!.touchedBarGroupIndex;
-
-                            setState(() {
-                              if (event is PointerExitEvent ||
-                                  event is PointerUpEvent) {
-                                touchedGroupIndex = -1;
-                                showingBarGroups = List.of(rawBarGroups);
-                              } else {
-                                showingBarGroups = List.of(rawBarGroups);
-                                if (touchedGroupIndex != -1) {
-                                  double sum = 0;
-                                  for (BarChartRodData rod
-                                  in showingBarGroups[touchedGroupIndex]
-                                      .barRods) {
-                                    sum += rod.y;
-                                  }
-                                  final avg = sum /
-                                      showingBarGroups[touchedGroupIndex]
-                                          .barRods
-                                          .length;
-
-                                  showingBarGroups[touchedGroupIndex] =
-                                      showingBarGroups[touchedGroupIndex]
-                                          .copyWith(
-                                        barRods: showingBarGroups[touchedGroupIndex]
-                                            .barRods
-                                            .map((rod) {
-                                          return rod.copyWith(y: avg);
-                                        }).toList(),
-                                      );
-                                }
-                              }
-                            });
-                          }),
                       titlesData: FlTitlesData(
                         show: true,
                         bottomTitles: SideTitles(

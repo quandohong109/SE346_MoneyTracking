@@ -2,19 +2,18 @@ import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:money_formatter/money_formatter.dart';
 
-//Text(dạng widget )hiển thị số tiền với đơn vị tiền tệ
 class TotalMoney extends StatelessWidget {
-  // amount (số tiền) cần hiển thị
+  // Amount (số tiền) cần hiển thị
   final double text;
-  // id đơn vị tiền tệ
+  // Id đơn vị tiền tệ
   final String currencyId;
-  // style của text khi trả về
+  // Style của text khi trả về
   final TextStyle? textStyle;
-  // dấu giá trị của amount ( '-' khi amount < 0 , '+' khi amount > 0)
+  // Dấu giá trị của amount ( '-' khi amount < 0 , '+' khi amount > 0)
   final String digit;
-  // vị trí của text được trả về.
+  // Vị trí của text được trả về.
   final TextAlign? textAlign;
-  // biến check xem có xử lý chống tràn hay không (để hiển thị đầy đủ số tiền).
+  // Biến check xem có xử lý chống tràn hay không (để hiển thị đầy đủ số tiền).
   final bool checkOverflow;
 
   TotalMoney({
@@ -29,7 +28,6 @@ class TotalMoney extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // text hiển thị cuối cùng(được trả về)
     String finalText = formatText;
 
     return Text(
@@ -39,20 +37,19 @@ class TotalMoney extends StatelessWidget {
     );
   }
 
-  //thiết lập text cần được hiển thị
   String get formatText {
     Currency defaultCurrency = Currency(code: 'VND', name: 'VND', symbol: 'đ', flag: 'flag', number: 100, decimalDigits: 100, namePlural: 'namePlural', symbolOnLeft: false, decimalSeparator: 'decimalSeparator', thousandsSeparator: 'thousandsSeparator', spaceBetweenAmountAndSymbol: true); // Define your default currency
     Currency currency = CurrencyService().findByCode(currencyId) ?? defaultCurrency;
-    //đơn vị tiền tệ
+    //Đơn vị tiền tệ
     String symbol = currency.symbol;
-    //xem xét đơn vị tiền tệ được hiển thị bên trái hay phải amount
+    //Xem xét đơn vị tiền tệ được hiển thị bên trái hay phải amount
     bool onLeft = currency.symbolOnLeft;
-    //dấu của amount ( '-' khi amount < 0 , '+' khi amount > 0)
+    //Dấu của amount ( '-' khi amount < 0 , '+' khi amount > 0)
     String newDigit = this.digit;
-    //giá trị của tiền cần hiển thị
+    //Giá trị của tiền cần hiển thị
     double newText = this.text;
 
-    //lấy dấu của amount và lấy giá trị tuyệt đối của amount khi amount < 0;
+    //Lấy dấu của amount và lấy giá trị tuyệt đối của amount khi amount < 0;
     if (digit == '' && text < 0) {
       newDigit = text.toString().substring(0, 1);
       newText = double.parse(text.toString().substring(1));
@@ -63,18 +60,12 @@ class TotalMoney extends StatelessWidget {
     String finalText;
     if (newText >= 1000000000 && checkOverflow) {
       finalText = onLeft
-          ? '~ ' + '$newDigit$symbol ' +
-          MoneyFormatter(amount: newText).output.compactNonSymbol
-          : '~ ' + newDigit +
-          MoneyFormatter(amount: newText).output.compactNonSymbol +
-          ' $symbol';
+          ? '~ $newDigit$symbol ${MoneyFormatter(amount: newText).output.compactNonSymbol}'
+          : '~ $newDigit${MoneyFormatter(amount: newText).output.compactNonSymbol} $symbol';
     } else {
       finalText = onLeft
-          ? '$newDigit$symbol ' +
-          MoneyFormatter(amount: newText).output.withoutFractionDigits
-          : newDigit +
-          MoneyFormatter(amount: newText).output.withoutFractionDigits +
-          ' $symbol';
+          ? '$newDigit$symbol ${MoneyFormatter(amount: newText).output.withoutFractionDigits}'
+          : '$newDigit${MoneyFormatter(amount: newText).output.withoutFractionDigits} $symbol';
     }
     return finalText;
 
