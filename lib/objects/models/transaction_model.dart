@@ -8,7 +8,6 @@ class TransactionModel {
   final DateTime date;
   final String? note;
   final BigInt amount;
-  final bool isExpanded;
 
   TransactionModel({
     required this.id,
@@ -17,11 +16,10 @@ class TransactionModel {
     required this.date,
     this.note,
     required this.amount,
-    required this.isExpanded,
   });
 
   @override
   String toString() {
-    return 'TransactionModel{id: $id, category: $category, wallet: $wallet, date: $date, note: $note, amount: $amount, isExpanded: $isExpanded}';
+    return 'TransactionModel{id: $id, category: $category, wallet: $wallet, date: $date, note: $note, amount: $amount}';
   }
 }

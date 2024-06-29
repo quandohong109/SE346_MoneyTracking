@@ -96,7 +96,6 @@ class ModifyTransactionScreenCubit extends Cubit<ModifyTransactionScreenState> {
             note: state.note,
             date: state.selectedDate,
             wallet: state.wallet!,
-            isExpanded: false,
           ),
         );
         emit(state.copyWith(status: ExecuteStatus.success, dialogContent: 'Add transaction successfully'));
@@ -117,7 +116,6 @@ class ModifyTransactionScreenCubit extends Cubit<ModifyTransactionScreenState> {
             note: state.note,
             date: state.selectedDate,
             wallet: state.wallet!,
-            isExpanded: false,
           ),
         );
         emit(state.copyWith(status: ExecuteStatus.success, dialogContent: 'Edit transaction successfully'));

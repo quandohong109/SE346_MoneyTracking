@@ -56,7 +56,7 @@ class _TransactionScreen extends State<TransactionScreen> {
                         itemBuilder: (context, index) {
                           return TransactionWidget(
                               transaction: thisMonthTransactions[index],
-                              onTap: () => {
+                              onPress: () => {
                                 cubit.updateTransactionListStream(),
                               }
                           );
