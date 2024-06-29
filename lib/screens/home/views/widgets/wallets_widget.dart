@@ -194,6 +194,7 @@ class _WalletsWidgetState extends State<WalletsWidget> {
         } else {
           BigInt totalBalance = snapshot.data!;
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

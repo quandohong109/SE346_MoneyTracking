@@ -137,25 +137,47 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   const SizedBox(height: 30),
                   // Change username button
-                  ElevatedButton(
+                  OutlinedButton(
                     onPressed: () {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: const Text('Change Username'),
+                            title: const Text('CHANGE USERNAME'),
                             content: TextField(
                               controller: _nameController,
-                              decoration: const InputDecoration(labelText: 'Enter new username'),
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.person),
+                                labelText: 'Username',
+                                hintText: 'Enter new username...',
+                                border: const OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                                ),
+                              ),
                             ),
                             actions: [
                               TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.red,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                ),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
-                                child: const Text('Cancel'),
+                                child: const Text('Cancel', style: TextStyle(color: Colors.white)),
                               ),
                               TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                ),
                                 onPressed: () async {
                                   final newName = _nameController.text.trim();
                                   if (newName.isNotEmpty) {
@@ -167,64 +189,74 @@ class _ProfilePageState extends State<ProfilePage> {
                                     );
                                   }
                                 },
-                                child: const Text('Update'),
+                                child: const Text('Update', style: TextStyle(color: Colors.white)),
                               ),
                             ],
                           );
                         },
                       );
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.blue,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
+                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      side: const BorderSide(
+                          color: Colors.blue), // Border color when button is enabled
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.edit, // Change username icon
+                          color: Colors.white,
+                        ),
+                        SizedBox(width: 8), // Space between icon and text
                         Text(
                           'Change your username',
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.white, // Text color
                           ),
                         ),
-                        Icon(Icons.arrow_forward, color: Colors.white),
                       ],
                     ),
                   ),
                   const SizedBox(height: 20),
                   // Change password button
-                  ElevatedButton(
+                  OutlinedButton(
                     onPressed: () => _sendPasswordResetEmail(context),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.blue,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
+                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      side: const BorderSide(
+                          color: Colors.blue), // Border color when button is enabled
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.lock_open, // Change password icon
+                          color: Colors.white,
+                        ),
+                        SizedBox(width: 8), // Space between icon and text
                         Text(
                           'Change your password',
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.white, // Text color
                           ),
                         ),
-                        Icon(Icons.arrow_forward, color: Colors.white),
                       ],
                     ),
                   ),
                   const SizedBox(height: 20),
                   // Contact us button
-                  ElevatedButton(
+                  OutlinedButton(
                     onPressed: () async {
                       final newName = await Navigator.push(
                         context,
@@ -236,31 +268,36 @@ class _ProfilePageState extends State<ProfilePage> {
                         });
                       }
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
+                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      side: const BorderSide(
+                          color: Colors.blue), // Border color when button is enabled
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.mail, // Contact us icon
+                          color: Colors.white,
+                        ),
+                        SizedBox(width: 8), // Space between icon and text
                         Text(
                           'Contact us',
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.white, // Text color
                           ),
                         ),
-                        Icon(Icons.arrow_forward, color: Colors.white),
                       ],
                     ),
                   ),
                   const SizedBox(height: 20),
                   // Logout button
-                  ElevatedButton(
+                  OutlinedButton(
                     onPressed: () async {
                       // Sign out the user
                       try {
@@ -275,42 +312,31 @@ class _ProfilePageState extends State<ProfilePage> {
                         print('Error signing out: $e');
                       }
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    child: const Text(
-                      'Logout',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  // Delete account button
-                  ElevatedButton(
-                    onPressed: () {
-                      // Add logic for deleting the account
-                    },
-                    style: ElevatedButton.styleFrom(
+                    style: OutlinedButton.styleFrom(
                       backgroundColor: Colors.red,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
+                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      side: const BorderSide(
+                          color: Colors.red), // Border color when button is enabled
                     ),
-                    child: const Text(
-                      'Delete account',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.logout, // Logout icon
+                          color: Colors.white,
+                        ),
+                        SizedBox(width: 8), // Space between icon and text
+                        Text(
+                          'Logout',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white, // Text color
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

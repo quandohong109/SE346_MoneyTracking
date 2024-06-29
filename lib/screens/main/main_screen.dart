@@ -28,6 +28,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         bottomNavigationBar: ClipRRect(
           borderRadius: const BorderRadius.vertical(
               top: Radius.circular(30)

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_tracking/screens/home/views/widgets/wallets_widget.dart';
+import 'package:money_tracking/screens/home/views/widgets/forex_widget.dart';
 import '../cubit/wallets/wallets_cubit.dart';
 import 'profile_screen.dart';
 
@@ -36,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Column(
           children: [
@@ -107,8 +109,12 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: BlocProvider(
                 create: (context) => WalletBloc(),
-                child: WalletsWidget(),
+                child: const WalletsWidget(),
               ),
+            ),
+            const Divider(color: Colors.grey),
+            const Expanded(
+                child: CurrencyConverter()
             ),
           ],
         ),
