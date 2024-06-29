@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import '../../../../../objects/models/category_model.dart';
+import '../../main/month_picker.dart';
 import '../cubits/budget_screen_cubit.dart';
 import 'widgets/budget_item.dart';
 import '../../../../../objects/models/icon_type.dart';
@@ -65,111 +66,6 @@ class _BudgetScreen extends State<BudgetScreen> {
     amounts.insert(0, 0.0);
   }
 
-  void _pickMonthYear() async {
-    int selectedMonthIndex = selectedDate.month - 1; // Initialize with current month
-    int selectedYearIndex = selectedDate.year - 2000; // Initialize with current year
-
-    final DateTime? picked = await showDialog<DateTime>(
-      context: context,
-      builder: (BuildContext context) {
-        DateTime tempPickedDate = selectedDate;
-
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              title: Text("Select Month and Year"),
-              content: Container(
-                height: 150,
-                child: Row(
-                  children: <Widget>[
-                    // Month picker (đặt ở vị trí bên trái)
-                    Expanded(
-                      child: ListWheelScrollView(
-                        itemExtent: 50,
-                        physics: FixedExtentScrollPhysics(), // Giữ mục đã chọn ở giữa
-                        onSelectedItemChanged: (index) {
-                          setState(() {
-                            selectedMonthIndex = index;
-                            tempPickedDate = DateTime(
-                              tempPickedDate.year,
-                              index + 1,
-                            );
-                          });
-                        },
-                        controller: FixedExtentScrollController(initialItem: selectedMonthIndex),
-                        children: List<Widget>.generate(12, (index) {
-                          bool isBold = index == selectedMonthIndex; // In đậm nếu đang scroll tới
-                          return Center(
-                            child: Text(
-                              DateFormat.MMMM().format(DateTime(0, index + 1)),
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-                              ),
-                            ),
-                          );
-                        }),
-                      ),
-                    ),
-                    // Year picker (đặt ở vị trí bên phải)
-                    Expanded(
-                      child: ListWheelScrollView(
-                        itemExtent: 50,
-                        physics: FixedExtentScrollPhysics(), // Giữ mục đã chọn ở giữa
-                        onSelectedItemChanged: (index) {
-                          setState(() {
-                            selectedYearIndex = index;
-                            tempPickedDate = DateTime(
-                              index + 2000,
-                              tempPickedDate.month,
-                            );
-                          });
-                        },
-                        controller: FixedExtentScrollController(initialItem: selectedYearIndex),
-                        children: List<Widget>.generate(101, (index) {
-                          bool isBold = index == selectedYearIndex; // In đậm nếu đang scroll tới
-                          return Center(
-                            child: Text(
-                              '${index + 2000}',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-                              ),
-                            ),
-                          );
-                        }),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('CANCEL'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                TextButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop(tempPickedDate);
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
-
   void _addBudget() {
     showDialog(
       context: context,
@@ -211,54 +107,13 @@ class _BudgetScreen extends State<BudgetScreen> {
                     }
 
                     // Chỉ gọi _showBudgetDialog một lần với danh sách đã chọn
-                    _showBudgetDialog(selectedCategories);
+                    //_showBudgetDialog(selectedCategories);
                   },
                   child: Text('OK'),
                 ),
               ],
             );
           },
-        );
-      },
-    );
-  }
-
-
-  void _showBudgetDialog(List<CategoryModel> selectedCategories) {
-    TextEditingController budgetController = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Nhập ngân sách cho tháng ${DateFormat.yMMM().format(selectedDate)}'),
-          content: TextField(
-            controller: budgetController,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(hintText: "Nhập số tiền ngân sách"),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('CANCEL'),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  currentMonthBudget = double.tryParse(budgetController.text);
-                  if (currentMonthBudget != null) {
-                    // Thiết lập ngân sách cho từng danh mục đã chọn
-                    selectedCategories.forEach((category) {
-                      monthlyBudgets[DateFormat.yMMM().format(selectedDate)] = currentMonthBudget!;
-                    });
-                  }
-                });
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            ),
-          ],
         );
       },
     );
@@ -283,26 +138,20 @@ class _BudgetScreen extends State<BudgetScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('NGÂN SÁCH'),
+        title: const Text('NGÂN SÁCH'),
         centerTitle: true,
       ),
       body: Column(
         children: [
           MonthPicker(
             selectedDate: selectedDate,
-            onNext: () {
+            //onPick: _pickMonthYear,
+            updateSelectedDate: (DateTime newDate) {
               setState(() {
-                selectedDate = DateTime(selectedDate.year, selectedDate.month + 1);
+                selectedDate = newDate;
                 currentMonthBudget = monthlyBudgets[DateFormat.yMMM().format(selectedDate)];
               });
             },
-            onPrevious: () {
-              setState(() {
-                selectedDate = DateTime(selectedDate.year, selectedDate.month - 1);
-                currentMonthBudget = monthlyBudgets[DateFormat.yMMM().format(selectedDate)];
-              });
-            },
-            onPick: _pickMonthYear,
           ),
           if (currentMonthBudget == null) ...[
             Center(
@@ -343,57 +192,6 @@ class _BudgetScreen extends State<BudgetScreen> {
     );
   }
 }
-
-class MonthPicker extends StatelessWidget {
-  final DateTime selectedDate;
-  final VoidCallback onNext;
-  final VoidCallback onPrevious;
-  final VoidCallback onPick;
-
-  const MonthPicker({
-    Key? key,
-    required this.selectedDate,
-    required this.onNext,
-    required this.onPrevious,
-    required this.onPick,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        IconButton(
-          icon: Icon(Icons.arrow_left),
-          onPressed: onPrevious,
-        ),
-        Column(
-          children: List<Widget>.generate(1, (index) {
-            int displayMonth = selectedDate.month;
-            return TextButton(
-              onPressed: () {
-                final pickedDate = DateTime(selectedDate.year, displayMonth);
-                onPick();
-              },
-              child: Text(
-                DateFormat.yMMM().format(DateTime(selectedDate.year, displayMonth)),
-                style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-            );
-          }),
-        ),
-        IconButton(
-          icon: Icon(Icons.arrow_right),
-          onPressed: onNext,
-        ),
-      ],
-    );
-  }
-}
-
-
 
 class BudgetBar extends StatelessWidget {
   final double totalBudget;

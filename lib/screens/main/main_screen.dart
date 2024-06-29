@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:money_tracking/screens/main/add_transaction/view/modify_transaction_screen.dart';
 import 'package:money_tracking/screens/transaction/views/transaction_screen.dart';
 
+import '../../data/database/database.dart';
 import '../budget/views/budget_screen.dart';
 import '../home/views/home_screen.dart';
 import '../stat/views/stat_screen.dart';
@@ -67,8 +68,8 @@ class _MainScreenState extends State<MainScreen> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
+            onPressed: () async {
+              await Navigator.push(
                   context,
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) => ModifyTransactionScreen.newInstance(),

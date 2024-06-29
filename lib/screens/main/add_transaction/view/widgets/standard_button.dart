@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class StandardButton extends StatelessWidget {
-  final VoidCallback onTap;
+  final VoidCallback onPress;
   final Color? backgroundColor;
   final double height;
   final double width;
@@ -13,7 +13,7 @@ class StandardButton extends StatelessWidget {
 
   const StandardButton({
     super.key,
-    required this.onTap,
+    required this.onPress,
     this.backgroundColor,
     this.height = 50.0,
     this.width = double.infinity,
@@ -30,7 +30,7 @@ class StandardButton extends StatelessWidget {
       width: width,
       height: height,
       child: TextButton(
-        onPressed: onTap,
+        onPressed: onPress,
         style: TextButton.styleFrom(
           backgroundColor: backgroundColor ?? Theme
               .of(context)

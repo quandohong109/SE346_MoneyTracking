@@ -180,6 +180,9 @@ class _ModifyTransactionScreen extends State<ModifyTransactionScreen> {
                                                   )
                                               );
                                               cubit.updateCategoryList();
+                                              if (state.category != null) {
+                                                cubit.updateCategory(state.category!);
+                                              }
                                             },
                                           ),
 
@@ -190,10 +193,17 @@ class _ModifyTransactionScreen extends State<ModifyTransactionScreen> {
                                               cubit.updateCategory(category);
                                               isCategoryExpandedNotifier.value = false;
                                             },
-                                            onEditTap: () => cubit.updateCategoryList(),
+                                            onEditTap: () async {
+                                              cubit.updateCategoryList();
+                                              Database().updateTransactionListStream();
+                                              if (state.category != null) {
+                                                cubit.updateCategory(state.category!);
+                                              }
+                                            },
                                           )
                                         ],
-                                      );},
+                                      );
+                                    },
                                   );
                                 }),
                             const SizedBox(height: 20,),
@@ -303,7 +313,7 @@ class _ModifyTransactionScreen extends State<ModifyTransactionScreen> {
                           Expanded(
                             child: StandardButton(
                               height: kToolbarHeight,
-                              onTap: () async {
+                              onPress: () async {
                                 if (state.hasChange) {
                                   if (state.isEdit) {
                                     CustomDialog.showConfirmDialog(
@@ -335,7 +345,7 @@ class _ModifyTransactionScreen extends State<ModifyTransactionScreen> {
                             Expanded(
                               child: StandardButton(
                                 height: kToolbarHeight,
-                                onTap: () {
+                                onPress: () {
                                   CustomDialog.showConfirmDialog(
                                     context,
                                     'Confirm',
