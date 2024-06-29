@@ -48,45 +48,8 @@ class Database {
   List<TransactionModel> transactionList = [];
 
   Stream<List<TransactionModel>> transactionListStream = const Stream.empty();
+  Stream<List<CategoryModel>> categoryListStream = const Stream.empty();
   Stream<List<BudgetModel>> budgetListStream = const Stream.empty();
-
-  // void updateCategoryList() {
-  //   categoryList = Firebase().categoryList.map((e) {
-  //     return CategoryModel(
-  //       id: e.id,
-  //       name: e.name,
-  //       iconType: iconTypeList.firstWhere((element) => element.id == e.iconID),
-  //       isIncome: e.isIncome,
-  //       color: Color.fromRGBO(e.red, e.green, e.blue, e.opacity),
-  //     );
-  //   }).toList();
-  // }
-
-  // void updateWalletList() {
-  //   walletList = Firebase().walletList.map((e) {
-  //     return WalletModel(
-  //       id: e.id,
-  //       name: e.name,
-  //       balance: e.balance,
-  //     );
-  //   }).toList();
-  // }
-
-  // void updateTransactionList() {
-  //   updateCategoryList();
-  //   updateWalletList();
-  //   transactionList = Firebase().transactionList.map((e) {
-  //     return TransactionModel(
-  //       id: e.id,
-  //       category: categoryList.firstWhere((element) => element.id == e.categoryID),
-  //       wallet: walletList.firstWhere((element) => element.id == e.walletID),
-  //       date: Converter.toDateTime(e.date),
-  //       note: e.note,
-  //       amount: e.amount,
-  //       isExpanded: false,
-  //     );
-  //   }).toList();
-  // }
 
   Future<void> updateCategoryListFromFirestore() async {
     try {
@@ -165,7 +128,6 @@ class Database {
         );
       }).toList();
       transactionList.sort((a, b) => b.date.compareTo(a.date));
-      await Database().updateTransactionListStream();
     } catch (e) {
       throw Exception("An error occurred - Transaction: ${e.toString()}");
     }
@@ -173,17 +135,16 @@ class Database {
 
   Future<void> updateTransactionListStream() async {
     try {
+      await updateCategoryListFromFirestore();
+      await updateWalletListFromFirestore();
       final firestoreInstance = FirebaseFirestore.instance;
       transactionListStream = firestoreInstance
           .collection('transactions')
           .where('userID', isEqualTo: GetData.getUID())
           .snapshots()
           .asyncMap((querySnapshot) async {
-        await updateCategoryListFromFirestore();
-        await updateWalletListFromFirestore();
-
         var transactions = querySnapshot.docs.map((doc) {
-          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          Map<String, dynamic> data = doc.data();
           return TransactionModel(
             id: data['id'],
             category: categoryList.firstWhere((element) =>
@@ -198,6 +159,7 @@ class Database {
 
         // Sort the transactions by date in descending order
         transactions.sort((a, b) => b.date.compareTo(a.date));
+        await updateTransactionListFromFirestore();
         return transactions;
       });
     } catch (e) {
@@ -208,6 +170,7 @@ class Database {
   Future<void> updateBudgetListStream() async {
     try {
       await updateCategoryListFromFirestore();
+      await updateWalletListFromFirestore();
       final firestoreInstance = FirebaseFirestore.instance;
       // Fetch budget_details from Firestore
       final QuerySnapshot budgetDetailsQuerySnapshot = await firestoreInstance

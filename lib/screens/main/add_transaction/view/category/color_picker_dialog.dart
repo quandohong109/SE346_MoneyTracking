@@ -22,7 +22,7 @@ class ColorPickerDialog extends StatelessWidget {
               onColorChanged: onColorChanged,
             ),
             StandardButton(
-              onTap: () => Navigator.pop(context),
+              onPress: () => Navigator.pop(context),
               text: 'Save',
             )
           ],

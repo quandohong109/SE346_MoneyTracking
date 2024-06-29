@@ -33,8 +33,10 @@ class ModifyTransactionScreenCubit extends Cubit<ModifyTransactionScreenState> {
     emit(state.copyWith(amount: amount, hasChange: true));
   }
 
-  void updateCategory(CategoryModel category) {
-    emit(state.copyWith(category: category, hasChange: true));
+  void updateCategory(CategoryModel category) async {
+    await Database().updateCategoryListFromFirestore();
+    final updatedCategory = Database().categoryList.firstWhere((c) => c.id == category.id);
+    emit(state.copyWith(category: updatedCategory, hasChange: true));
   }
 
   void updateWallet(WalletModel wallet) {
@@ -49,7 +51,8 @@ class ModifyTransactionScreenCubit extends Cubit<ModifyTransactionScreenState> {
     emit(state.copyWith(selectedDate: selectedDate, hasChange: true));
   }
 
-  void updateCategoryList() {
+  void updateCategoryList() async {
+    await Database().updateCategoryListFromFirestore();
     emit(state.copyWith(categoryList: Database().categoryList));
   }
 

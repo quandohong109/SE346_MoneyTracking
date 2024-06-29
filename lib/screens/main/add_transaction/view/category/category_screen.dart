@@ -135,7 +135,7 @@ class _CategoryScreen extends State<CategoryScreen> {
                                           Expanded(
                                               child: StandardButton(
                                                 height: kToolbarHeight * 0.8,
-                                                onTap: () {
+                                                onPress: () {
                                                   cubit.updateIsIncome(false);
                                                 },
                                                 backgroundColor:
@@ -148,7 +148,7 @@ class _CategoryScreen extends State<CategoryScreen> {
                                           Expanded(
                                               child: StandardButton(
                                                 height: kToolbarHeight * 0.8,
-                                                onTap: () {
+                                                onPress: () {
                                                   cubit.updateIsIncome(true);
                                                 },
                                                 backgroundColor:
@@ -205,7 +205,7 @@ class _CategoryScreen extends State<CategoryScreen> {
                             Expanded(
                               child: StandardButton(
                                 height: kToolbarHeight,
-                                onTap: () async {
+                                onPress: () async {
                                   if (state.hasChange) {
                                     if (state.isEdit) {
                                       CustomDialog.showConfirmDialog(
@@ -214,10 +214,12 @@ class _CategoryScreen extends State<CategoryScreen> {
                                           'Are you sure you want to edit this category?',
                                               () async {
                                             await cubit.updateCategory();
+                                            await Database().updateTransactionListStream();
                                           }
                                       );
                                     } else {
                                       await cubit.addCategory();
+                                      await Database().updateTransactionListStream();
                                     }
                                   }
                                 },
@@ -237,7 +239,7 @@ class _CategoryScreen extends State<CategoryScreen> {
                               Expanded(
                                 child: StandardButton(
                                   height: kToolbarHeight,
-                                  onTap: () {
+                                  onPress: () {
                                     CustomDialog.showConfirmDialog(
                                       context,
                                       'Confirm',
