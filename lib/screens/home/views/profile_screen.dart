@@ -8,7 +8,7 @@ import '../../../main.dart';
 import 'changeusername.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -53,8 +53,8 @@ class _ProfilePageState extends State<ProfilePage> {
     if (_auth.currentUser != null) {
       try {
         await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
-          'name': newName,
-        });
+              'name': newName,
+            });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Name updated successfully')),
         );

@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:money_tracking/screens/home/views/profile_screen.dart';
 import 'package:money_tracking/screens/main/add_transaction/view/modify_transaction_screen.dart';
 import 'package:money_tracking/screens/transaction/views/transaction_screen.dart';
 
@@ -21,8 +22,8 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget Function()> widgetList = [
         () => const HomeScreen(),
         () => TransactionScreen.newInstance(),
-        () => BudgetScreen.newInstance(),
         () => const StatScreen(),
+        () => const ProfilePage(),
   ];
 
   @override
@@ -56,12 +57,12 @@ class _MainScreenState extends State<MainScreen> {
                     label: "Transaction"
                 ),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.money),
-                    label: "Budget"
-                ),
-                BottomNavigationBarItem(
                     icon: Icon(Icons.bar_chart),
                     label: "Stats"
+                ),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.person),
+                    label: "Profile"
                 ),
               ]
           ),
