@@ -57,16 +57,6 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.green),
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/home');
-          },
-        ),
-      ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         decoration: const BoxDecoration(

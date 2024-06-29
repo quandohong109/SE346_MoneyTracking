@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart'; // Add this package for user avatar
+import 'package:money_tracking/screens/login/login_screen.dart';
 
 import '../../../main.dart';
 import 'changeusername.dart';
@@ -174,9 +176,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         Text(
                           'Change your username',
                           style: TextStyle(
@@ -200,9 +202,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         Text(
                           'Change your password',
                           style: TextStyle(
@@ -236,9 +238,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         Text(
                           'Contact us',
                           style: TextStyle(
@@ -261,11 +263,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         // Navigate back to the home screen after logout
                         Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (context) => const HomeScreen()),
+                          MaterialPageRoute(builder: (context) => LoginScreen()),
                               (Route<dynamic> route) => false,
                         );
                       } catch (e) {
-                        print('Error signing out: $e');
+                        if (kDebugMode) {
+                          print('Error signing out: $e');
+                        }
                       }
                     },
                     style: ElevatedButton.styleFrom(

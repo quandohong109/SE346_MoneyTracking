@@ -6,7 +6,6 @@ import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:money_tracking/screens/home/views/widgets/wallets_widget.dart';
 import '../../../data/database/database.dart';
 import '../cubit/wallets/wallets_cubit.dart';
-import 'profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
