@@ -76,7 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.green),
+          icon: Icon(Icons.arrow_back, color: Theme.of(context).primaryColor),
           onPressed: () {
             Navigator.pushReplacementNamed(context, '/login');
           },
@@ -93,12 +93,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                const Text(
+                Text(
                   'Sign Up',
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: Colors.green,
+                    color: Theme.of(context).primaryColor,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -107,14 +107,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: _nameController,
                   decoration: InputDecoration(
                     labelText: 'Enter username...',
-                    labelStyle: TextStyle(color: Colors.green),
+                    labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: BorderSide(color: Theme.of(context).primaryColor),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: BorderSide(color: Theme.of(context).primaryColor),
                     ),
                   ),
                 ),
@@ -123,14 +123,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: 'Enter email...',
-                    labelStyle: TextStyle(color: Colors.green),
+                    labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: BorderSide(color: Theme.of(context).primaryColor),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: BorderSide(color: Theme.of(context).primaryColor),
                     ),
                   ),
                 ),
@@ -139,14 +139,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: _passwordController,
                   decoration: InputDecoration(
                     labelText: 'Enter password...',
-                    labelStyle: TextStyle(color: Colors.green),
+                    labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: BorderSide(color: Theme.of(context).primaryColor),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: BorderSide(color: Theme.of(context).primaryColor),
                     ),
                   ),
                   obscureText: true,
@@ -156,14 +156,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: _confirmPasswordController,
                   decoration: InputDecoration(
                     labelText: 'Confirm password...',
-                    labelStyle: TextStyle(color: Colors.green),
+                    labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: BorderSide(color: Theme.of(context).primaryColor),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: BorderSide(color: Theme.of(context).primaryColor),
                     ),
                   ),
                   obscureText: true,
@@ -172,7 +172,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ElevatedButton(
                   onPressed: () => _signUp(context),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: Theme.of(context).primaryColor,
                     padding: EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),

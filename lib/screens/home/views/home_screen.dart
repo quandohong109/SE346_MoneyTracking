@@ -103,6 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const Divider(color: Colors.grey),
+            const SizedBox(height: 10),
             const Expanded(
                 child: CurrencyConverter()
             ),

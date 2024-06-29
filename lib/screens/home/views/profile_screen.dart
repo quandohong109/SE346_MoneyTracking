@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart'; // Add this package for user avatar
+import 'package:money_tracking/functions/custom_dialog.dart';
 import 'package:money_tracking/screens/login/login_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../main.dart';
 import 'changeusername.dart';
@@ -37,9 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
       await _auth.sendPasswordResetEmail(email: email);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password reset email sent.')),
-      );
+      CustomDialog.showInfoDialog(context, "Password Reset", "Password reset email sent to $email");
     } catch (error) {
       if (kDebugMode) {
         print(error);
@@ -57,9 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
         await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
               'name': newName,
             });
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Name updated successfully')),
-        );
+        CustomDialog.showInfoDialog(context, "Update Name", "Name updated to $newName");
         setState(() {
           _nameController.text = newName;
         });
@@ -67,9 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
         if (kDebugMode) {
           print('Error updating name: $e');
         }
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to update name')),
-        );
+        CustomDialog.showInfoDialog(context, "Error", "Error updating name: $e");
       }
     }
   }
@@ -250,48 +247,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  // Contact us button
-                  OutlinedButton(
-                    onPressed: () async {
-                      final newName = await Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const ChangeUsernameScreen()),
-                      );
-                      if (newName != null) {
-                        setState(() {
-                          _nameController.text = newName;
-                        });
-                      }
-                    },
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                      side: const BorderSide(
-                          color: Colors.blue), // Border color when button is enabled
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.mail, // Contact us icon
-                          color: Colors.white,
-                        ),
-                        SizedBox(width: 8), // Space between icon and text
-                        Text(
-                          'Contact us',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white, // Text color
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  // Logout button
                   OutlinedButton(
                     onPressed: () async {
                       // Sign out the user

@@ -68,12 +68,12 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                const Text(
+                Text(
                   'Sign In',
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: Colors.green,
+                    color: Theme.of(context).primaryColor,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -82,14 +82,14 @@ class LoginScreen extends StatelessWidget {
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: 'Enter your email...',
-                    labelStyle: TextStyle(color: Colors.green),
+                    labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: BorderSide(color: Theme.of(context).primaryColor),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: BorderSide(color: Theme.of(context).primaryColor),
                     ),
                   ),
                 ),
@@ -98,14 +98,14 @@ class LoginScreen extends StatelessWidget {
                   controller: _passwordController,
                   decoration: InputDecoration(
                     labelText: 'Enter your password...',
-                    labelStyle: TextStyle(color: Colors.green),
+                    labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: BorderSide(color: Theme.of(context).primaryColor),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: BorderSide(color: Theme.of(context).primaryColor),
                     ),
                   ),
                   obscureText: true,
@@ -115,9 +115,9 @@ class LoginScreen extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () => _sendPasswordResetEmail(context),
-                    child: const Text(
+                    child: Text(
                       'Forgot password?',
-                      style: TextStyle(color: Colors.green),
+                      style: TextStyle(color: Theme.of(context).primaryColor),
                     ),
                   ),
                 ),
@@ -125,7 +125,7 @@ class LoginScreen extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () => _signInWithEmailPassword(context),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: Theme.of(context).primaryColor,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -149,9 +149,9 @@ class LoginScreen extends StatelessWidget {
                       onPressed: () {
                         Navigator.pushReplacementNamed(context, '/sign-up');
                       },
-                      child: const Text(
+                      child: Text(
                         'Sign up',
-                        style: TextStyle(color: Colors.green),
+                        style: TextStyle(color: Theme.of(context).primaryColor),
                       ),
                     ),
                   ],
