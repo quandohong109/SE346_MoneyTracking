@@ -11,7 +11,7 @@ import 'package:money_tracking/screens/stat/views/widgets/time_range_selection.d
 import 'package:money_tracking/screens/stat/views/widgets/total_money.dart';
 
 class StatScreen extends StatefulWidget {
-  StatScreen({Key? key}) : super(key: key);
+  const StatScreen({super.key});
 
   @override
   _StatScreenState createState()=>_StatScreenState();
@@ -42,44 +42,40 @@ class _StatScreenState extends State<StatScreen>
     return DefaultTabController(
       length: 300,
       child: Scaffold(
-          backgroundColor: AppColors.backgroundColor,
-          //extendBodyBehindAppBar: true,
           appBar: AppBar(
-            backgroundColor: AppColors.backgroundColor,
             centerTitle: true,
-            elevation: 0,
-            leadingWidth: 70,
+            backgroundColor: Colors.grey.shade100,
+
             title: GestureDetector(
               onTap: _showMonthPicker,
-              child: Container(
-                color: Colors.transparent,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: <Widget>[
-                        Text(
-                          dateDescription,
-                          style: TextStyle(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+
+                children: [
+                  Column(
+                    children: <Widget>[
+                      Text(
+                        dateDescription,
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.foregroundColor,
+                          fontSize: 14.0,
+                        ),
+                      ),
+                      Text(
+                        "${DateFormat('dd/MM/yyyy').format(beginDate)} - ${DateFormat('dd/MM/yyyy').format(endDate)}",
+                        style: TextStyle(
                             fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.foregroundColor,
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        Text(
-                          "${DateFormat('dd/MM/yyyy').format(beginDate)} - ${DateFormat('dd/MM/yyyy').format(endDate)}",
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: AppColors.foregroundColor.withOpacity(0.7),
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                    Icon(Icons.arrow_drop_down, color: AppColors.foregroundColor),
-                  ],
-                ),
+                            color: AppColors.foregroundColor.withOpacity(0.7),
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                  Icon(Icons.arrow_drop_down, color: AppColors.foregroundColor),
+                ],
               ),
             ),
           ),
@@ -92,29 +88,15 @@ class _StatScreenState extends State<StatScreen>
                 List<CategoryModel> incomeCategoryList = [];
                 List<CategoryModel> expenseCategoryList = [];
 
-                // Các biến tính toán số tiền.
-                double openingBalance = 0;
-                double closingBalance = 0;
                 double income = 0;
                 double expense = 0;
 
                 // Duyệt danh sách transactions để thực hiện các tác vụ lọc danh sách danh mục và tính toán các khoản tiền.
                 transactionList.forEach((element) {
-                  if (element.date.isBefore(beginDate)) {
-                    // Tính toán opening balance.
-                    if (element.category.isIncome == false)
-                      openingBalance -= element.amount.toDouble();
-                    else if (element.category.isIncome)
-                      openingBalance += element.amount.toDouble();
-                  }
                   if (element.date.compareTo(endDate) <= 0) {
-                    // Tính toán closing balance.
                     if (!element.category.isIncome) {
-                      closingBalance -= element.amount.toDouble();
                       if (element.date.compareTo(beginDate) >= 0) {
-                        // Tính toán khoản tiền chi.
                         expense += element.amount.toDouble();
-                        // Lọc những danh mục expense từ danh sách transaction hiện có và thêm vào danh sách danh mục expense.
                         if (!expenseCategoryList.any((categoryElement) {
                           if (categoryElement.name == element.category.name)
                             return true;
@@ -125,9 +107,8 @@ class _StatScreenState extends State<StatScreen>
                         }
                       }
                     } else if (element.category.isIncome) {
-                      closingBalance += element.amount.toDouble();
                       if (element.date.compareTo(beginDate) >= 0) {
-                        // Tính toán khoản tiền thu.
+                        // Tính khoản tiền thu.
                         income += element.amount.toDouble();
                         // Lọc những danh mục income từ danh sách transaction hiện có và thêm vào danh sách danh mục income.
                         if (!incomeCategoryList.any((categoryElement) {
@@ -146,232 +127,110 @@ class _StatScreenState extends State<StatScreen>
                 transactionList = transactionList
                     .where((element) =>
                 element.date.compareTo(beginDate) >= 0 &&
-                    element.date.compareTo(endDate) <= 0 &&
-                    element.category.isIncome != 'debt & loan')
+                    element.date.compareTo(endDate) <= 0)
                     .toList();
-                return Container(
-                  color: AppColors.backgroundColor,
-                  child: ListView(
-                    physics: BouncingScrollPhysics(
-                        parent: AlwaysScrollableScrollPhysics()),
-                    children: <Widget>[
-                      Container(
-                          padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
-                          decoration: BoxDecoration(
-                              color: AppColors.backgroundColor,
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: AppColors.foregroundColor.withOpacity(0.24),
-                                  width: 0.5,
-                                ),
-                              )),
-                          child:Container(
-                            color: AppColors
-                                .backgroundColor, // để lúc export ra không bị transparent.
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Text(
-                                            'Opening balance',
-                                            style: TextStyle(
-                                              color: AppColors.foregroundColor
-                                                  .withOpacity(0.7),
-                                              fontFamily: 'Montserrat',
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                          TotalMoney(
-                                            checkOverflow: true,
-                                            text: openingBalance,
-                                            currencyId: 'VND',
-                                            textStyle: TextStyle(
-                                              color: AppColors.foregroundColor,
-                                              fontFamily: 'Montserrat',
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 20,
-                                              height: 1.5,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Text(
-                                            'Closing balance',
-                                            style: TextStyle(
-                                              color: AppColors.foregroundColor
-                                                  .withOpacity(0.7),
-                                              fontFamily: 'Montserrat',
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                          TotalMoney(
-                                            checkOverflow: true,
-                                            text: closingBalance,
-                                            currencyId: 'VND',
-                                            textStyle: TextStyle(
-                                              color: AppColors.foregroundColor,
-                                              fontFamily: 'Montserrat',
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 20,
-                                              height: 1.5,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                Divider(
-                                  color:
-                                  AppColors.foregroundColor.withOpacity(0.12),
-                                  thickness: 2,
-                                  height: 40,
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Hero(
-                                  tag: 'netIncomeChart',
-                                  child: Material(
-                                    color: AppColors.backgroundColor,
+                return ListView(
+                  physics: BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
+                  children: <Widget>[
+                    const SizedBox(
+                      height: 50,
+                  ),
+                    BarChartScreen(
+                          currentList: transactionList,
+                          beginDate: beginDate,
+                          endDate: endDate),
+                    Divider(
+                      color: Colors.grey.shade300,
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      child: IntrinsicHeight(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              child: Container(
                                     child: Column(
-                                      children: [
-                                        Text('Net Income',
-                                            style: TextStyle(
-                                              color: AppColors.foregroundColor
-                                                  .withOpacity(0.7),
-                                              fontFamily: 'Montserrat',
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 15,
-                                            )),
+                                      children: <Widget>[
+                                        Text(
+                                         'Income',
+                                          style: TextStyle(
+                                            color: AppColors.foregroundColor
+                                                .withOpacity(0.7),
+                                            fontFamily: 'Montserrat',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 16,
+                                          ),
+                                          textAlign: TextAlign.start,
+                                        ),
                                         TotalMoney(
-                                            text: closingBalance -
-                                                openingBalance,
-                                            currencyId: 'VND',
-                                            textStyle: TextStyle(
-                                              color: (closingBalance -
-                                                  openingBalance) >
-                                                  0
-                                                  ? AppColors.incomeColor
-                                                  : (closingBalance -
-                                                  openingBalance) ==
-                                                  0
-                                                  ? AppColors.foregroundColor
-                                                  :AppColors.expenseColor,
-                                              fontFamily: 'Montserrat',
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 22,
-                                              height: 1.5,
-                                            )),
-                                        SizedBox(
-                                          width: 450,
-                                          height: 350,
-                                          child: BarChartScreen(
-                                              currentList: transactionList,
-                                              beginDate: beginDate,
-                                              endDate: endDate),
+                                          checkOverflow: true,
+                                          text: income,
+                                          currencyId: 'VND',
+                                          textStyle: TextStyle(
+                                            color: AppColors.incomeColor,
+                                            fontFamily: 'Montserrat',
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 20,
+                                            height: 1.5,
+                                          ),
+                                        ),
+                                        PieChartScreen(
+                                          isShowPercent: false,
+                                          currentList: transactionList,
+                                          categoryList: incomeCategoryList,
+                                          total: BigInt.from(income),
+                                          beginDay: beginDate,
+                                          endDay: endDate,
                                         ),
                                       ],
                                     ),
+                                  )
+                            ),
+                            Expanded(
+                              child: Column(children: <Widget>[
+                                Text(
+                                  'Expense',
+                                  style: TextStyle(
+                                    color: AppColors.foregroundColor
+                                        .withOpacity(0.7),
+                                    fontFamily: 'Montserrat',
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                                TotalMoney(
+                                  checkOverflow: true,
+                                  text: expense,
+                                  currencyId: 'VND',
+                                  textStyle: TextStyle(
+                                    color: AppColors.expenseColor,
+                                    fontFamily: 'Montserrat',
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 20,
+                                    height: 1.5,
                                   ),
                                 ),
-                              ],
+                                PieChartScreen(
+                                  isShowPercent: false,
+                                  currentList: transactionList,
+                                  categoryList: expenseCategoryList,
+                                  total: BigInt.from(expense),
+                                  beginDay: beginDate,
+                                  endDay: endDate,
+                                ),
+                              ])
                             ),
-                          )
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        child: IntrinsicHeight(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Expanded(
-                                child: Container(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Text(
-                                            'Income',
-                                            style: TextStyle(
-                                              color: AppColors.foregroundColor
-                                                  .withOpacity(0.7),
-                                              fontFamily: 'Montserrat',
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 16,
-                                            ),
-                                            textAlign: TextAlign.start,
-                                          ),
-                                          TotalMoney(
-                                            checkOverflow: true,
-                                            text: income,
-                                            currencyId: 'VND',
-                                            textStyle: TextStyle(
-                                              color: AppColors.incomeColor,
-                                              fontFamily: 'Montserrat',
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 20,
-                                              height: 1.5,
-                                            ),
-                                          ),
-                                          PieChartScreen(
-                                            isShowPercent: false,
-                                            currentList: transactionList,
-                                            categoryList: incomeCategoryList,
-                                            total: BigInt.from(income)
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                              ),
-                              Expanded(
-                                child: Column(children: <Widget>[
-                                  Text(
-                                    'Expense',
-                                    style: TextStyle(
-                                      color: AppColors.foregroundColor
-                                          .withOpacity(0.7),
-                                      fontFamily: 'Montserrat',
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                    ),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                  TotalMoney(
-                                    checkOverflow: true,
-                                    text: expense,
-                                    currencyId: 'VND',
-                                    textStyle: TextStyle(
-                                      color: AppColors.expenseColor,
-                                      fontFamily: 'Montserrat',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 20,
-                                      height: 1.5,
-                                    ),
-                                  ),
-                                  PieChartScreen(
-                                    isShowPercent: false,
-                                    currentList: transactionList,
-                                    categoryList: expenseCategoryList,
-                                    total: BigInt.from(expense),
-                                  ),
-                                ])
-                              ),
-                            ],
-                          ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 );
-              })),
+              })
+      ),
     );
   }
   void _showMonthPicker() async {

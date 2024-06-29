@@ -25,8 +25,8 @@ class AppColors {
 
   // Màu pie chart.
   static List<Color> pieChartCategoryColors = [
-    const Color(0xFF23ffff).withOpacity(0.5),
-    const Color(0xFF23cc9c),
+    const Color(0xFFcf3f1f).withOpacity(0.5),
+    const Color(0xFF23cc1f),
     const Color(0xFF2981d9),
     const Color(0xFFe3b82b),
     const Color(0xFFe68429),
@@ -40,7 +40,7 @@ class AppColors {
   // Màu bar chart.
   static Color incomeBarColor = const Color(0xff53fdd7);
   static Color expenseBarColor = const Color(0xffff5182);
-  static Color backgroundColor = Colors.white;
+  static Color backgroundColor = Colors.grey.shade100;
   static Color foregroundColor = Colors.black;
 
   static Color expenseColor = Colors.red.shade600;
