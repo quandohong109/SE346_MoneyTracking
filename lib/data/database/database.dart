@@ -162,7 +162,6 @@ class Database {
           date: (data['date'] as Timestamp).toDate(),
           note: data['note'] ?? '',
           amount: Converter.toBigInt(data['amount']),
-          isExpanded: false,
         );
       }).toList();
       transactionList.sort((a, b) => b.date.compareTo(a.date));
@@ -194,7 +193,6 @@ class Database {
             date: (data['date'] as Timestamp).toDate(),
             note: data['note'] ?? '',
             amount: Converter.toBigInt(data['amount']),
-            isExpanded: false,
           );
         }).toList();
 
