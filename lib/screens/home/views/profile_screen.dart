@@ -1,17 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart'; // Add this package for user avatar
+import 'package:money_tracking/screens/login/login_screen.dart';
 
 import '../../../main.dart';
 import 'changeusername.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
@@ -53,8 +55,8 @@ class _ProfilePageState extends State<ProfilePage> {
     if (_auth.currentUser != null) {
       try {
         await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
-          'name': newName,
-        });
+              'name': newName,
+            });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Name updated successfully')),
         );
@@ -62,7 +64,9 @@ class _ProfilePageState extends State<ProfilePage> {
           _nameController.text = newName;
         });
       } catch (e) {
-        print('Error updating name: $e');
+        if (kDebugMode) {
+          print('Error updating name: $e');
+        }
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to update name')),
         );
@@ -82,15 +86,6 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
       body: Center(
         child: FutureBuilder<Map<String, dynamic>?>(
           future: _getUserInfo(),
@@ -305,11 +300,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         // Navigate back to the home screen after logout
                         Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (context) => const HomeScreen()),
+                          MaterialPageRoute(builder: (context) => LoginScreen()),
                               (Route<dynamic> route) => false,
                         );
                       } catch (e) {
-                        print('Error signing out: $e');
+                        if (kDebugMode) {
+                          print('Error signing out: $e');
+                        }
                       }
                     },
                     style: OutlinedButton.styleFrom(

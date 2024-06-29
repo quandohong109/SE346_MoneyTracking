@@ -253,4 +253,17 @@ class Database {
       rethrow;
     }
   }
+
+  Future<String> getUsernames() async {
+    try {
+      final firestoreInstance = FirebaseFirestore.instance;
+      final DocumentSnapshot userDoc = await firestoreInstance
+          .collection('users')
+          .doc(GetData.getUID())
+          .get();
+      return userDoc['name'];
+    } catch (e) {
+      throw Exception("An error occurred - User: ${e.toString()}");
+    }
+  }
 }

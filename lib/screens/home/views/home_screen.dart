@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:money_tracking/screens/home/views/widgets/wallets_widget.dart';
+import '../../../data/database/database.dart';
 import 'package:money_tracking/screens/home/views/widgets/forex_widget.dart';
 import '../cubit/wallets/wallets_cubit.dart';
-import 'profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -47,30 +48,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const ProfilePage()),
-                      ).then((_) => _getUserName()); // Refresh name when returning
-                    },
                     child: Row(
                       children: [
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.cyanAccent.shade400,
-                              ),
-                            ),
-                            Icon(
-                              Icons.person_2_rounded,
-                              color: Colors.cyanAccent.shade700,
-                            ),
-                          ],
+                        FutureBuilder<String>(
+                          future: Database().getUsernames(),
+                          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else {
+                              return ProfilePicture(
+                                name: snapshot.data ?? 'User',
+                                radius: 20,
+                                fontsize: 20,
+                              );
+                            }
+                          },
                         ),
                         const SizedBox(width: 8),
                         Column(
@@ -96,10 +90,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.settings),
                   ),
                 ],
               ),

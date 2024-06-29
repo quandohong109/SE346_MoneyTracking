@@ -60,7 +60,6 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => LoginScreen(),
         '/sign-up': (context) => const SignUpScreen(),
-        '/profile': (context) => ProfilePage(),
         '/main': (context) => const MainScreen(), // Add the MainScreen route
         '/home': (context) => const HomeScreen(),
         // Add more routes for other screens
@@ -71,7 +70,7 @@ class MyApp extends StatelessWidget {
 }
 
 class AuthWrapper extends StatelessWidget {
-  const AuthWrapper({Key? key}) : super(key: key);
+  const AuthWrapper({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -84,64 +83,8 @@ class AuthWrapper extends StatelessWidget {
         if (snapshot.hasData) {
           return const MainScreen(); // User is logged in, go to MainScreen
         }
-        return const HomeScreen(); // User is not logged in, go to HomeScreen
+        return LoginScreen(); // User is not logged in, go to HomeScreen
       },
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.blue, Colors.lightBlueAccent],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              // Add your app icon here
-              Image.asset(
-                'assets/images/play_store_512.png', // Make sure the icon is in the assets folder
-                height: 100,
-                width: 100,
-              ),
-              const SizedBox(height: 50),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/login');
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(200, 60), // Set the width and height
-                ),
-                child: const Text('Login', style: TextStyle(fontSize: 20)), // Increase font size
-              ),
-              const SizedBox(height: 50),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/sign-up');
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(200, 60), // Set the width and height
-                ),
-                child: const Text('Sign Up', style: TextStyle(fontSize: 20)), // Increase font size
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
