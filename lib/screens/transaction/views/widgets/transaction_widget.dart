@@ -45,15 +45,11 @@ class TransactionWidget extends StatelessWidget {
                               symbol: '₫',
                             ).format(transaction.amount.toDouble())}",
                             textAlign: TextAlign.center,
-                            style: Theme
-                                .of(context)
-                                .textTheme
-                                .titleLarge
-                                ?.copyWith(
-                                color: transaction.category.isIncome
-                                    ? Colors.green
-                                    : Colors.red,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              color: transaction.category.isIncome ? Colors.green : Colors.red,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
 
                           const SizedBox(height: 8),
@@ -69,7 +65,9 @@ class TransactionWidget extends StatelessWidget {
                               const SizedBox(width: 8),
                               Text(
                                 transaction.category.name,
-                                style: Theme.of(context).textTheme.bodyLarge,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                ),
                               ),
                             ],
                           ),
@@ -84,7 +82,9 @@ class TransactionWidget extends StatelessWidget {
                               const SizedBox(width: 8),
                               Text(
                                 transaction.wallet.name,
-                                style: Theme.of(context).textTheme.bodyLarge,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                ),
                               ),
                             ],
                           ),
@@ -99,7 +99,9 @@ class TransactionWidget extends StatelessWidget {
                               const SizedBox(width: 8),
                               Text(
                                 DateFormat('dd/MM/yyyy').format(transaction.date),
-                                style: Theme.of(context).textTheme.bodyLarge,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                ),
                               ),
                             ],
                           ),
@@ -120,7 +122,9 @@ class TransactionWidget extends StatelessWidget {
                                       child: Text(
                                         transaction.note!,
                                         softWrap: true,
-                                        style: Theme.of(context).textTheme.bodyLarge,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -171,10 +175,10 @@ class TransactionWidget extends StatelessWidget {
                             ),
                             title: Text(
                               transaction.category.name,
-                              style: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .titleMedium,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             subtitle: Row(
                               children: [
@@ -186,6 +190,10 @@ class TransactionWidget extends StatelessWidget {
                                 const SizedBox(width: 8),
                                 Text(
                                   transaction.wallet.name,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ],
                             ),
@@ -199,19 +207,19 @@ class TransactionWidget extends StatelessWidget {
                                       locale: 'vi',
                                       symbol: '₫',
                                     ).format(transaction.amount.toDouble())}",
-                                    style: Theme
-                                        .of(context)
-                                        .textTheme
-                                        .titleMedium
-                                        ?.copyWith(color: transaction.category.isIncome ? Colors.green : Colors.red),
+                                    style: TextStyle(
+                                      color: transaction.category.isIncome ? Colors.green : Colors.red,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
+                                  const SizedBox(height: 2),
                                   Text(
                                     DateFormat('dd/MM/yyyy').format(transaction.date),
-                                    style: Theme
-                                        .of(context)
-                                        .textTheme
-                                        .titleMedium
-                                        ?.copyWith(color: Colors.grey),
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                    ),
                                   ),
                                 ],
                               ),
