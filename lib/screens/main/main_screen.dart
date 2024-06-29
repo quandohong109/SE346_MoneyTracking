@@ -22,7 +22,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget Function()> widgetList = [
         () => const HomeScreen(),
         () => TransactionScreen.newInstance(),
-        () => const StatScreen(),
+        () => StatScreen.newInstance(),
         () => const ProfilePage(),
   ];
 

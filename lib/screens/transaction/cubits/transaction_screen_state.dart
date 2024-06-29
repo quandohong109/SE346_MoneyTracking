@@ -19,7 +19,6 @@ class TransactionScreenState with EquatableMixin {
   TransactionScreenState copyWith({
     DateTime? selectedDate,
     Stream<List<TransactionModel>>? transactionListStream,
-    Stream<List<CategoryModel>>? categoryListStream,
     List<TransactionModel>? filteredTransactions,
   }) {
     return TransactionScreenState(

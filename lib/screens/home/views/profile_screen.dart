@@ -11,7 +11,7 @@ class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
@@ -62,7 +62,9 @@ class _ProfilePageState extends State<ProfilePage> {
           _nameController.text = newName;
         });
       } catch (e) {
-        print('Error updating name: $e');
+        if (kDebugMode) {
+          print('Error updating name: $e');
+        }
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to update name')),
         );
@@ -82,15 +84,6 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
       body: Center(
         child: FutureBuilder<Map<String, dynamic>?>(
           future: _getUserInfo(),
