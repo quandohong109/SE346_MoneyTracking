@@ -6,7 +6,7 @@
 
 <h1 align="center" id="title">Money Tracking - Mobile Expense Management App</h1>
 
-<p align="center"><img src="https://socialify.git.ci/quandohong109/SE346_MoneyTracking/image?font=KoHo&logo=https%3A%2F%2Fi.postimg.cc%2FMTKDmW28%2Fplay-store-512.png&name=1&pattern=Plus&tab=readme-ov-file%3Flanguage%3D1&theme=Auto" alt="project-image"></p>
+<p align="center"><img src="https://socialify.git.ci/quandohong109/SE346_MoneyTracking/image?description=1&descriptionEditable=Introducing%20MoneyTracking%2C%20your%20ultimate%20financial%20companion%20for%20effortless%20money%20management.%20&font=KoHo&language=1&logo=https%3A%2F%2Fi.postimg.cc%2FMTKDmW28%2Fplay-store-512.png&name=1&pattern=Plus&tab=readme-ov-file%3Flanguage%3D1&theme=Auto" alt="project-image"></p>
 
 **Tired of struggling with spreadsheets and scattered receipts?** Money Tracking is a user-friendly mobile app designed to help you effortlessly manage your finances. 
 
